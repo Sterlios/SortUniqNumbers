@@ -2,7 +2,7 @@
 
 namespace SortUniqNumbers
 {
-    static class FilterByModulo
+    public static class FilterByModulo
     {
         private static int _devider;
         private static int _remainder;

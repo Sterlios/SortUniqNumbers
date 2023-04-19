@@ -2,27 +2,27 @@
 
 namespace SortUniqNumbers
 {
-    internal class Program
-    {
-        public static void Main()
-        {
-            bool isWork = true;
+	internal class Program
+	{
+		public static void Main()
+		{
+			bool isWork = true;
 
-            while (isWork)
-            {
-                Console.Clear();
+			while (isWork)
+			{
+				Console.Clear();
 
-                FilterByModulo.Reset();
-                NumberManager numberManager = new NumberManager();
-                FileManager fileManager = FileManager.Instance(numberManager);
+				FilterByModulo.Reset();
+				NumberManager numberManager = new NumberManager();
+				FileManager fileManager = FileManager.Instance(numberManager);
 
-                fileManager.InitPath();
-                fileManager.InitFiles();
-                fileManager.ReadFiles();
-                fileManager.SaveResult();
+				fileManager.InitPath();
+				fileManager.InitFiles();
+				fileManager.ReadFiles();
+				fileManager.SaveResult();
 
-                isWork = Question.GetAnswerYesOrNo("\nПродолжить?");
-            }
-        }
-    }
+				isWork = Question.GetAnswerYesOrNo("\nПродолжить?");
+			}
+		}
+	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SortUniqNumbers
 {
-    class FileManager
+    public class FileManager
     {
         private const string Extention = ".txt";
 

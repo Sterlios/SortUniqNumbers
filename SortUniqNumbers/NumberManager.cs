@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SortUniqNumbers
 {
-    class NumberManager
+    public class NumberManager
     {
         private static Random _random = new Random();
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SortUniqNumbers
 {
-    static class Question
+    public static class Question
     {
         public static bool GetAnswerYesOrNo(string question)
         {
