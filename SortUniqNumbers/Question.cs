@@ -25,7 +25,7 @@ namespace SortUniqNumbers
                         answer = true;
                         isCorrectAnswer = true;
                         break;
-
+                        
                     case noCommand:
                         answer = false;
                         isCorrectAnswer = true;
