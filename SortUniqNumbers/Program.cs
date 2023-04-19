@@ -14,7 +14,7 @@ namespace SortUniqNumbers
 
                 FilterByModulo.Reset();
                 NumberManager numberManager = new NumberManager();
-                FileManager fileManager = FileManager.Instantiate(numberManager);
+                FileManager fileManager = FileManager.Instance(numberManager);
 
                 fileManager.InitPath();
                 fileManager.InitFiles();

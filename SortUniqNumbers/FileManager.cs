@@ -22,7 +22,7 @@ namespace SortUniqNumbers
             _files = new List<string>(100);
         }
 
-        public static FileManager Instantiate(NumberManager numberManager)
+        public static FileManager Instance(NumberManager numberManager)
         {
             if (_fileManager is null)
                 _fileManager = new FileManager();
@@ -230,7 +230,7 @@ namespace SortUniqNumbers
 
         private void ReadFile(string file)
         {
-            if (!Directory.Exists(file))
+            if (!File.Exists(file))
                 return;
 
             using (StreamReader reader = new StreamReader(file))
@@ -238,7 +238,7 @@ namespace SortUniqNumbers
                 bool endOfFile = false;
                 StringBuilder line = new StringBuilder();
 
-                while (endOfFile == false)
+                while (!endOfFile)
                 {
                     int numbersCount = 0;
                     int maxNumbersCount = 1000;
