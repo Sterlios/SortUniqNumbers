@@ -17,12 +17,21 @@ namespace WinFormsApp1
 			_fileManager = FileManager.Instance();
 
 			_fileManager.ChangedPath += OnChangedPath;
-			_fileManager.ChangedFilesList += OnChangedFilesList;
+			_fileManager.ChangedFilesListInFolder += OnChangedFilesListInFolder;
+			_fileManager.ChangedFilesListForRead += OnChangedFilesListForRead;
 
 			_fileManager.Init();
 		}
 
-		private void OnChangedFilesList(IReadOnlyList<string> files)
+		private void OnChangedFilesListForRead(IReadOnlyList<string> files)
+		{
+			FilesForRead.Items.Clear();
+
+			foreach (var file in files)
+				FilesForRead.Items.Add(Path.GetFileName(file));
+		}
+
+		private void OnChangedFilesListInFolder(IReadOnlyList<string> files)
 		{
 			FilesInFolder.Items.Clear();
 
@@ -46,6 +55,16 @@ namespace WinFormsApp1
 					_fileManager.ChangePath(dialog.SelectedPath);
 				}
 			}
+		}
+
+		private void AddFiles_Click(object sender, EventArgs e)
+		{
+			_fileManager.AddFilesListForRead((IList<string>)FilesInFolder.SelectedItems);
+		}
+
+		private void RemoveFiles_Click(object sender, EventArgs e)
+		{
+			_fileManager.RemoveFilesListForRead((IList<string>)FilesInFolder.SelectedItems);
 		}
 	}
 }

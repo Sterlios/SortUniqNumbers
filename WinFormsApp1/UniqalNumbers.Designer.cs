@@ -37,10 +37,10 @@ namespace WinFormsApp1
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.FilesInFolderTitle = new System.Windows.Forms.Label();
 			this.FilesInFolder = new System.Windows.Forms.ListBox();
-			this.FilesForHandle = new System.Windows.Forms.ListBox();
+			this.FilesForRead = new System.Windows.Forms.ListBox();
 			this.AddFiles = new System.Windows.Forms.Button();
 			this.RemoveFiles = new System.Windows.Forms.Button();
-			this.FilesForRead = new System.Windows.Forms.Label();
+			this.FilesForReadTitle = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// PathText
@@ -94,16 +94,16 @@ namespace WinFormsApp1
 			this.FilesInFolder.Size = new System.Drawing.Size(239, 349);
 			this.FilesInFolder.TabIndex = 5;
 			// 
-			// FilesForHandle
+			// FilesForRead
 			// 
-			this.FilesForHandle.FormattingEnabled = true;
-			this.FilesForHandle.HorizontalScrollbar = true;
-			this.FilesForHandle.ItemHeight = 15;
-			this.FilesForHandle.Location = new System.Drawing.Point(298, 74);
-			this.FilesForHandle.Name = "FilesForHandle";
-			this.FilesForHandle.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.FilesForHandle.Size = new System.Drawing.Size(239, 349);
-			this.FilesForHandle.TabIndex = 6;
+			this.FilesForRead.FormattingEnabled = true;
+			this.FilesForRead.HorizontalScrollbar = true;
+			this.FilesForRead.ItemHeight = 15;
+			this.FilesForRead.Location = new System.Drawing.Point(298, 74);
+			this.FilesForRead.Name = "FilesForRead";
+			this.FilesForRead.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.FilesForRead.Size = new System.Drawing.Size(239, 349);
+			this.FilesForRead.TabIndex = 6;
 			// 
 			// AddFiles
 			// 
@@ -113,6 +113,7 @@ namespace WinFormsApp1
 			this.AddFiles.TabIndex = 7;
 			this.AddFiles.Text = ">>";
 			this.AddFiles.UseVisualStyleBackColor = true;
+			this.AddFiles.Click += new System.EventHandler(this.AddFiles_Click);
 			// 
 			// RemoveFiles
 			// 
@@ -122,25 +123,26 @@ namespace WinFormsApp1
 			this.RemoveFiles.TabIndex = 8;
 			this.RemoveFiles.Text = "<<";
 			this.RemoveFiles.UseVisualStyleBackColor = true;
+			this.RemoveFiles.Click += new System.EventHandler(this.RemoveFiles_Click);
 			// 
-			// FilesForRead
+			// FilesForReadTitle
 			// 
-			this.FilesForRead.AutoSize = true;
-			this.FilesForRead.Location = new System.Drawing.Point(298, 56);
-			this.FilesForRead.Name = "FilesForRead";
-			this.FilesForRead.Size = new System.Drawing.Size(132, 15);
-			this.FilesForRead.TabIndex = 9;
-			this.FilesForRead.Text = "Файлы для обработки:";
+			this.FilesForReadTitle.AutoSize = true;
+			this.FilesForReadTitle.Location = new System.Drawing.Point(298, 56);
+			this.FilesForReadTitle.Name = "FilesForReadTitle";
+			this.FilesForReadTitle.Size = new System.Drawing.Size(132, 15);
+			this.FilesForReadTitle.TabIndex = 9;
+			this.FilesForReadTitle.Text = "Файлы для обработки:";
 			// 
 			// UniqalNumbers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.FilesForRead);
+			this.Controls.Add(this.FilesForReadTitle);
 			this.Controls.Add(this.RemoveFiles);
 			this.Controls.Add(this.AddFiles);
-			this.Controls.Add(this.FilesForHandle);
+			this.Controls.Add(this.FilesForRead);
 			this.Controls.Add(this.FilesInFolder);
 			this.Controls.Add(this.FilesInFolderTitle);
 			this.Controls.Add(this.PathTitle);
@@ -162,10 +164,10 @@ namespace WinFormsApp1
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Label FilesInFolderTitle;
 		private System.Windows.Forms.ListBox FilesInFolder;
-		private System.Windows.Forms.ListBox FilesForHandle;
+		private System.Windows.Forms.ListBox FilesForRead;
 		private System.Windows.Forms.Button AddFiles;
 		private System.Windows.Forms.Button RemoveFiles;
-		private System.Windows.Forms.Label FilesForRead;
+		private System.Windows.Forms.Label FilesForReadTitle;
 	}
 }
 

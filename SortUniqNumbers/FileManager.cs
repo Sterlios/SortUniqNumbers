@@ -14,18 +14,21 @@ namespace SortUniqNumbers
 		private static Random _random = new Random();
 		private static NumberManager _numberManager;
 
-		private List<string> _files;
+		private List<string> _filesInFolder;
+		private List<string> _filesForRead;
 		private string _path;
 
 		private FileManager()
 		{
-			_files = new List<string>(100);
+			_filesInFolder = new List<string>(100);
+			_filesForRead = new List<string>(100);
 			_path = $"{Directory.GetCurrentDirectory()}\\Source\\";
 			ChangedPath?.Invoke(_path);
 		}
 
 		public Action<string> ChangedPath;
-		public Action<IReadOnlyList<string>> ChangedFilesList;
+		public Action<IReadOnlyList<string>> ChangedFilesListInFolder;
+		public Action<IReadOnlyList<string>> ChangedFilesListForRead;
 
 		public static FileManager Instance()
 		{
@@ -49,14 +52,39 @@ namespace SortUniqNumbers
 			_path = newPath;
 			ChangedPath?.Invoke(_path);
 
-			UpdateFilesList();
+			UpdateFilesListInFolder();
+			ClearFilesListForRead();
 		}
 
-		private void UpdateFilesList()
+		private void ClearFilesListForRead()
 		{
-			_files = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
+			_filesForRead.Clear();
+			ChangedFilesListForRead?.Invoke(_filesForRead);
+		}
+
+		public void AddFilesListForRead(IList<string> files)
+		{
+			foreach (var file in files)
+				if (_filesInFolder.Contains(file) && !_filesForRead.Contains(file))
+					_filesForRead.Add(file);
+
+			ChangedFilesListForRead?.Invoke(_filesForRead);
+		}
+
+		public void RemoveFilesListForRead(IList<string> files)
+		{
+			foreach (var file in files)
+				if (_filesForRead.Contains(file))
+					_filesForRead.Remove(file);
+
+			ChangedFilesListForRead?.Invoke(_filesForRead);
+		}
+
+		private void UpdateFilesListInFolder()
+		{
+			_filesInFolder = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
 			
-			ChangedFilesList?.Invoke(_files);
+			ChangedFilesListInFolder?.Invoke(_filesInFolder);
 		}
 
 		public void InitFiles()
@@ -68,11 +96,11 @@ namespace SortUniqNumbers
 
 			while (isInit == false)
 			{
-				_files = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
+				_filesInFolder = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
 
-				Console.WriteLine($"\nКоличество '{Extention}' файлов в каталоге: {_files.Count}");
+				Console.WriteLine($"\nКоличество '{Extention}' файлов в каталоге: {_filesInFolder.Count}");
 
-				if (_files.Count > 0)
+				if (_filesInFolder.Count > 0)
 				{
 					isInit = DeleteFiles() == false;
 				}
@@ -87,13 +115,13 @@ namespace SortUniqNumbers
 
 		public void ReadFiles()
 		{
-			if (_files.Count < 0)
+			if (_filesInFolder.Count < 0)
 			{
 				Console.WriteLine("\nСначала надо получить список файлов из каталога!");
 				return;
 			}
 
-			foreach (string file in _files)
+			foreach (string file in _filesInFolder)
 				ReadFile(file);
 
 			Console.WriteLine("\nВсе файлы обработаны!");
@@ -183,7 +211,7 @@ namespace SortUniqNumbers
 			{
 				string fileName = $"{_path}/{i}{Extention}";
 				GenerateFile(fileName);
-				_files.Add(fileName);
+				_filesInFolder.Add(fileName);
 			}
 		}
 
@@ -217,7 +245,7 @@ namespace SortUniqNumbers
 		{
 			GetDataCountRange(out int minCount, out int maxCount);
 
-			foreach (string file in _files)
+			foreach (string file in _filesInFolder)
 			{
 				using (StreamWriter writer = new StreamWriter(file))
 				{
@@ -292,10 +320,10 @@ namespace SortUniqNumbers
 
 			if (confirmedDelete)
 			{
-				foreach (string file in _files)
+				foreach (string file in _filesInFolder)
 					File.Delete(file);
 
-				_files.Clear();
+				_filesInFolder.Clear();
 			}
 
 			return confirmedDelete;
