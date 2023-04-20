@@ -37,13 +37,7 @@ namespace SortUniqNumbers
 
 		public void Init()
 		{
-			InitPath();
-		}
-
-		private void InitPath()
-		{
-			_path = $"{Directory.GetCurrentDirectory()}\\Source\\";
-			ChangedPath?.Invoke(_path);
+			ChangePath($"{Directory.GetCurrentDirectory()}\\Source\\");
 		}
 
 		public void ChangePath(string newPath)
