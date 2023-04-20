@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SortUniqNumbers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,17 @@ namespace WinFormsApp1
 		public UniqalNumbers()
 		{
 			InitializeComponent();
+
+			FileManager fileManager = FileManager.Instance(new NumberManager());
+			
+			fileManager.ChangedPath += OnChangedPath;
+
+			fileManager.Init();
+		}
+
+		private void OnChangedPath(string newPath)
+		{
+			Path.Text = newPath;
 		}
 
 		private void ChooseFolder_Click(object sender, EventArgs e)

@@ -20,7 +20,11 @@ namespace SortUniqNumbers
         private FileManager()
         {
             _files = new List<string>(100);
+            _path = $"{Directory.GetCurrentDirectory()}\\Source\\";
+            ChangedPath?.Invoke(_path);
         }
+
+        public Action<string> ChangedPath;
 
         public static FileManager Instance(NumberManager numberManager)
         {
@@ -29,6 +33,12 @@ namespace SortUniqNumbers
 
             _numberManager = numberManager;
             return _fileManager;
+        }
+
+        public void Init()
+		{
+            _path = $"{Directory.GetCurrentDirectory()}\\Source\\";
+            ChangedPath?.Invoke(_path);
         }
 
         public void InitPath()
