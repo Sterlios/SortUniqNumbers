@@ -37,22 +37,13 @@ namespace SortUniqNumbers
 
         public void Init()
 		{
-            _path = $"{Directory.GetCurrentDirectory()}\\Source\\";
-            ChangedPath?.Invoke(_path);
+            InitPath();
         }
 
-        public void InitPath()
+        private void InitPath()
         {
-            Console.WriteLine("Для работы необходимо ввести путь к файлам.\n" +
-                "Если путь будет без указания корня, то полный путь к указанному каталогу будет иметь вид:\n" +
-                $"{Directory.GetCurrentDirectory()}\\<Введенный путь>");
-
-            bool isCorrectPath = false;
-
-            while (isCorrectPath == false)
-                isCorrectPath = TrySetPath();
-
-            Console.WriteLine($"\nТекущий каталог: {_path}");
+            _path = $"{Directory.GetCurrentDirectory()}\\Source\\";
+            ChangedPath?.Invoke(_path);
         }
 
         public void InitFiles()
