@@ -25,6 +25,7 @@ namespace SortUniqNumbers
 		}
 
 		public Action<string> ChangedPath;
+		public Action<IReadOnlyList<string>> ChangedFilesList;
 
 		public static FileManager Instance()
 		{
@@ -47,6 +48,15 @@ namespace SortUniqNumbers
 
 			_path = newPath;
 			ChangedPath?.Invoke(_path);
+
+			UpdateFilesList();
+		}
+
+		private void UpdateFilesList()
+		{
+			_files = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
+			
+			ChangedFilesList?.Invoke(_files);
 		}
 
 		public void InitFiles()

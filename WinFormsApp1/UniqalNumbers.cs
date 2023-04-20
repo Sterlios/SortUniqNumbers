@@ -1,12 +1,7 @@
 ﻿using SortUniqNumbers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace WinFormsApp1
@@ -22,8 +17,17 @@ namespace WinFormsApp1
 			_fileManager = FileManager.Instance();
 
 			_fileManager.ChangedPath += OnChangedPath;
+			_fileManager.ChangedFilesList += OnChangedFilesList;
 
 			_fileManager.Init();
+		}
+
+		private void OnChangedFilesList(IReadOnlyList<string> files)
+		{
+			Files.Items.Clear();
+
+			foreach(var file in files)
+				Files.Items.Add(Path.GetFileName(file));
 		}
 
 		private void OnChangedPath(string newPath)

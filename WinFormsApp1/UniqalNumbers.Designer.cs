@@ -35,8 +35,8 @@ namespace WinFormsApp1
 			this.PathTitle = new System.Windows.Forms.Label();
 			this.ChooseFolder = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.Files = new System.Windows.Forms.ListView();
 			this.FilesListTitle = new System.Windows.Forms.Label();
+			this.Files = new System.Windows.Forms.ListBox();
 			this.SuspendLayout();
 			// 
 			// PathText
@@ -70,15 +70,6 @@ namespace WinFormsApp1
 			this.ChooseFolder.UseVisualStyleBackColor = false;
 			this.ChooseFolder.Click += new System.EventHandler(this.ChooseFolder_Click);
 			// 
-			// Files
-			// 
-			this.Files.HideSelection = false;
-			this.Files.Location = new System.Drawing.Point(12, 74);
-			this.Files.Name = "Files";
-			this.Files.Size = new System.Drawing.Size(165, 359);
-			this.Files.TabIndex = 3;
-			this.Files.UseCompatibleStateImageBehavior = false;
-			// 
 			// FilesListTitle
 			// 
 			this.FilesListTitle.AutoSize = true;
@@ -88,13 +79,23 @@ namespace WinFormsApp1
 			this.FilesListTitle.TabIndex = 4;
 			this.FilesListTitle.Text = "Файлы в папке:";
 			// 
+			// Files
+			// 
+			this.Files.FormattingEnabled = true;
+			this.Files.HorizontalScrollbar = true;
+			this.Files.ItemHeight = 15;
+			this.Files.Location = new System.Drawing.Point(12, 74);
+			this.Files.Name = "Files";
+			this.Files.Size = new System.Drawing.Size(239, 349);
+			this.Files.TabIndex = 5;
+			// 
 			// UniqalNumbers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.FilesListTitle);
 			this.Controls.Add(this.Files);
+			this.Controls.Add(this.FilesListTitle);
 			this.Controls.Add(this.PathTitle);
 			this.Controls.Add(this.PathText);
 			this.Controls.Add(this.ChooseFolder);
@@ -112,8 +113,8 @@ namespace WinFormsApp1
 		private System.Windows.Forms.Label PathTitle;
 		private System.Windows.Forms.Button ChooseFolder;
 		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.ListView Files;
 		private System.Windows.Forms.Label FilesListTitle;
+		private System.Windows.Forms.ListBox Files;
 	}
 }
 
