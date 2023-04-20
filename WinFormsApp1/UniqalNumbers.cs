@@ -72,5 +72,14 @@ namespace WinFormsApp1
 		{
 
 		}
+
+		private void MinFilesCount_TextChanged(object sender, EventArgs e)
+		{
+			if (!int.TryParse(MinFilesCount.Text, out int number))
+			{
+				MinFilesCount.Text = string.Concat(MinFilesCount.Text
+					.Where(symbol => int.TryParse(symbol.ToString(), out int number)));
+			}
+		}
 	}
 }

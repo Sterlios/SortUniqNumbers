@@ -63,10 +63,10 @@ namespace WinFormsApp1
 			this.label4 = new System.Windows.Forms.Label();
 			this.GenerateFiles = new System.Windows.Forms.Button();
 			this.FilterParameters = new System.Windows.Forms.GroupBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.Devider = new System.Windows.Forms.Label();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.label10 = new System.Windows.Forms.Label();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.Devider = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.NumberRange.SuspendLayout();
 			this.NumbersCount.SuspendLayout();
@@ -328,6 +328,7 @@ namespace WinFormsApp1
 			this.MinFilesCount.Name = "MinFilesCount";
 			this.MinFilesCount.Size = new System.Drawing.Size(95, 23);
 			this.MinFilesCount.TabIndex = 2;
+			this.MinFilesCount.TextChanged += new System.EventHandler(this.MinFilesCount_TextChanged);
 			// 
 			// label2
 			// 
@@ -378,22 +379,6 @@ namespace WinFormsApp1
 			this.FilterParameters.TabStop = false;
 			this.FilterParameters.Text = "Фильтр данных";
 			// 
-			// textBox1
-			// 
-			this.textBox1.Location = new System.Drawing.Point(127, 22);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(95, 23);
-			this.textBox1.TabIndex = 11;
-			// 
-			// Devider
-			// 
-			this.Devider.AutoSize = true;
-			this.Devider.Location = new System.Drawing.Point(6, 25);
-			this.Devider.Name = "Devider";
-			this.Devider.Size = new System.Drawing.Size(59, 15);
-			this.Devider.TabIndex = 12;
-			this.Devider.Text = "Делитель";
-			// 
 			// textBox2
 			// 
 			this.textBox2.Location = new System.Drawing.Point(127, 51);
@@ -409,6 +394,22 @@ namespace WinFormsApp1
 			this.label10.Size = new System.Drawing.Size(114, 15);
 			this.label10.TabIndex = 14;
 			this.label10.Text = "Остаток от деления";
+			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(127, 22);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(95, 23);
+			this.textBox1.TabIndex = 11;
+			// 
+			// Devider
+			// 
+			this.Devider.AutoSize = true;
+			this.Devider.Location = new System.Drawing.Point(6, 25);
+			this.Devider.Name = "Devider";
+			this.Devider.Size = new System.Drawing.Size(59, 15);
+			this.Devider.TabIndex = 12;
+			this.Devider.Text = "Делитель";
 			// 
 			// UniqalNumbers
 			// 
