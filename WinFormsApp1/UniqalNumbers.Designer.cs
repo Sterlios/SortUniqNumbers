@@ -41,6 +41,7 @@ namespace WinFormsApp1
 			this.AddFiles = new System.Windows.Forms.Button();
 			this.RemoveFiles = new System.Windows.Forms.Button();
 			this.FilesForReadTitle = new System.Windows.Forms.Label();
+			this.Handle = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// PathText
@@ -134,11 +135,21 @@ namespace WinFormsApp1
 			this.FilesForReadTitle.TabIndex = 9;
 			this.FilesForReadTitle.Text = "Файлы для обработки:";
 			// 
+			// Handle
+			// 
+			this.Handle.Location = new System.Drawing.Point(543, 400);
+			this.Handle.Name = "Handle";
+			this.Handle.Size = new System.Drawing.Size(245, 23);
+			this.Handle.TabIndex = 10;
+			this.Handle.Text = "Обработать данные";
+			this.Handle.UseVisualStyleBackColor = true;
+			// 
 			// UniqalNumbers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.Handle);
 			this.Controls.Add(this.FilesForReadTitle);
 			this.Controls.Add(this.RemoveFiles);
 			this.Controls.Add(this.AddFiles);
@@ -168,6 +179,7 @@ namespace WinFormsApp1
 		private System.Windows.Forms.Button AddFiles;
 		private System.Windows.Forms.Button RemoveFiles;
 		private System.Windows.Forms.Label FilesForReadTitle;
+		private System.Windows.Forms.Button Handle;
 	}
 }
 

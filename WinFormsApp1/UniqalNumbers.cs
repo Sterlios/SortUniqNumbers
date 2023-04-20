@@ -30,13 +30,15 @@ namespace WinFormsApp1
 
 			foreach (var file in files)
 				FilesForRead.Items.Add(Path.GetFileName(file));
+
+			Handle.Enabled = files.Count > 0;
 		}
 
 		private void OnChangedFilesListInFolder(IReadOnlyList<string> files)
 		{
 			FilesInFolder.Items.Clear();
 
-			foreach(var file in files)
+			foreach (var file in files)
 				FilesInFolder.Items.Add(Path.GetFileName(file));
 		}
 
@@ -52,9 +54,7 @@ namespace WinFormsApp1
 				DialogResult result = dialog.ShowDialog();
 
 				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
-				{
 					_fileManager.ChangePath(dialog.SelectedPath);
-				}
 			}
 		}
 
