@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace WinFormsApp1
 {
@@ -59,12 +60,12 @@ namespace WinFormsApp1
 
 		private void AddFiles_Click(object sender, EventArgs e)
 		{
-			_fileManager.AddFilesListForRead((IList<string>)FilesInFolder.SelectedItems);
+			_fileManager.AddFilesListForRead(FilesInFolder.SelectedItems.OfType<string>());
 		}
 
 		private void RemoveFiles_Click(object sender, EventArgs e)
 		{
-			_fileManager.RemoveFilesListForRead((IList<string>)FilesInFolder.SelectedItems);
+			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
 		}
 	}
 }

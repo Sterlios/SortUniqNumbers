@@ -62,16 +62,16 @@ namespace SortUniqNumbers
 			ChangedFilesListForRead?.Invoke(_filesForRead);
 		}
 
-		public void AddFilesListForRead(IList<string> files)
+		public void AddFilesListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesInFolder.Contains(file) && !_filesForRead.Contains(file))
+				if (_filesInFolder.Contains($"{_path}\\{file}") && !_filesForRead.Contains(file))
 					_filesForRead.Add(file);
 
 			ChangedFilesListForRead?.Invoke(_filesForRead);
 		}
 
-		public void RemoveFilesListForRead(IList<string> files)
+		public void RemoveFilesListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
 				if (_filesForRead.Contains(file))
