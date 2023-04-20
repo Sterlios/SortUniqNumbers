@@ -13,15 +13,17 @@ namespace WinFormsApp1
 {
 	public partial class UniqalNumbers : Form
 	{
+		private FileManager _fileManager;
+
 		public UniqalNumbers()
 		{
 			InitializeComponent();
 
-			FileManager fileManager = FileManager.Instance(new NumberManager());
-			
-			fileManager.ChangedPath += OnChangedPath;
+			_fileManager = FileManager.Instance(new NumberManager());
 
-			fileManager.Init();
+			_fileManager.ChangedPath += OnChangedPath;
+
+			_fileManager.Init();
 		}
 
 		private void OnChangedPath(string newPath)
@@ -37,7 +39,7 @@ namespace WinFormsApp1
 
 				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
 				{
-					string selectedFolder = dialog.SelectedPath;
+					_fileManager.ChangePath(dialog.SelectedPath);
 				}
 			}
 		}
