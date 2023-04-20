@@ -35,8 +35,12 @@ namespace WinFormsApp1
 			this.PathTitle = new System.Windows.Forms.Label();
 			this.ChooseFolder = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.FilesListTitle = new System.Windows.Forms.Label();
-			this.Files = new System.Windows.Forms.ListBox();
+			this.FilesInFolderTitle = new System.Windows.Forms.Label();
+			this.FilesInFolder = new System.Windows.Forms.ListBox();
+			this.FilesForHandle = new System.Windows.Forms.ListBox();
+			this.AddFiles = new System.Windows.Forms.Button();
+			this.RemoveFiles = new System.Windows.Forms.Button();
+			this.FilesForRead = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// PathText
@@ -70,32 +74,75 @@ namespace WinFormsApp1
 			this.ChooseFolder.UseVisualStyleBackColor = false;
 			this.ChooseFolder.Click += new System.EventHandler(this.ChooseFolder_Click);
 			// 
-			// FilesListTitle
+			// FilesInFolderTitle
 			// 
-			this.FilesListTitle.AutoSize = true;
-			this.FilesListTitle.Location = new System.Drawing.Point(12, 56);
-			this.FilesListTitle.Name = "FilesListTitle";
-			this.FilesListTitle.Size = new System.Drawing.Size(92, 15);
-			this.FilesListTitle.TabIndex = 4;
-			this.FilesListTitle.Text = "Файлы в папке:";
+			this.FilesInFolderTitle.AutoSize = true;
+			this.FilesInFolderTitle.Location = new System.Drawing.Point(12, 56);
+			this.FilesInFolderTitle.Name = "FilesInFolderTitle";
+			this.FilesInFolderTitle.Size = new System.Drawing.Size(92, 15);
+			this.FilesInFolderTitle.TabIndex = 4;
+			this.FilesInFolderTitle.Text = "Файлы в папке:";
 			// 
-			// Files
+			// FilesInFolder
 			// 
-			this.Files.FormattingEnabled = true;
-			this.Files.HorizontalScrollbar = true;
-			this.Files.ItemHeight = 15;
-			this.Files.Location = new System.Drawing.Point(12, 74);
-			this.Files.Name = "Files";
-			this.Files.Size = new System.Drawing.Size(239, 349);
-			this.Files.TabIndex = 5;
+			this.FilesInFolder.FormattingEnabled = true;
+			this.FilesInFolder.HorizontalScrollbar = true;
+			this.FilesInFolder.ItemHeight = 15;
+			this.FilesInFolder.Location = new System.Drawing.Point(12, 74);
+			this.FilesInFolder.Name = "FilesInFolder";
+			this.FilesInFolder.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.FilesInFolder.Size = new System.Drawing.Size(239, 349);
+			this.FilesInFolder.TabIndex = 5;
+			// 
+			// FilesForHandle
+			// 
+			this.FilesForHandle.FormattingEnabled = true;
+			this.FilesForHandle.HorizontalScrollbar = true;
+			this.FilesForHandle.ItemHeight = 15;
+			this.FilesForHandle.Location = new System.Drawing.Point(298, 74);
+			this.FilesForHandle.Name = "FilesForHandle";
+			this.FilesForHandle.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.FilesForHandle.Size = new System.Drawing.Size(239, 349);
+			this.FilesForHandle.TabIndex = 6;
+			// 
+			// AddFiles
+			// 
+			this.AddFiles.Location = new System.Drawing.Point(257, 200);
+			this.AddFiles.Name = "AddFiles";
+			this.AddFiles.Size = new System.Drawing.Size(35, 23);
+			this.AddFiles.TabIndex = 7;
+			this.AddFiles.Text = ">>";
+			this.AddFiles.UseVisualStyleBackColor = true;
+			// 
+			// RemoveFiles
+			// 
+			this.RemoveFiles.Location = new System.Drawing.Point(257, 240);
+			this.RemoveFiles.Name = "RemoveFiles";
+			this.RemoveFiles.Size = new System.Drawing.Size(35, 23);
+			this.RemoveFiles.TabIndex = 8;
+			this.RemoveFiles.Text = "<<";
+			this.RemoveFiles.UseVisualStyleBackColor = true;
+			// 
+			// FilesForRead
+			// 
+			this.FilesForRead.AutoSize = true;
+			this.FilesForRead.Location = new System.Drawing.Point(298, 56);
+			this.FilesForRead.Name = "FilesForRead";
+			this.FilesForRead.Size = new System.Drawing.Size(132, 15);
+			this.FilesForRead.TabIndex = 9;
+			this.FilesForRead.Text = "Файлы для обработки:";
 			// 
 			// UniqalNumbers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.Files);
-			this.Controls.Add(this.FilesListTitle);
+			this.Controls.Add(this.FilesForRead);
+			this.Controls.Add(this.RemoveFiles);
+			this.Controls.Add(this.AddFiles);
+			this.Controls.Add(this.FilesForHandle);
+			this.Controls.Add(this.FilesInFolder);
+			this.Controls.Add(this.FilesInFolderTitle);
 			this.Controls.Add(this.PathTitle);
 			this.Controls.Add(this.PathText);
 			this.Controls.Add(this.ChooseFolder);
@@ -113,8 +160,12 @@ namespace WinFormsApp1
 		private System.Windows.Forms.Label PathTitle;
 		private System.Windows.Forms.Button ChooseFolder;
 		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.Label FilesListTitle;
-		private System.Windows.Forms.ListBox Files;
+		private System.Windows.Forms.Label FilesInFolderTitle;
+		private System.Windows.Forms.ListBox FilesInFolder;
+		private System.Windows.Forms.ListBox FilesForHandle;
+		private System.Windows.Forms.Button AddFiles;
+		private System.Windows.Forms.Button RemoveFiles;
+		private System.Windows.Forms.Label FilesForRead;
 	}
 }
 

@@ -24,10 +24,10 @@ namespace WinFormsApp1
 
 		private void OnChangedFilesList(IReadOnlyList<string> files)
 		{
-			Files.Items.Clear();
+			FilesInFolder.Items.Clear();
 
 			foreach(var file in files)
-				Files.Items.Add(Path.GetFileName(file));
+				FilesInFolder.Items.Add(Path.GetFileName(file));
 		}
 
 		private void OnChangedPath(string newPath)
