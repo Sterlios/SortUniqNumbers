@@ -26,12 +26,12 @@ namespace SortUniqNumbers
 
 		public Action<string> ChangedPath;
 
-		public static FileManager Instance(NumberManager numberManager)
+		public static FileManager Instance()
 		{
 			if (_fileManager is null)
 				_fileManager = new FileManager();
 
-			_numberManager = numberManager;
+			_numberManager = new NumberManager();
 			return _fileManager;
 		}
 

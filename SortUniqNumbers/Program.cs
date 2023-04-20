@@ -13,7 +13,7 @@ namespace SortUniqNumbers
 				Console.Clear();
 
 				FilterByModulo.Reset();
-				FileManager fileManager = FileManager.Instance(new NumberManager());
+				FileManager fileManager = FileManager.Instance();
 
 				fileManager.InitFiles();
 				fileManager.ReadFiles();

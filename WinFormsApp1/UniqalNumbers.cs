@@ -19,7 +19,7 @@ namespace WinFormsApp1
 		{
 			InitializeComponent();
 
-			_fileManager = FileManager.Instance(new NumberManager());
+			_fileManager = FileManager.Instance();
 
 			_fileManager.ChangedPath += OnChangedPath;
 
