@@ -42,6 +42,8 @@ namespace SortUniqNumbers
 		public void Init()
 		{
 			ChangePath($"{Directory.GetCurrentDirectory()}\\Source\\");
+			UpdateFilesListInFolder();
+			ClearFilesListForRead();
 		}
 
 		public void ChangePath(string newPath)
@@ -51,9 +53,6 @@ namespace SortUniqNumbers
 
 			_path = newPath;
 			ChangedPath?.Invoke(_path);
-
-			UpdateFilesListInFolder();
-			ClearFilesListForRead();
 		}
 
 		private void ClearFilesListForRead()
