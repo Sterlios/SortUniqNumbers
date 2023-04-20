@@ -31,51 +31,73 @@ namespace WinFormsApp1
 		{
 			this.components = new System.ComponentModel.Container();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-			this.Path = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.Folder = new System.Windows.Forms.Button();
+			this.PathText = new System.Windows.Forms.TextBox();
+			this.PathTitle = new System.Windows.Forms.Label();
+			this.ChooseFolder = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.Files = new System.Windows.Forms.ListView();
+			this.FilesListTitle = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// Path
+			// PathText
 			// 
-			this.Path.Location = new System.Drawing.Point(12, 30);
-			this.Path.Name = "Path";
-			this.Path.ReadOnly = true;
-			this.Path.Size = new System.Drawing.Size(399, 23);
-			this.Path.TabIndex = 1;
+			this.PathText.Location = new System.Drawing.Point(12, 30);
+			this.PathText.Name = "PathText";
+			this.PathText.ReadOnly = true;
+			this.PathText.Size = new System.Drawing.Size(399, 23);
+			this.PathText.TabIndex = 1;
 			// 
-			// label1
+			// PathTitle
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(140, 15);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Путь к папке с данными";
+			this.PathTitle.AutoSize = true;
+			this.PathTitle.Location = new System.Drawing.Point(12, 9);
+			this.PathTitle.Name = "PathTitle";
+			this.PathTitle.Size = new System.Drawing.Size(140, 15);
+			this.PathTitle.TabIndex = 2;
+			this.PathTitle.Text = "Путь к папке с данными";
 			// 
-			// Folder
+			// ChooseFolder
 			// 
-			this.Folder.BackgroundImage = global::WindowsForm.Properties.Resources.filderIcon;
-			this.Folder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.Folder.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.Folder.Location = new System.Drawing.Point(417, 30);
-			this.Folder.Name = "Folder";
-			this.Folder.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.Folder.Size = new System.Drawing.Size(34, 23);
-			this.Folder.TabIndex = 0;
-			this.Folder.UseMnemonic = false;
-			this.Folder.UseVisualStyleBackColor = false;
-			this.Folder.Click += new System.EventHandler(this.ChooseFolder_Click);
+			this.ChooseFolder.BackgroundImage = global::WindowsForm.Properties.Resources.filderIcon;
+			this.ChooseFolder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.ChooseFolder.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.ChooseFolder.Location = new System.Drawing.Point(417, 30);
+			this.ChooseFolder.Name = "ChooseFolder";
+			this.ChooseFolder.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.ChooseFolder.Size = new System.Drawing.Size(34, 23);
+			this.ChooseFolder.TabIndex = 0;
+			this.ChooseFolder.UseMnemonic = false;
+			this.ChooseFolder.UseVisualStyleBackColor = false;
+			this.ChooseFolder.Click += new System.EventHandler(this.ChooseFolder_Click);
+			// 
+			// Files
+			// 
+			this.Files.HideSelection = false;
+			this.Files.Location = new System.Drawing.Point(12, 74);
+			this.Files.Name = "Files";
+			this.Files.Size = new System.Drawing.Size(165, 359);
+			this.Files.TabIndex = 3;
+			this.Files.UseCompatibleStateImageBehavior = false;
+			// 
+			// FilesListTitle
+			// 
+			this.FilesListTitle.AutoSize = true;
+			this.FilesListTitle.Location = new System.Drawing.Point(12, 56);
+			this.FilesListTitle.Name = "FilesListTitle";
+			this.FilesListTitle.Size = new System.Drawing.Size(92, 15);
+			this.FilesListTitle.TabIndex = 4;
+			this.FilesListTitle.Text = "Файлы в папке:";
 			// 
 			// UniqalNumbers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.Path);
-			this.Controls.Add(this.Folder);
+			this.Controls.Add(this.FilesListTitle);
+			this.Controls.Add(this.Files);
+			this.Controls.Add(this.PathTitle);
+			this.Controls.Add(this.PathText);
+			this.Controls.Add(this.ChooseFolder);
 			this.Name = "UniqalNumbers";
 			this.Text = "Uniqal Numbers";
 			this.ResumeLayout(false);
@@ -86,10 +108,12 @@ namespace WinFormsApp1
 		#endregion
 
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-		private System.Windows.Forms.TextBox Path;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button Folder;
+		private System.Windows.Forms.TextBox PathText;
+		private System.Windows.Forms.Label PathTitle;
+		private System.Windows.Forms.Button ChooseFolder;
 		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.ListView Files;
+		private System.Windows.Forms.Label FilesListTitle;
 	}
 }
 

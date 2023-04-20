@@ -28,7 +28,7 @@ namespace WinFormsApp1
 
 		private void OnChangedPath(string newPath)
 		{
-			Path.Text = newPath;
+			PathText.Text = newPath;
 		}
 
 		private void ChooseFolder_Click(object sender, EventArgs e)
