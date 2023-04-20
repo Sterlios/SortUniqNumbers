@@ -31,7 +31,7 @@ namespace WinFormsApp1
 			foreach (var file in files)
 				FilesForRead.Items.Add(Path.GetFileName(file));
 
-			Handle.Enabled = files.Count > 0;
+			FilterParameters.Enabled = files.Count > 0;
 		}
 
 		private void OnChangedFilesListInFolder(IReadOnlyList<string> files)
@@ -66,6 +66,11 @@ namespace WinFormsApp1
 		private void RemoveFiles_Click(object sender, EventArgs e)
 		{
 			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
+		}
+
+		private void Handle_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
