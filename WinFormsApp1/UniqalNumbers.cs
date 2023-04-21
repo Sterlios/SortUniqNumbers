@@ -118,7 +118,10 @@ namespace WinFormsApp1
 		{
 			if (int.TryParse(Divider.Text, out int divider) &&
 				int.TryParse(Modulo.Text, out int modulo))
+			{
 				_fileManager.ReadFiles(divider, modulo);
+				_fileManager.SaveResult();
+			}
 		}
 
 		private void GenerateFiles_Click(object sender, EventArgs e)

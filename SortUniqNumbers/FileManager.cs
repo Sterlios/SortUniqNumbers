@@ -127,15 +127,12 @@ namespace SortUniqNumbers
 		{
 			List<string> result = _numberManager.GetResult();
 
-			string resultFileName = $"{_path}\\Result{Extention}";
+			string resultFileName = $"{_path}Result{Extention}";
 			GenerateFile(resultFileName);
 
 			using (StreamWriter writer = new StreamWriter(resultFileName))
 				foreach (var element in result)
 					writer.WriteLine(element);
-
-			Console.WriteLine("\nРезультат сохранен в файле:\n" +
-				$"{resultFileName}");
 		}
 
 		private bool IsEmptyPath()
