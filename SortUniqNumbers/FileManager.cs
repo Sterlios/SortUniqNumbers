@@ -41,15 +41,16 @@ namespace SortUniqNumbers
 
 		public void Init()
 		{
-			ChangePath($"{Directory.GetCurrentDirectory()}\\Source\\");
+			ChangePath(_path);
 		}
 
 		public void ChangePath(string newPath)
 		{
-			if (!Directory.Exists(newPath))
-				_path = Directory.CreateDirectory(newPath).FullName;
+			_path = $"{newPath}\\";;
 
-			_path = newPath;
+			if (!Directory.Exists(newPath))
+				Directory.CreateDirectory(_path);
+
 			ChangedPath?.Invoke(_path);
 
 			UpdateFilesListInFolder();
@@ -65,7 +66,7 @@ namespace SortUniqNumbers
 		public void AddFilesListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesInFolder.Contains($"{_path}\\{file}") && !_filesForRead.Contains(file))
+				if (_filesInFolder.Contains($"{_path}{file}") && !_filesForRead.Contains(file))
 					_filesForRead.Add(file);
 
 			ChangedFilesListForRead?.Invoke(_filesForRead);
@@ -106,7 +107,6 @@ namespace SortUniqNumbers
 				}
 				else
 				{
-					GenerateFiles();
 					FillFiles();
 					isInit = true;
 				}
@@ -203,16 +203,15 @@ namespace SortUniqNumbers
 			return false;
 		}
 
-		private void GenerateFiles()
+		public void GenerateFiles(int filesCount)
 		{
-			int filesCount = GetFilesCount();
-
 			for (int i = 0; i < filesCount; i++)
 			{
 				string fileName = $"{_path}/{i}{Extention}";
 				GenerateFile(fileName);
-				_filesInFolder.Add(fileName);
 			}
+
+			UpdateFilesListInFolder();
 		}
 
 		private int GetFilesCount()
@@ -241,10 +240,8 @@ namespace SortUniqNumbers
 			file.Dispose();
 		}
 
-		private void FillFiles()
+		public void FillFiles(int minCount, int maxCount)
 		{
-			GetDataCountRange(out int minCount, out int maxCount);
-
 			foreach (string file in _filesInFolder)
 			{
 				using (StreamWriter writer = new StreamWriter(file))

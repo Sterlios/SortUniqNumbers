@@ -31,7 +31,16 @@ namespace WinFormsApp1
 			foreach (var file in files)
 				FilesForRead.Items.Add(Path.GetFileName(file));
 
-			FilterParameters.Enabled = files.Count > 0;
+			if(FilesForRead.Items.Count == 0)
+			{
+				FilterParameters.Enabled = false;
+				ChooseFolder.Show();
+			}
+			else
+			{
+				FilterParameters.Enabled = true;
+				ChooseFolder.Hide();
+			}
 		}
 
 		private void OnChangedFilesListInFolder(IReadOnlyList<string> files)
@@ -40,6 +49,8 @@ namespace WinFormsApp1
 
 			foreach (var file in files)
 				FilesInFolder.Items.Add(Path.GetFileName(file));
+
+			CreateFilesGroup.Enabled = FilesInFolder.Items.Count == 0;
 		}
 
 		private void OnChangedPath(string newPath)
@@ -69,22 +80,13 @@ namespace WinFormsApp1
 
 		private void AddFiles_Click(object sender, EventArgs e)
 		{
-			_fileManager.AddFilesListForRead(FilesInFolder.SelectedItems.OfType<string>());
+			var files = FilesInFolder.SelectedItems.OfType<string>();
+			_fileManager.AddFilesListForRead(files);
 		}
 
 		private void RemoveFiles_Click(object sender, EventArgs e)
 		{
 			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
-		}
-
-		private void MinFilesCount_TextChanged(object sender, EventArgs e)
-		{
-			ParseNumber(MinFilesCount);
-		}
-
-		private void MaxFilesCount_TextChanged(object sender, EventArgs e)
-		{
-			ParseNumber(MaxFilesCount);
 		}
 
 		private void MinNumbersCount_TextChanged(object sender, EventArgs e)
@@ -107,6 +109,11 @@ namespace WinFormsApp1
 			ParseNumber(MaxNumber);
 		}
 
+		private void FilesCount_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(FilesCount);
+		}
+
 		private void Handle_Click(object sender, EventArgs e)
 		{
 
@@ -114,7 +121,15 @@ namespace WinFormsApp1
 
 		private void GenerateFiles_Click(object sender, EventArgs e)
 		{
+			if (int.TryParse(FilesCount.Text, out int filesCount))
+				_fileManager.GenerateFiles(filesCount);
 
+			if (int.TryParse(MinNumbersCount.Text, out int minNumberCount) &&
+				int.TryParse(MaxNumbersCount.Text, out int maxNumberCount) &&
+				minNumberCount < maxNumberCount)
+			{
+				_fileManager.FillFiles(minNumberCount, maxNumberCount);
+			}
 		}
 	}
 }

@@ -42,7 +42,9 @@ namespace WinFormsApp1
 			this.RemoveFiles = new System.Windows.Forms.Button();
 			this.FilesForReadTitle = new System.Windows.Forms.Label();
 			this.Handle = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.CreateFilesGroup = new System.Windows.Forms.GroupBox();
+			this.FilesCount = new System.Windows.Forms.TextBox();
+			this.FilesCountTitle = new System.Windows.Forms.Label();
 			this.NumberRange = new System.Windows.Forms.GroupBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.MinNumber = new System.Windows.Forms.TextBox();
@@ -55,22 +57,15 @@ namespace WinFormsApp1
 			this.label5 = new System.Windows.Forms.Label();
 			this.MaxNumbersCount = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.FilesCount = new System.Windows.Forms.GroupBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.MinFilesCount = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.MaxFilesCount = new System.Windows.Forms.TextBox();
-			this.label4 = new System.Windows.Forms.Label();
 			this.GenerateFiles = new System.Windows.Forms.Button();
 			this.FilterParameters = new System.Windows.Forms.GroupBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.Devider = new System.Windows.Forms.Label();
-			this.groupBox1.SuspendLayout();
+			this.CreateFilesGroup.SuspendLayout();
 			this.NumberRange.SuspendLayout();
 			this.NumbersCount.SuspendLayout();
-			this.FilesCount.SuspendLayout();
 			this.FilterParameters.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -176,18 +171,36 @@ namespace WinFormsApp1
 			this.Handle.UseVisualStyleBackColor = true;
 			this.Handle.Click += new System.EventHandler(this.Handle_Click);
 			// 
-			// groupBox1
+			// CreateFilesGroup
 			// 
-			this.groupBox1.Controls.Add(this.NumberRange);
-			this.groupBox1.Controls.Add(this.NumbersCount);
-			this.groupBox1.Controls.Add(this.FilesCount);
-			this.groupBox1.Controls.Add(this.GenerateFiles);
-			this.groupBox1.Location = new System.Drawing.Point(543, 9);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(245, 289);
-			this.groupBox1.TabIndex = 11;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Создание файлов";
+			this.CreateFilesGroup.Controls.Add(this.FilesCount);
+			this.CreateFilesGroup.Controls.Add(this.FilesCountTitle);
+			this.CreateFilesGroup.Controls.Add(this.NumberRange);
+			this.CreateFilesGroup.Controls.Add(this.NumbersCount);
+			this.CreateFilesGroup.Controls.Add(this.GenerateFiles);
+			this.CreateFilesGroup.Location = new System.Drawing.Point(543, 56);
+			this.CreateFilesGroup.Name = "CreateFilesGroup";
+			this.CreateFilesGroup.Size = new System.Drawing.Size(245, 242);
+			this.CreateFilesGroup.TabIndex = 11;
+			this.CreateFilesGroup.TabStop = false;
+			this.CreateFilesGroup.Text = "Создание файлов";
+			// 
+			// FilesCount
+			// 
+			this.FilesCount.Location = new System.Drawing.Point(135, 21);
+			this.FilesCount.Name = "FilesCount";
+			this.FilesCount.Size = new System.Drawing.Size(95, 23);
+			this.FilesCount.TabIndex = 7;
+			this.FilesCount.TextChanged += new System.EventHandler(this.FilesCount_TextChanged);
+			// 
+			// FilesCountTitle
+			// 
+			this.FilesCountTitle.AutoSize = true;
+			this.FilesCountTitle.Location = new System.Drawing.Point(12, 24);
+			this.FilesCountTitle.Name = "FilesCountTitle";
+			this.FilesCountTitle.Size = new System.Drawing.Size(117, 15);
+			this.FilesCountTitle.TabIndex = 8;
+			this.FilesCountTitle.Text = "Количество файлов";
 			// 
 			// NumberRange
 			// 
@@ -196,7 +209,7 @@ namespace WinFormsApp1
 			this.NumberRange.Controls.Add(this.label8);
 			this.NumberRange.Controls.Add(this.MaxNumber);
 			this.NumberRange.Controls.Add(this.label9);
-			this.NumberRange.Location = new System.Drawing.Point(6, 176);
+			this.NumberRange.Location = new System.Drawing.Point(9, 127);
 			this.NumberRange.Name = "NumberRange";
 			this.NumberRange.Size = new System.Drawing.Size(230, 71);
 			this.NumberRange.TabIndex = 21;
@@ -253,7 +266,7 @@ namespace WinFormsApp1
 			this.NumbersCount.Controls.Add(this.label5);
 			this.NumbersCount.Controls.Add(this.MaxNumbersCount);
 			this.NumbersCount.Controls.Add(this.label6);
-			this.NumbersCount.Location = new System.Drawing.Point(6, 99);
+			this.NumbersCount.Location = new System.Drawing.Point(9, 50);
 			this.NumbersCount.Name = "NumbersCount";
 			this.NumbersCount.Size = new System.Drawing.Size(230, 71);
 			this.NumbersCount.TabIndex = 20;
@@ -303,66 +316,9 @@ namespace WinFormsApp1
 			this.label6.TabIndex = 6;
 			this.label6.Text = "-";
 			// 
-			// FilesCount
-			// 
-			this.FilesCount.Controls.Add(this.label3);
-			this.FilesCount.Controls.Add(this.MinFilesCount);
-			this.FilesCount.Controls.Add(this.label2);
-			this.FilesCount.Controls.Add(this.MaxFilesCount);
-			this.FilesCount.Controls.Add(this.label4);
-			this.FilesCount.Location = new System.Drawing.Point(6, 22);
-			this.FilesCount.Name = "FilesCount";
-			this.FilesCount.Size = new System.Drawing.Size(230, 71);
-			this.FilesCount.TabIndex = 19;
-			this.FilesCount.TabStop = false;
-			this.FilesCount.Text = "Количество файлов";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(125, 19);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(36, 15);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "Макс";
-			// 
-			// MinFilesCount
-			// 
-			this.MinFilesCount.Location = new System.Drawing.Point(6, 37);
-			this.MinFilesCount.Name = "MinFilesCount";
-			this.MinFilesCount.Size = new System.Drawing.Size(95, 23);
-			this.MinFilesCount.TabIndex = 2;
-			this.MinFilesCount.TextChanged += new System.EventHandler(this.MinFilesCount_TextChanged);
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 19);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(32, 15);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Мин";
-			// 
-			// MaxFilesCount
-			// 
-			this.MaxFilesCount.Location = new System.Drawing.Point(125, 37);
-			this.MaxFilesCount.Name = "MaxFilesCount";
-			this.MaxFilesCount.Size = new System.Drawing.Size(95, 23);
-			this.MaxFilesCount.TabIndex = 4;
-			this.MaxFilesCount.TextChanged += new System.EventHandler(this.MaxFilesCount_TextChanged);
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(107, 40);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(12, 15);
-			this.label4.TabIndex = 6;
-			this.label4.Text = "-";
-			// 
 			// GenerateFiles
 			// 
-			this.GenerateFiles.Location = new System.Drawing.Point(6, 260);
+			this.GenerateFiles.Location = new System.Drawing.Point(6, 204);
 			this.GenerateFiles.Name = "GenerateFiles";
 			this.GenerateFiles.Size = new System.Drawing.Size(233, 23);
 			this.GenerateFiles.TabIndex = 0;
@@ -424,7 +380,7 @@ namespace WinFormsApp1
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(800, 465);
 			this.Controls.Add(this.FilterParameters);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.CreateFilesGroup);
 			this.Controls.Add(this.FilesForReadTitle);
 			this.Controls.Add(this.RemoveFiles);
 			this.Controls.Add(this.AddFiles);
@@ -436,13 +392,12 @@ namespace WinFormsApp1
 			this.Controls.Add(this.ChooseFolder);
 			this.Name = "UniqalNumbers";
 			this.Text = "Uniqal Numbers";
-			this.groupBox1.ResumeLayout(false);
+			this.CreateFilesGroup.ResumeLayout(false);
+			this.CreateFilesGroup.PerformLayout();
 			this.NumberRange.ResumeLayout(false);
 			this.NumberRange.PerformLayout();
 			this.NumbersCount.ResumeLayout(false);
 			this.NumbersCount.PerformLayout();
-			this.FilesCount.ResumeLayout(false);
-			this.FilesCount.PerformLayout();
 			this.FilterParameters.ResumeLayout(false);
 			this.FilterParameters.PerformLayout();
 			this.ResumeLayout(false);
@@ -464,7 +419,7 @@ namespace WinFormsApp1
 		private System.Windows.Forms.Button RemoveFiles;
 		private System.Windows.Forms.Label FilesForReadTitle;
 		private System.Windows.Forms.Button Handle;
-		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox CreateFilesGroup;
 		private System.Windows.Forms.GroupBox FilterParameters;
 		private System.Windows.Forms.GroupBox NumberRange;
 		private System.Windows.Forms.Label label7;
@@ -478,17 +433,13 @@ namespace WinFormsApp1
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TextBox MaxNumbersCount;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.GroupBox FilesCount;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox MinFilesCount;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox MaxFilesCount;
-		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button GenerateFiles;
 		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label Devider;
+		private System.Windows.Forms.TextBox FilesCount;
+		private System.Windows.Forms.Label FilesCountTitle;
 	}
 }
 
