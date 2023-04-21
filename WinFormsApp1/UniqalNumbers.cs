@@ -47,6 +47,15 @@ namespace WinFormsApp1
 			PathText.Text = newPath;
 		}
 
+		private void ParseNumber(TextBox textBox)
+		{
+			if (!int.TryParse(textBox.Text, out int number))
+			{
+				textBox.Text = string.Concat(textBox.Text
+					.Where(symbol => int.TryParse(symbol.ToString(), out int number)));
+			}
+		}
+
 		private void ChooseFolder_Click(object sender, EventArgs e)
 		{
 			using (var dialog = new FolderBrowserDialog())
@@ -68,18 +77,44 @@ namespace WinFormsApp1
 			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
 		}
 
+		private void MinFilesCount_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(MinFilesCount);
+		}
+
+		private void MaxFilesCount_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(MaxFilesCount);
+		}
+
+		private void MinNumbersCount_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(MinNumbersCount);
+		}
+
+		private void MaxNumbersCount_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(MaxNumbersCount);
+		}
+
+		private void MinNumber_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(MinNumber);
+		}
+
+		private void MaxNumber_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(MaxNumber);
+		}
+
 		private void Handle_Click(object sender, EventArgs e)
 		{
 
 		}
 
-		private void MinFilesCount_TextChanged(object sender, EventArgs e)
+		private void GenerateFiles_Click(object sender, EventArgs e)
 		{
-			if (!int.TryParse(MinFilesCount.Text, out int number))
-			{
-				MinFilesCount.Text = string.Concat(MinFilesCount.Text
-					.Where(symbol => int.TryParse(symbol.ToString(), out int number)));
-			}
+
 		}
 	}
 }

@@ -218,6 +218,7 @@ namespace WinFormsApp1
 			this.MinNumber.Name = "MinNumber";
 			this.MinNumber.Size = new System.Drawing.Size(95, 23);
 			this.MinNumber.TabIndex = 2;
+			this.MinNumber.TextChanged += new System.EventHandler(this.MinNumber_TextChanged);
 			// 
 			// label8
 			// 
@@ -234,6 +235,7 @@ namespace WinFormsApp1
 			this.MaxNumber.Name = "MaxNumber";
 			this.MaxNumber.Size = new System.Drawing.Size(95, 23);
 			this.MaxNumber.TabIndex = 4;
+			this.MaxNumber.TextChanged += new System.EventHandler(this.MaxNumber_TextChanged);
 			// 
 			// label9
 			// 
@@ -273,6 +275,7 @@ namespace WinFormsApp1
 			this.MinNumbersCount.Name = "MinNumbersCount";
 			this.MinNumbersCount.Size = new System.Drawing.Size(95, 23);
 			this.MinNumbersCount.TabIndex = 2;
+			this.MinNumbersCount.TextChanged += new System.EventHandler(this.MinNumbersCount_TextChanged);
 			// 
 			// label5
 			// 
@@ -289,6 +292,7 @@ namespace WinFormsApp1
 			this.MaxNumbersCount.Name = "MaxNumbersCount";
 			this.MaxNumbersCount.Size = new System.Drawing.Size(95, 23);
 			this.MaxNumbersCount.TabIndex = 4;
+			this.MaxNumbersCount.TextChanged += new System.EventHandler(this.MaxNumbersCount_TextChanged);
 			// 
 			// label6
 			// 
@@ -345,6 +349,7 @@ namespace WinFormsApp1
 			this.MaxFilesCount.Name = "MaxFilesCount";
 			this.MaxFilesCount.Size = new System.Drawing.Size(95, 23);
 			this.MaxFilesCount.TabIndex = 4;
+			this.MaxFilesCount.TextChanged += new System.EventHandler(this.MaxFilesCount_TextChanged);
 			// 
 			// label4
 			// 
@@ -363,6 +368,7 @@ namespace WinFormsApp1
 			this.GenerateFiles.TabIndex = 0;
 			this.GenerateFiles.Text = "Создать файлы";
 			this.GenerateFiles.UseVisualStyleBackColor = true;
+			this.GenerateFiles.Click += new System.EventHandler(this.GenerateFiles_Click);
 			// 
 			// FilterParameters
 			// 
