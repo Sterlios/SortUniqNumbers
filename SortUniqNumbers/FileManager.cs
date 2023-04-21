@@ -170,7 +170,7 @@ namespace SortUniqNumbers
 			file.Dispose();
 		}
 
-		public void FillFiles(int minCount, int maxCount)
+		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
 			foreach (string file in _filesInFolder)
 			{
@@ -179,7 +179,7 @@ namespace SortUniqNumbers
 					int dataCount = _random.Next(minCount, maxCount);
 
 					for (int i = 0; i < dataCount; i++)
-						writer.WriteLine(_numberManager.GetData());
+						writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
 				}
 			}
 		}

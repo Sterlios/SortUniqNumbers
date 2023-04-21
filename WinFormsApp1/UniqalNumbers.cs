@@ -124,12 +124,20 @@ namespace WinFormsApp1
 			if (int.TryParse(FilesCount.Text, out int filesCount))
 				_fileManager.GenerateFiles(filesCount);
 
-			if (int.TryParse(MinNumbersCount.Text, out int minNumberCount) &&
-				int.TryParse(MaxNumbersCount.Text, out int maxNumberCount) &&
-				minNumberCount < maxNumberCount)
+			if (IsValidateRange(MinNumbersCount, MaxNumbersCount, out int minNumbersCount, out int maxNumbersCount) &&
+				IsValidateRange(MinNumber, MaxNumber, out int minNumber, out int maxNumber))
 			{
-				_fileManager.FillFiles(minNumberCount, maxNumberCount);
+				_fileManager.FillFiles(minNumbersCount, maxNumbersCount, minNumber, maxNumber);
 			}
+		}
+
+		private bool IsValidateRange(TextBox minValueTextBox, TextBox maxValueTextBox, out int minValue, out int maxValue)
+		{
+			maxValue = 0;
+
+			return int.TryParse(minValueTextBox.Text, out minValue) &&
+				int.TryParse(maxValueTextBox.Text, out maxValue) &&
+				minValue < maxValue;
 		}
 	}
 }

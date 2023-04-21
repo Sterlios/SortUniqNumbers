@@ -13,7 +13,7 @@ namespace SortUniqNumbers
         private List<int> _numbers = new List<int>(1000);
         private List<int> _uniqNumbers = new List<int>(1000);
 
-        public string GetData()
+        public string GetData(int minCount, int maxCount)
         {
             if (_minNumber == 0 && _maxNumber == 0)
                 Question.GetRange("\nЧисла в диапазоне:", out _minNumber, out _maxNumber);
