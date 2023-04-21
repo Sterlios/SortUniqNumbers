@@ -107,7 +107,6 @@ namespace SortUniqNumbers
 				}
 				else
 				{
-					FillFiles();
 					isInit = true;
 				}
 			}
@@ -142,56 +141,6 @@ namespace SortUniqNumbers
 				$"{resultFileName}");
 		}
 
-		private bool TrySetPath()
-		{
-			bool isCorrectPath;
-
-			Console.WriteLine("\nВведите каталог: ");
-			string path = Console.ReadLine();
-
-			if (!Directory.Exists(path))
-				Console.WriteLine("\nТакого каталога не существует! (Будет создан новый каталог)");
-
-			try
-			{
-				path = new DirectoryInfo(path).FullName;
-
-				isCorrectPath = TryChangePath(path);
-			}
-			catch
-			{
-				Console.WriteLine($"\nЧто-то пошло не так. Каталог [{path}] не удалось получить.");
-
-				isCorrectPath = TrySetDefaultPath();
-			}
-
-			return isCorrectPath;
-		}
-
-		private bool TrySetDefaultPath()
-		{
-			string path = $"{Directory.GetCurrentDirectory()}\\Source\\";
-
-			return TryChangePath(path);
-		}
-
-		private bool TryChangePath(string path)
-		{
-			bool isCorrectPath = IsConfirmedPath(path);
-
-			if (isCorrectPath)
-				ChangePath(path);
-
-			return isCorrectPath;
-		}
-
-		private bool IsConfirmedPath(string path)
-		{
-			Console.WriteLine($"\nКаталог: {path}");
-
-			return Question.GetAnswerYesOrNo("Перейти к каталогу?");
-		}
-
 		private bool IsEmptyPath()
 		{
 			if (string.IsNullOrEmpty(_path))
@@ -212,25 +161,6 @@ namespace SortUniqNumbers
 			}
 
 			UpdateFilesListInFolder();
-		}
-
-		private int GetFilesCount()
-		{
-			bool isCorrectCount = false;
-			int filesCount = 0;
-
-			while (isCorrectCount == false)
-			{
-				filesCount = Question.GetNumber("\nСколько файлов создать?");
-
-				if (filesCount <= 0)
-					Console.WriteLine("Количество должно быть больше 0.\n" +
-						"Попробуйте еще раз!");
-				else
-					isCorrectCount = true;
-			}
-
-			return filesCount;
 		}
 
 		private void GenerateFile(string fileName)
