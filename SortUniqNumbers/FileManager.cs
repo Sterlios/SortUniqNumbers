@@ -112,18 +112,15 @@ namespace SortUniqNumbers
 			}
 		}
 
-		public void ReadFiles()
+		public void ReadFiles(int divider, int modulo)
 		{
 			if (_filesInFolder.Count < 0)
 			{
-				Console.WriteLine("\nСначала надо получить список файлов из каталога!");
 				return;
 			}
 
 			foreach (string file in _filesInFolder)
-				ReadFile(file);
-
-			Console.WriteLine("\nВсе файлы обработаны!");
+				ReadFile(file, divider, modulo);
 		}
 
 		public void SaveResult()
@@ -191,7 +188,7 @@ namespace SortUniqNumbers
 		private bool IsValidateRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
-		private void ReadFile(string file)
+		private void ReadFile(string file, int divider, int modulo)
 		{
 			if (!File.Exists(file))
 				return;
@@ -224,27 +221,8 @@ namespace SortUniqNumbers
 						}
 					}
 
-					_numberManager.ProcessData();
+					_numberManager.ProcessData(divider, modulo);
 				}
-			}
-		}
-
-		private void GetDataCountRange(out int minCount, out int maxCount)
-		{
-			bool isCorrectRange = false;
-
-			minCount = 0;
-			maxCount = 0;
-
-			while (isCorrectRange == false)
-			{
-				Question.GetRange("\nКоличество данных в каждом файле:", out minCount, out maxCount);
-
-				if (minCount < 0 || maxCount < 0)
-					Console.WriteLine("Количество должно быть больше 0.\n" +
-						"Попробуйте еще раз!");
-				else
-					isCorrectRange = true;
 			}
 		}
 

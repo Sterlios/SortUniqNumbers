@@ -116,7 +116,9 @@ namespace WinFormsApp1
 
 		private void Handle_Click(object sender, EventArgs e)
 		{
-
+			if (int.TryParse(Divider.Text, out int divider) &&
+				int.TryParse(Modulo.Text, out int modulo))
+				_fileManager.ReadFiles(divider, modulo);
 		}
 
 		private void GenerateFiles_Click(object sender, EventArgs e)
@@ -131,6 +133,16 @@ namespace WinFormsApp1
 			{
 				_fileManager.FillFiles(minNumbersCount, maxNumbersCount, minNumber, maxNumber);
 			}
+		}
+
+		private void Divider_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(Divider);
+		}
+
+		private void Modulo_TextChanged(object sender, EventArgs e)
+		{
+			ParseNumber(Modulo);
 		}
 	}
 }

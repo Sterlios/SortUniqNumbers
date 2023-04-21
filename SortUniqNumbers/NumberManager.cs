@@ -23,12 +23,12 @@ namespace SortUniqNumbers
             return true;
         }
 
-        public void ProcessData()
+        public void ProcessData(int divider, int modulo)
         {
             _uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
 
             _numbers = _numbers
-                    .Where(number => FilterByModulo.Use(number) && _uniqNumbers.Contains(number))
+                    .Where(number => FilterByModulo.Use(number, divider, modulo) && _uniqNumbers.Contains(number))
                     .OrderByDescending(number => number)
                     .ToList();
         }

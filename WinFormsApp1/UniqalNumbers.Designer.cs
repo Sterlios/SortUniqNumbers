@@ -59,10 +59,10 @@ namespace WinFormsApp1
 			this.label6 = new System.Windows.Forms.Label();
 			this.GenerateFiles = new System.Windows.Forms.Button();
 			this.FilterParameters = new System.Windows.Forms.GroupBox();
-			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.Devider = new System.Windows.Forms.Label();
+			this.Modulo = new System.Windows.Forms.TextBox();
+			this.ModuloTitle = new System.Windows.Forms.Label();
+			this.Divider = new System.Windows.Forms.TextBox();
+			this.DividerTitle = new System.Windows.Forms.Label();
 			this.CreateFilesGroup.SuspendLayout();
 			this.NumberRange.SuspendLayout();
 			this.NumbersCount.SuspendLayout();
@@ -329,10 +329,10 @@ namespace WinFormsApp1
 			// FilterParameters
 			// 
 			this.FilterParameters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.FilterParameters.Controls.Add(this.textBox2);
-			this.FilterParameters.Controls.Add(this.label10);
-			this.FilterParameters.Controls.Add(this.textBox1);
-			this.FilterParameters.Controls.Add(this.Devider);
+			this.FilterParameters.Controls.Add(this.Modulo);
+			this.FilterParameters.Controls.Add(this.ModuloTitle);
+			this.FilterParameters.Controls.Add(this.Divider);
+			this.FilterParameters.Controls.Add(this.DividerTitle);
 			this.FilterParameters.Controls.Add(this.Handle);
 			this.FilterParameters.Location = new System.Drawing.Point(543, 304);
 			this.FilterParameters.Name = "FilterParameters";
@@ -341,37 +341,39 @@ namespace WinFormsApp1
 			this.FilterParameters.TabStop = false;
 			this.FilterParameters.Text = "Фильтр данных";
 			// 
-			// textBox2
+			// Modulo
 			// 
-			this.textBox2.Location = new System.Drawing.Point(127, 51);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(95, 23);
-			this.textBox2.TabIndex = 13;
+			this.Modulo.Location = new System.Drawing.Point(127, 51);
+			this.Modulo.Name = "Modulo";
+			this.Modulo.Size = new System.Drawing.Size(95, 23);
+			this.Modulo.TabIndex = 13;
+			this.Modulo.TextChanged += new System.EventHandler(this.Modulo_TextChanged);
 			// 
-			// label10
+			// ModuloTitle
 			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(7, 54);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(114, 15);
-			this.label10.TabIndex = 14;
-			this.label10.Text = "Остаток от деления";
+			this.ModuloTitle.AutoSize = true;
+			this.ModuloTitle.Location = new System.Drawing.Point(7, 54);
+			this.ModuloTitle.Name = "ModuloTitle";
+			this.ModuloTitle.Size = new System.Drawing.Size(114, 15);
+			this.ModuloTitle.TabIndex = 14;
+			this.ModuloTitle.Text = "Остаток от деления";
 			// 
-			// textBox1
+			// Divider
 			// 
-			this.textBox1.Location = new System.Drawing.Point(127, 22);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(95, 23);
-			this.textBox1.TabIndex = 11;
+			this.Divider.Location = new System.Drawing.Point(127, 22);
+			this.Divider.Name = "Divider";
+			this.Divider.Size = new System.Drawing.Size(95, 23);
+			this.Divider.TabIndex = 11;
+			this.Divider.TextChanged += new System.EventHandler(this.Divider_TextChanged);
 			// 
-			// Devider
+			// DividerTitle
 			// 
-			this.Devider.AutoSize = true;
-			this.Devider.Location = new System.Drawing.Point(6, 25);
-			this.Devider.Name = "Devider";
-			this.Devider.Size = new System.Drawing.Size(59, 15);
-			this.Devider.TabIndex = 12;
-			this.Devider.Text = "Делитель";
+			this.DividerTitle.AutoSize = true;
+			this.DividerTitle.Location = new System.Drawing.Point(6, 25);
+			this.DividerTitle.Name = "DividerTitle";
+			this.DividerTitle.Size = new System.Drawing.Size(59, 15);
+			this.DividerTitle.TabIndex = 12;
+			this.DividerTitle.Text = "Делитель";
 			// 
 			// UniqalNumbers
 			// 
@@ -434,10 +436,10 @@ namespace WinFormsApp1
 		private System.Windows.Forms.TextBox MaxNumbersCount;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Button GenerateFiles;
-		private System.Windows.Forms.TextBox textBox2;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Label Devider;
+		private System.Windows.Forms.TextBox Modulo;
+		private System.Windows.Forms.Label ModuloTitle;
+		private System.Windows.Forms.TextBox Divider;
+		private System.Windows.Forms.Label DividerTitle;
 		private System.Windows.Forms.TextBox FilesCount;
 		private System.Windows.Forms.Label FilesCountTitle;
 	}
