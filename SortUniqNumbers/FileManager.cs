@@ -46,7 +46,7 @@ namespace SortUniqNumbers
 
 		public void ChangePath(string newPath)
 		{
-			_path = $"{newPath}\\";;
+			_path = $"{newPath}\\"; ;
 
 			if (!Directory.Exists(newPath))
 				Directory.CreateDirectory(_path);
@@ -84,7 +84,7 @@ namespace SortUniqNumbers
 		private void UpdateFilesListInFolder()
 		{
 			_filesInFolder = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
-			
+
 			ChangedFilesListInFolder?.Invoke(_filesInFolder);
 		}
 
@@ -172,17 +172,24 @@ namespace SortUniqNumbers
 
 		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
-			foreach (string file in _filesInFolder)
+			if (IsValidateRange(minCount, maxCount) &&
+				IsValidateRange(minNumber, maxNumber))
 			{
-				using (StreamWriter writer = new StreamWriter(file))
+				foreach (string file in _filesInFolder)
 				{
-					int dataCount = _random.Next(minCount, maxCount);
+					using (StreamWriter writer = new StreamWriter(file))
+					{
+						int dataCount = _random.Next(minCount, maxCount);
 
-					for (int i = 0; i < dataCount; i++)
-						writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
+						for (int i = 0; i < dataCount; i++)
+							writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
+					}
 				}
 			}
 		}
+
+		private bool IsValidateRange(int minValue, int maxValue) =>
+			minValue < maxValue;
 
 		private void ReadFile(string file)
 		{
