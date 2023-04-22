@@ -203,6 +203,7 @@ namespace SortUniqNumbers
 					line.Clear();
 					line.AppendLine(reader.ReadLine());
 
+					numbersCount++;
 					_numberManager.Add(line.ToString());
 				}
 
