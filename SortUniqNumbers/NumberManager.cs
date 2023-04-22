@@ -8,11 +8,23 @@ namespace SortUniqNumbers
     {
         private static Random _random = new Random();
 
+        private int _divider;
+        private int _modulo;
+
         private List<int> _numbers = new List<int>(1000);
         private List<int> _uniqNumbers = new List<int>(1000);
 
 		public string GetData(int minCount, int maxCount) => 
             _random.Next(minCount, maxCount).ToString();
+        
+        public void Init(int  divider, int modulo)
+		{
+            _divider = divider;
+            _modulo = modulo;
+
+            _numbers.Clear();
+            _uniqNumbers.Clear();
+        }
 
 		public bool TryAdd(string input)
         {
@@ -23,12 +35,12 @@ namespace SortUniqNumbers
             return true;
         }
 
-        public void ProcessData(int divider, int modulo)
+        public void ProcessData()
         {
             _uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
 
             _numbers = _numbers
-                    .Where(number => FilterByModulo.Use(number, divider, modulo) && _uniqNumbers.Contains(number))
+                    .Where(number => FilterByModulo.Use(number, _divider, _modulo) && _uniqNumbers.Contains(number))
                     .OrderByDescending(number => number)
                     .ToList();
         }

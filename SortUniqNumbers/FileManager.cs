@@ -22,8 +22,6 @@ namespace SortUniqNumbers
 		{
 			_filesInFolder = new List<string>(100);
 			_filesForRead = new List<string>(100);
-			_path = $"{Directory.GetCurrentDirectory()}\\Source\\";
-			ChangedPath?.Invoke(_path);
 		}
 
 		public Action<string> ChangedPath;
@@ -41,7 +39,7 @@ namespace SortUniqNumbers
 
 		public void Init()
 		{
-			ChangePath(_path);
+			ChangePath($"{Directory.GetCurrentDirectory()}\\Source");
 		}
 
 		public void ChangePath(string newPath)
@@ -115,11 +113,11 @@ namespace SortUniqNumbers
 		public void ReadFiles(int divider, int modulo)
 		{
 			if (_filesInFolder.Count < 0)
-			{
 				return;
-			}
 
-			foreach (string file in _filesInFolder)
+			_numberManager.Init(divider, modulo);
+
+			foreach (string file in _filesForRead)
 				ReadFile(file, divider, modulo);
 		}
 
@@ -187,10 +185,12 @@ namespace SortUniqNumbers
 
 		private void ReadFile(string file, int divider, int modulo)
 		{
-			if (!File.Exists(file))
+			string fileName = $"{_path}{file}";
+
+			if (!File.Exists(fileName))
 				return;
 
-			using (StreamReader reader = new StreamReader(file))
+			using (StreamReader reader = new StreamReader(fileName))
 			{
 				bool endOfFile = false;
 				StringBuilder line = new StringBuilder();
@@ -218,7 +218,7 @@ namespace SortUniqNumbers
 						}
 					}
 
-					_numberManager.ProcessData(divider, modulo);
+					_numberManager.ProcessData();
 				}
 			}
 		}
