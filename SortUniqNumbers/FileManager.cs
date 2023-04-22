@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SortUniqNumbers
 {
@@ -17,6 +18,7 @@ namespace SortUniqNumbers
 		private List<string> _filesInFolder;
 		private List<string> _filesForRead;
 		private string _path;
+		private FileSystemWatcher _watcher;
 
 		private FileManager()
 		{
@@ -40,16 +42,32 @@ namespace SortUniqNumbers
 		public void Init()
 		{
 			ChangePath($"{Directory.GetCurrentDirectory()}\\Source");
+			ListenFolder();
 		}
 
-		public void ChangePath(string newPath)
+		private async Task ListenFolder()
 		{
-			_path = $"{newPath}\\"; ;
+			_watcher = new FileSystemWatcher(_path);
+			_watcher.Created += OnChanged;
+			_watcher.EnableRaisingEvents = true;
+		}
+
+		private void OnChanged(object source, FileSystemEventArgs e)
+		{
+			UpdateFilesListInFolder();
+		}
+
+		public async void ChangePath(string newPath)
+		{
+			_path = $"{newPath}\\";
 
 			if (!Directory.Exists(newPath))
 				Directory.CreateDirectory(_path);
 
 			ChangedPath?.Invoke(_path);
+
+			_watcher = new FileSystemWatcher(_path);
+			_watcher.Created += async (s, e) => await UpdateFilesListInFolder();
 
 			UpdateFilesListInFolder();
 			ClearFilesListForRead();
@@ -79,35 +97,13 @@ namespace SortUniqNumbers
 			ChangedFilesListForRead?.Invoke(_filesForRead);
 		}
 
-		private void UpdateFilesListInFolder()
+		private async Task UpdateFilesListInFolder()
 		{
-			_filesInFolder = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
+			_filesInFolder = Directory.GetFiles(_path)
+				.Where(path => Path.GetExtension(path) == Extention)
+				.ToList();
 
 			ChangedFilesListInFolder?.Invoke(_filesInFolder);
-		}
-
-		public void InitFiles()
-		{
-			if (IsEmptyPath())
-				return;
-
-			bool isInit = false;
-
-			while (isInit == false)
-			{
-				_filesInFolder = Directory.GetFiles(_path).Where(path => Path.GetExtension(path) == Extention).ToList();
-
-				Console.WriteLine($"\nКоличество '{Extention}' файлов в каталоге: {_filesInFolder.Count}");
-
-				if (_filesInFolder.Count > 0)
-				{
-					isInit = DeleteFiles() == false;
-				}
-				else
-				{
-					isInit = true;
-				}
-			}
 		}
 
 		public void ReadFiles(int divider, int modulo)
@@ -132,17 +128,6 @@ namespace SortUniqNumbers
 			using (StreamWriter writer = new StreamWriter(resultFileName))
 				foreach (var element in result)
 					writer.WriteLine(element);
-		}
-
-		private bool IsEmptyPath()
-		{
-			if (string.IsNullOrEmpty(_path))
-			{
-				Console.WriteLine("Сначала задайте каталог.");
-				return true;
-			}
-
-			return false;
 		}
 
 		public void GenerateFiles(int filesCount)
@@ -209,21 +194,6 @@ namespace SortUniqNumbers
 
 				_numberManager.ProcessData();
 			}
-		}
-
-		private bool DeleteFiles()
-		{
-			bool confirmedDelete = Question.GetAnswerYesOrNo($"\nУдалить '{Extention}' файлы?");
-
-			if (confirmedDelete)
-			{
-				foreach (string file in _filesInFolder)
-					File.Delete(file);
-
-				_filesInFolder.Clear();
-			}
-
-			return confirmedDelete;
 		}
 	}
 }
