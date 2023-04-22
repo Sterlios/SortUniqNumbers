@@ -26,13 +26,12 @@ namespace SortUniqNumbers
             _uniqNumbers.Clear();
         }
 
-		public bool TryAdd(string input)
+		public void Add(string? input)
         {
             if (!int.TryParse(input, out int number))
-                return false;
+                return;
 
             _numbers.Add(number);
-            return true;
         }
 
         public void ProcessData()

@@ -190,36 +190,23 @@ namespace SortUniqNumbers
 			if (!File.Exists(fileName))
 				return;
 
-			using (StreamReader reader = new StreamReader(fileName))
+			using StreamReader reader = new StreamReader(fileName);
+			StringBuilder line = new StringBuilder(reader.ReadLine());
+
+			while (line.ToString() != null)
 			{
-				bool endOfFile = false;
-				StringBuilder line = new StringBuilder();
+				int numbersCount = 0;
+				int maxNumbersCount = 1000;
 
-				while (!endOfFile)
+				while (numbersCount < maxNumbersCount || line.ToString() != null)
 				{
-					int numbersCount = 0;
-					int maxNumbersCount = 1000;
-					bool isContinue = true;
+					line.Clear();
+					line.AppendLine(reader.ReadLine());
 
-					while (isContinue)
-					{
-						line.Clear();
-						line.AppendLine(reader.ReadLine());
-						isContinue = !string.IsNullOrWhiteSpace(line.ToString());
-
-						if (!isContinue)
-						{
-							endOfFile = true;
-						}
-						else if (_numberManager.TryAdd(line.ToString()))
-						{
-							numbersCount++;
-							isContinue = numbersCount < maxNumbersCount;
-						}
-					}
-
-					_numberManager.ProcessData();
+					_numberManager.Add(line.ToString());
 				}
+
+				_numberManager.ProcessData();
 			}
 		}
 
