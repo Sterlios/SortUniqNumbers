@@ -8,20 +8,13 @@ namespace SortUniqNumbers
     {
         private static Random _random = new Random();
 
-        private int _minNumber;
-        private int _maxNumber;
         private List<int> _numbers = new List<int>(1000);
         private List<int> _uniqNumbers = new List<int>(1000);
 
-        public string GetData()
-        {
-            if (_minNumber == 0 && _maxNumber == 0)
-                Question.GetRange("\nЧисла в диапазоне:", out _minNumber, out _maxNumber);
+		public string GetData(int minCount, int maxCount) => 
+            _random.Next(minCount, maxCount).ToString();
 
-            return _random.Next(_minNumber, _maxNumber).ToString();
-        }
-
-        public bool TryAdd(string input)
+		public bool TryAdd(string input)
         {
             if (!int.TryParse(input, out int number))
                 return false;
@@ -30,12 +23,12 @@ namespace SortUniqNumbers
             return true;
         }
 
-        public void ProcessData()
+        public void ProcessData(int divider, int modulo)
         {
             _uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
 
             _numbers = _numbers
-                    .Where(number => FilterByModulo.Use(number) && _uniqNumbers.Contains(number))
+                    .Where(number => FilterByModulo.Use(number, divider, modulo) && _uniqNumbers.Contains(number))
                     .OrderByDescending(number => number)
                     .ToList();
         }

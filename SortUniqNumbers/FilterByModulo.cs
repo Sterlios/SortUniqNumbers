@@ -13,21 +13,8 @@ namespace SortUniqNumbers
             _isInit = false;
         }
 
-        public static bool Use(int number)
-        {
-            if (_isInit == false)
-                Init();
-
-            return number % _devider == _remainder;
-        }
-
-        private static void Init()
-        {
-            _isInit = true;
-
-            InitDevider();
-            InitRemainder();
-        }
+		public static bool Use(int number, int divider, int modulo) => 
+            number % divider == modulo;
 
         private static void InitDevider()
         {
