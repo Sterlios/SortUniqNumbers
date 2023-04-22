@@ -191,20 +191,19 @@ namespace SortUniqNumbers
 				return;
 
 			using StreamReader reader = new StreamReader(fileName);
-			StringBuilder line = new StringBuilder(reader.ReadLine());
+			string? line = reader.ReadLine();
 
-			while (line.ToString() != null)
+			while (line != null)
 			{
 				int numbersCount = 0;
 				int maxNumbersCount = 1000;
 
-				while (numbersCount < maxNumbersCount || line.ToString() != null)
+				while (numbersCount < maxNumbersCount || line != null)
 				{
-					line.Clear();
-					line.AppendLine(reader.ReadLine());
-
 					numbersCount++;
-					_numberManager.Add(line.ToString());
+					_numberManager.Add(line);
+
+					line = reader.ReadLine();
 				}
 
 				_numberManager.ProcessData();
