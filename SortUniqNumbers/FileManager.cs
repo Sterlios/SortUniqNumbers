@@ -116,6 +116,7 @@ namespace SortUniqNumbers
 				return;
 
 			_numberManager.Init(divider, modulo);
+			FilterByUniq.Reset();
 
 			foreach (string file in _filesForRead)
 				ReadFile(file, divider, modulo);
