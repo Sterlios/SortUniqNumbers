@@ -380,7 +380,7 @@ namespace WinFormsApp1
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(800, 465);
+			this.ClientSize = new System.Drawing.Size(800, 487);
 			this.Controls.Add(this.FilterParameters);
 			this.Controls.Add(this.CreateFilesGroup);
 			this.Controls.Add(this.FilesForReadTitle);
