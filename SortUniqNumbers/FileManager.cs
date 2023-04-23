@@ -24,6 +24,7 @@ namespace SortUniqNumbers
 		{
 			_filesInFolder = new List<string>(100);
 			_filesForRead = new List<string>(100);
+			_watcher = new FileSystemWatcher();
 		}
 
 		public Action<string> ChangedPath;
@@ -45,19 +46,31 @@ namespace SortUniqNumbers
 			ListenFolder();
 		}
 
-		private async Task ListenFolder()
+		private void ListenFolder()
 		{
-			_watcher = new FileSystemWatcher(_path);
-			_watcher.Created += OnChanged;
-			_watcher.EnableRaisingEvents = true;
-		}
+			_watcher.Path = _path;
+			_watcher.Filter = $"*{Extention}";
 
-		private void OnChanged(object source, FileSystemEventArgs e)
-		{
+			_watcher.Created += (source, e) => UpdateFilesListInFolder();
+			_watcher.Renamed += (source, e) => UpdateFilesListInFolder();
+			_watcher.Changed += (source, e) => UpdateFilesListInFolder();
+			_watcher.Deleted += (source, e) => UpdateFilesListInFolder();
+
+			_watcher.EnableRaisingEvents = true;
+
 			UpdateFilesListInFolder();
 		}
 
-		public async void ChangePath(string newPath)
+		private void UpdateFilesListInFolder()
+		{
+			_filesInFolder = Directory.GetFiles(_path)
+				.Where(path => Path.GetExtension(path) == Extention)
+				.ToList();
+
+			ChangedFilesListInFolder?.Invoke(_filesInFolder);
+		}
+
+		public void ChangePath(string newPath)
 		{
 			_path = $"{newPath}\\";
 
@@ -66,10 +79,6 @@ namespace SortUniqNumbers
 
 			ChangedPath?.Invoke(_path);
 
-			_watcher = new FileSystemWatcher(_path);
-			_watcher.Created += async (s, e) => await UpdateFilesListInFolder();
-
-			UpdateFilesListInFolder();
 			ClearFilesListForRead();
 		}
 
@@ -95,15 +104,6 @@ namespace SortUniqNumbers
 					_filesForRead.Remove(file);
 
 			ChangedFilesListForRead?.Invoke(_filesForRead);
-		}
-
-		private async Task UpdateFilesListInFolder()
-		{
-			_filesInFolder = Directory.GetFiles(_path)
-				.Where(path => Path.GetExtension(path) == Extention)
-				.ToList();
-
-			ChangedFilesListInFolder?.Invoke(_filesInFolder);
 		}
 
 		public void ReadFiles(int divider, int modulo)
@@ -138,7 +138,7 @@ namespace SortUniqNumbers
 				GenerateFile(fileName);
 			}
 
-			UpdateFilesListInFolder();
+			//UpdateFilesListInFolder(ChangedFilesListInFolder);
 		}
 
 		private void GenerateFile(string fileName)

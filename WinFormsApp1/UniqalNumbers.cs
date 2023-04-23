@@ -31,20 +31,17 @@ namespace WinFormsApp1
 			foreach (var file in files)
 				FilesForRead.Items.Add(Path.GetFileName(file));
 
-			if(FilesForRead.Items.Count == 0)
-			{
-				FilterParameters.Enabled = false;
-				ChooseFolder.Show();
-			}
-			else
-			{
-				FilterParameters.Enabled = true;
-				ChooseFolder.Hide();
-			}
+			FilterParameters.Enabled = FilesForRead.Items.Count > 0;
 		}
 
 		private void OnChangedFilesListInFolder(IReadOnlyList<string> files)
 		{
+			if (FilesInFolder.InvokeRequired)
+			{
+				FilesInFolder.Invoke(new Action(() => OnChangedFilesListInFolder(files)));
+				return;
+			}
+
 			FilesInFolder.Items.Clear();
 
 			foreach (var file in files)
