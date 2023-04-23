@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SortUniqNumbers
+﻿namespace SortUniqNumbers
 {
     public class FilterByModulo
     {

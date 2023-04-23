@@ -1,4 +1,4 @@
-﻿namespace System.ComponentModel
+﻿namespace SortUniqNumbers
 {
 	internal class Program
 	{
