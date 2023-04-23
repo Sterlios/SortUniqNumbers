@@ -110,7 +110,8 @@ namespace SortUniqNumbers
 		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
 			if (IsValideRange(minCount, maxCount) &&
-				IsValideRange(minNumber, maxNumber))
+				IsValideRange(minNumber, maxNumber) &&
+				minCount > 0)
 			{
 				foreach (string file in _filesInFolder)
 				{
