@@ -107,8 +107,8 @@ namespace SortUniqNumbers
 
 		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
-			if (IsValidateRange(minCount, maxCount) &&
-				IsValidateRange(minNumber, maxNumber))
+			if (IsValideRange(minCount, maxCount) &&
+				IsValideRange(minNumber, maxNumber))
 			{
 				foreach (string file in _filesInFolder)
 				{
@@ -184,7 +184,7 @@ namespace SortUniqNumbers
 			file.Dispose();
 		}
 
-		private bool IsValidateRange(int minValue, int maxValue) =>
+		private bool IsValideRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
 		private void ReadFile(string file)
