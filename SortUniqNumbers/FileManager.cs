@@ -86,7 +86,6 @@ namespace SortUniqNumbers
 			List<string> result = _numberManager.GetResult();
 
 			string resultFileName = $"{_path}Result{Extention}";
-			GenerateFile(resultFileName);
 
 			using StreamWriter writer = new StreamWriter(resultFileName);
 
@@ -99,7 +98,7 @@ namespace SortUniqNumbers
 			for (int i = 0; i < filesCount; i++)
 			{
 				string fileName = $"{_path}/{i}{Extention}";
-				GenerateFile(fileName);
+				using FileStream file = File.Create(fileName);
 			}
 
 			UpdateFilesListInFolder();
@@ -175,13 +174,6 @@ namespace SortUniqNumbers
 		{
 			_filesForRead.Clear();
 			ChangedFilesListForRead?.Invoke(_filesForRead);
-		}
-
-		private void GenerateFile(string fileName)
-		{
-			FileStream file = File.Create(fileName);
-			file.Close();
-			file.Dispose();
 		}
 
 		private bool IsValideRange(int minValue, int maxValue) =>
