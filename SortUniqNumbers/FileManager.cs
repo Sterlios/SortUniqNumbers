@@ -15,12 +15,12 @@ namespace SortUniqNumbers
 
 		private readonly FileSystemWatcher _watcher = new FileSystemWatcher();
 		private List<string> _filesInFolder = new List<string>(100);
-		private List<string> _filesForRead = new List<string>(100);
+		private List<string> _selectedFiles = new List<string>(100);
 		private string _path;
 
 		public Action<string> ChangedPath;
 		public Action<IReadOnlyList<string>> ChangedFilesListInFolder;
-		public Action<IReadOnlyList<string>> ChangedFilesForRead;
+		public Action<IReadOnlyList<string>> ChangedSelectedFilesList;
 
 		public static FileManager Instance()
 		{
@@ -49,22 +49,22 @@ namespace SortUniqNumbers
 			ClearFilesListForRead();
 		}
 
-		public void AddToListForRead(IEnumerable<string> files)
+		public void AddToSelectedFilesList(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesInFolder.Contains(file) && !_filesForRead.Contains(file))
-					_filesForRead.Add(file);
+				if (_filesInFolder.Contains(file) && !_selectedFiles.Contains(file))
+					_selectedFiles.Add(file);
 
-			ChangedFilesForRead?.Invoke(_filesForRead);
+			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
-		public void RemoveFromListForRead(IEnumerable<string> files)
+		public void RemoveFromSelectedFilesList(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesForRead.Contains(file))
-					_filesForRead.Remove(file);
+				if (_selectedFiles.Contains(file))
+					_selectedFiles.Remove(file);
 
-			ChangedFilesForRead?.Invoke(_filesForRead);
+			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
 		public void ReadFiles(int divider, int modulo)
@@ -74,7 +74,7 @@ namespace SortUniqNumbers
 
 			_numberManager.Init(divider, modulo);
 
-			foreach (string file in _filesForRead)
+			foreach (string file in _selectedFiles)
 				ReadFile(file);
 		}
 
@@ -138,10 +138,10 @@ namespace SortUniqNumbers
 			_filesInFolder[_filesInFolder.IndexOf(oldName)] = newName;
 			ChangedFilesListInFolder?.Invoke(_filesInFolder);
 
-			if(_filesForRead.IndexOf(oldName) >= 0)
+			if(_selectedFiles.IndexOf(oldName) >= 0)
 			{
-				_filesForRead[_filesForRead.IndexOf(oldName)] = newName;
-				ChangedFilesForRead?.Invoke(_filesForRead);
+				_selectedFiles[_selectedFiles.IndexOf(oldName)] = newName;
+				ChangedSelectedFilesList?.Invoke(_selectedFiles);
 			}
 		}
 
@@ -153,12 +153,12 @@ namespace SortUniqNumbers
 
 		private void UpdateFilesListForRead()
 		{
-			_filesForRead = Directory.GetFiles(_path)
-				.Where(file => _filesForRead.Contains(Path.GetFileName(file)))
+			_selectedFiles = Directory.GetFiles(_path)
+				.Where(file => _selectedFiles.Contains(Path.GetFileName(file)))
 				.Select(file => Path.GetFileName(file))
 				.ToList();
 
-			ChangedFilesForRead?.Invoke(_filesForRead);
+			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
 		private void UpdateFilesListInFolder()
@@ -173,8 +173,8 @@ namespace SortUniqNumbers
 
 		private void ClearFilesListForRead()
 		{
-			_filesForRead.Clear();
-			ChangedFilesForRead?.Invoke(_filesForRead);
+			_selectedFiles.Clear();
+			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
 		private bool IsValideRange(int minValue, int maxValue) =>
