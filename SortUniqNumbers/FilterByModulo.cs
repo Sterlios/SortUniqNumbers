@@ -2,18 +2,18 @@
 
 namespace SortUniqNumbers
 {
-    public static class FilterByModulo
+    public class FilterByModulo
     {
-		private static int _divider;
-		private static int _modulo;
+		private int _divider;
+		private int _modulo;
 
-		internal static void Init(int divider, int modulo)
+		internal void Init(int divider, int modulo)
 		{
 			_divider = divider;
 			_modulo = modulo;
 		}
 
-		internal static bool Use(int number) => 
+		internal bool Use(int number) => 
             number % _divider == _modulo;
 	}
 }
