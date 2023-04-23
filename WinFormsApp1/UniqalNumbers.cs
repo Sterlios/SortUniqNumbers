@@ -131,7 +131,7 @@ namespace WinFormsApp1
 		private void GenerateFiles_Click(object sender, EventArgs e)
 		{
 			if (int.TryParse(FilesCount.Text, out int filesCount))
-				_fileManager.GenerateFiles(filesCount);
+				_fileManager.GenerateSourceFiles(filesCount);
 
 			if (int.TryParse(MinNumbersCount.Text, out int minNumbersCount) &&
 				int.TryParse(MaxNumbersCount.Text, out int maxNumbersCount) &&

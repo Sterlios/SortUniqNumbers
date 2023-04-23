@@ -93,15 +93,18 @@ namespace SortUniqNumbers
 				writer.WriteLine(element);
 		}
 
-		public void GenerateFiles(int filesCount)
+		public void GenerateSourceFiles(int filesCount)
 		{
-			for (int i = 0; i < filesCount; i++)
+			if (filesCount > 0)
 			{
-				string fileName = $"{_path}/{i}{Extention}";
-				using FileStream file = File.Create(fileName);
-			}
+				for (int i = 0; i < filesCount; i++)
+				{
+					string fileName = $"{_path}/{i}{Extention}";
+					using FileStream file = File.Create(fileName);
+				}
 
-			UpdateFilesListInFolder();
+				UpdateFilesListInFolder();
+			}
 		}
 
 		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
