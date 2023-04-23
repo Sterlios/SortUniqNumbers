@@ -13,7 +13,7 @@ namespace SortUniqNumbers
 
 		private static readonly Random _random = new Random();
 		private static FileManager _fileManager;
-		private static NumberManager _numberManager = new NumberManager();;
+		private static NumberManager _numberManager = new NumberManager();
 
 		private readonly FileSystemWatcher _watcher = new FileSystemWatcher();
 		private List<string> _filesInFolder = new List<string>(100);
