@@ -5,7 +5,7 @@ namespace SortUniqNumbers
 {
     static class FilterByUniq
     {
-        private static List<int> _notUniqNumbers = new List<int>();
+        private static readonly List<int> _notUniqNumbers = new List<int>();
 
         public static void Reset()
 		{

@@ -9,7 +9,7 @@ namespace WinFormsApp1
 {
 	public partial class UniqalNumbers : Form
 	{
-		private FileManager _fileManager;
+		private readonly FileManager _fileManager;
 
 		public UniqalNumbers()
 		{
@@ -72,13 +72,11 @@ namespace WinFormsApp1
 
 		private void ChooseFolder_Click(object sender, EventArgs e)
 		{
-			using (var dialog = new FolderBrowserDialog())
-			{
-				DialogResult result = dialog.ShowDialog();
+			using var dialog = new FolderBrowserDialog();
+			DialogResult result = dialog.ShowDialog();
 
-				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
-					_fileManager.ChangePath(dialog.SelectedPath);
-			}
+			if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+				_fileManager.ChangePath(dialog.SelectedPath);
 		}
 
 		private void AddFiles_Click(object sender, EventArgs e)
@@ -119,12 +117,15 @@ namespace WinFormsApp1
 
 		private void Handle_Click(object sender, EventArgs e)
 		{
+
 			if (int.TryParse(Divider.Text, out int divider) &&
 				int.TryParse(Modulo.Text, out int modulo))
 			{
 				_fileManager.ReadFiles(divider, modulo);
 				_fileManager.SaveResult();
 			}
+
+
 		}
 
 		private void GenerateFiles_Click(object sender, EventArgs e)

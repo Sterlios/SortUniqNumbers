@@ -6,7 +6,7 @@ namespace SortUniqNumbers
 {
     public class NumberManager
     {
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
 
         private int _divider;
         private int _modulo;
@@ -26,7 +26,7 @@ namespace SortUniqNumbers
             _uniqNumbers.Clear();
         }
 
-		public void Add(string? input)
+		public void Add(string input)
         {
             if (!int.TryParse(input, out int number))
                 return;

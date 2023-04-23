@@ -12,13 +12,13 @@ namespace SortUniqNumbers
 		private const string Extention = ".txt";
 
 		private static FileManager _fileManager;
-		private static Random _random = new Random();
+		private static readonly Random _random = new Random();
 		private static NumberManager _numberManager;
 
 		private List<string> _filesInFolder;
 		private List<string> _filesForRead;
 		private string _path;
-		private FileSystemWatcher _watcher;
+		private readonly FileSystemWatcher _watcher;
 
 		private FileManager()
 		{
@@ -142,7 +142,7 @@ namespace SortUniqNumbers
 			FilterByUniq.Reset();
 
 			foreach (string file in _filesForRead)
-				ReadFile(file, divider, modulo);
+				ReadFile(file);
 		}
 
 		public void SaveResult()
@@ -152,9 +152,10 @@ namespace SortUniqNumbers
 			string resultFileName = $"{_path}Result{Extention}";
 			GenerateFile(resultFileName);
 
-			using (StreamWriter writer = new StreamWriter(resultFileName))
-				foreach (var element in result)
-					writer.WriteLine(element);
+			using StreamWriter writer = new StreamWriter(resultFileName);
+
+			foreach (var element in result)
+				writer.WriteLine(element);
 		}
 
 		public void GenerateFiles(int filesCount)
@@ -182,13 +183,11 @@ namespace SortUniqNumbers
 			{
 				foreach (string file in _filesInFolder)
 				{
-					using (StreamWriter writer = new StreamWriter(file))
-					{
-						int dataCount = _random.Next(minCount, maxCount);
+					using StreamWriter writer = new StreamWriter(file);
+					int dataCount = _random.Next(minCount, maxCount);
 
-						for (int i = 0; i < dataCount; i++)
-							writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
-					}
+					for (int i = 0; i < dataCount; i++)
+						writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
 				}
 			}
 		}
@@ -196,7 +195,7 @@ namespace SortUniqNumbers
 		private bool IsValidateRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
-		private void ReadFile(string file, int divider, int modulo)
+		private void ReadFile(string file)
 		{
 			string fileName = $"{_path}{file}";
 
@@ -204,7 +203,7 @@ namespace SortUniqNumbers
 				return;
 
 			using StreamReader reader = new StreamReader(fileName);
-			string? line = reader.ReadLine();
+			string line = reader.ReadLine();
 
 			while (line != null)
 			{
