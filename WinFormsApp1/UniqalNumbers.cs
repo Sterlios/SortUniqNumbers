@@ -19,7 +19,7 @@ namespace WinFormsApp1
 
 			_fileManager.ChangedPath += OnChangedPath;
 			_fileManager.ChangedFilesListInFolder += OnChangedFilesListInFolder;
-			_fileManager.ChangedFilesListForRead += OnChangedFilesListForRead;
+			_fileManager.ChangedFilesForRead += OnChangedFilesListForRead;
 
 			_fileManager.Init();
 		}
@@ -82,12 +82,12 @@ namespace WinFormsApp1
 		private void AddFiles_Click(object sender, EventArgs e)
 		{
 			var files = FilesInFolder.SelectedItems.OfType<string>();
-			_fileManager.AddFilesListForRead(files);
+			_fileManager.AddToListForRead(files);
 		}
 
 		private void RemoveFiles_Click(object sender, EventArgs e)
 		{
-			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
+			_fileManager.RemoveFromListForRead(FilesForRead.SelectedItems.OfType<string>());
 		}
 
 		private void MinNumbersCount_TextChanged(object sender, EventArgs e)
