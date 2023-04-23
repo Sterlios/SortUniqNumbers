@@ -8,9 +8,6 @@ namespace SortUniqNumbers
     {
         private static readonly Random _random = new Random();
 
-        private int _divider;
-        private int _modulo;
-
         private List<int> _numbers = new List<int>(1000);
 
 		public List<string> Result => 
@@ -19,10 +16,9 @@ namespace SortUniqNumbers
 		public string GetData(int minCount, int maxCount) => 
             _random.Next(minCount, maxCount).ToString();
         
-        public void Init(int  divider, int modulo)
+        public void Init(int divider, int modulo)
 		{
-            _divider = divider;
-            _modulo = modulo;
+            FilterByModulo.Init(divider, modulo);
 
             _numbers.Clear();
         }
@@ -40,7 +36,7 @@ namespace SortUniqNumbers
             List<int> uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
 
             _numbers = _numbers
-                    .Where(number => FilterByModulo.Use(number, _divider, _modulo) && uniqNumbers.Contains(number))
+                    .Where(number => FilterByModulo.Use(number) && uniqNumbers.Contains(number))
                     .OrderByDescending(number => number)
                     .ToList();
         }
