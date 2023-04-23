@@ -21,6 +21,7 @@ namespace SortUniqNumbers
         public void Init(int divider, int modulo)
 		{
             _filterByModulo.Init(divider, modulo);
+            _filterByUniq.Reset();
 
             _numbers.Clear();
         }
