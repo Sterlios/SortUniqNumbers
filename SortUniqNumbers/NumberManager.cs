@@ -14,6 +14,9 @@ namespace SortUniqNumbers
         private List<int> _numbers = new List<int>(1000);
         private List<int> _uniqNumbers = new List<int>(1000);
 
+		public List<string> Result => 
+            _numbers.Select(number => number.ToString()).ToList();
+
 		public string GetData(int minCount, int maxCount) => 
             _random.Next(minCount, maxCount).ToString();
         
@@ -44,9 +47,5 @@ namespace SortUniqNumbers
                     .ToList();
         }
 
-        public List<string> GetResult()
-        {
-            return _numbers.Select(number => number.ToString()).ToList();
-        }
-    }
+	}
 }

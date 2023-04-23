@@ -83,7 +83,7 @@ namespace SortUniqNumbers
 
 		public void SaveResult()
 		{
-			List<string> result = _numberManager.GetResult();
+			List<string> result = _numberManager.Result;
 
 			string resultFileName = $"{_path}Result{Extention}";
 
