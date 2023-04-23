@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SortUniqNumbers
 {
@@ -11,63 +9,32 @@ namespace SortUniqNumbers
 	{
 		private const string Extention = ".txt";
 
+		private static readonly Random _random = new Random();
+		private static readonly NumberManager _numberManager = new NumberManager();
 		private static FileManager _fileManager;
-		private static Random _random = new Random();
-		private static NumberManager _numberManager;
 
-		private List<string> _filesInFolder;
-		private List<string> _filesForRead;
+		private readonly FileSystemWatcher _watcher = new FileSystemWatcher();
+		private List<string> _filesInFolder = new List<string>(100);
+		private List<string> _filesForRead = new List<string>(100);
 		private string _path;
-		private FileSystemWatcher _watcher;
-
-		private FileManager()
-		{
-			_filesInFolder = new List<string>(100);
-			_filesForRead = new List<string>(100);
-			_watcher = new FileSystemWatcher();
-		}
 
 		public Action<string> ChangedPath;
 		public Action<IReadOnlyList<string>> ChangedFilesListInFolder;
-		public Action<IReadOnlyList<string>> ChangedFilesListForRead;
+		public Action<IReadOnlyList<string>> ChangedFilesForRead;
 
 		public static FileManager Instance()
 		{
 			if (_fileManager is null)
 				_fileManager = new FileManager();
 
-			_numberManager = new NumberManager();
 			return _fileManager;
 		}
 
 		public void Init()
 		{
 			ChangePath($"{Directory.GetCurrentDirectory()}\\Source");
+			UpdateList();
 			ListenFolder();
-		}
-
-		private void ListenFolder()
-		{
-			_watcher.Path = _path;
-			_watcher.Filter = $"*{Extention}";
-
-			_watcher.Created += (source, e) => UpdateFilesListInFolder();
-			_watcher.Renamed += (source, e) => UpdateFilesListInFolder();
-			_watcher.Changed += (source, e) => UpdateFilesListInFolder();
-			_watcher.Deleted += (source, e) => UpdateFilesListInFolder();
-
-			_watcher.EnableRaisingEvents = true;
-
-			UpdateFilesListInFolder();
-		}
-
-		private void UpdateFilesListInFolder()
-		{
-			_filesInFolder = Directory.GetFiles(_path)
-				.Where(path => Path.GetExtension(path) == Extention)
-				.ToList();
-
-			ChangedFilesListInFolder?.Invoke(_filesInFolder);
 		}
 
 		public void ChangePath(string newPath)
@@ -82,28 +49,22 @@ namespace SortUniqNumbers
 			ClearFilesListForRead();
 		}
 
-		private void ClearFilesListForRead()
-		{
-			_filesForRead.Clear();
-			ChangedFilesListForRead?.Invoke(_filesForRead);
-		}
-
-		public void AddFilesListForRead(IEnumerable<string> files)
+		public void AddToListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesInFolder.Contains($"{_path}{file}") && !_filesForRead.Contains(file))
+				if (_filesInFolder.Contains(file) && !_filesForRead.Contains(file))
 					_filesForRead.Add(file);
 
-			ChangedFilesListForRead?.Invoke(_filesForRead);
+			ChangedFilesForRead?.Invoke(_filesForRead);
 		}
 
-		public void RemoveFilesListForRead(IEnumerable<string> files)
+		public void RemoveFromListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
 				if (_filesForRead.Contains(file))
 					_filesForRead.Remove(file);
 
-			ChangedFilesListForRead?.Invoke(_filesForRead);
+			ChangedFilesForRead?.Invoke(_filesForRead);
 		}
 
 		public void ReadFiles(int divider, int modulo)
@@ -112,64 +73,114 @@ namespace SortUniqNumbers
 				return;
 
 			_numberManager.Init(divider, modulo);
-			FilterByUniq.Reset();
 
 			foreach (string file in _filesForRead)
-				ReadFile(file, divider, modulo);
+				ReadFile(file);
 		}
 
 		public void SaveResult()
 		{
-			List<string> result = _numberManager.GetResult();
+			List<string> result = _numberManager.Result;
 
 			string resultFileName = $"{_path}Result{Extention}";
-			GenerateFile(resultFileName);
 
-			using (StreamWriter writer = new StreamWriter(resultFileName))
-				foreach (var element in result)
-					writer.WriteLine(element);
+			using StreamWriter writer = new StreamWriter(resultFileName);
+
+			foreach (var element in result)
+				writer.WriteLine(element);
 		}
 
-		public void GenerateFiles(int filesCount)
+		public void GenerateSourceFiles(int filesCount)
 		{
-			for (int i = 0; i < filesCount; i++)
+			if (filesCount > 0)
 			{
-				string fileName = $"{_path}/{i}{Extention}";
-				GenerateFile(fileName);
+				for (int i = 0; i < filesCount; i++)
+				{
+					string fileName = $"{_path}/{i}{Extention}";
+					using FileStream file = File.Create(fileName);
+				}
+
+				UpdateFilesListInFolder();
 			}
-
-			//UpdateFilesListInFolder(ChangedFilesListInFolder);
-		}
-
-		private void GenerateFile(string fileName)
-		{
-			FileStream file = File.Create(fileName);
-			file.Close();
-			file.Dispose();
 		}
 
 		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
-			if (IsValidateRange(minCount, maxCount) &&
-				IsValidateRange(minNumber, maxNumber))
+			if (IsValideRange(minCount, maxCount) &&
+				IsValideRange(minNumber, maxNumber) &&
+				minCount > 0)
 			{
 				foreach (string file in _filesInFolder)
 				{
-					using (StreamWriter writer = new StreamWriter(file))
-					{
-						int dataCount = _random.Next(minCount, maxCount);
+					using StreamWriter writer = new StreamWriter(file);
+					int dataCount = _random.Next(minCount, maxCount);
 
-						for (int i = 0; i < dataCount; i++)
-							writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
-					}
+					for (int i = 0; i < dataCount; i++)
+						writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
 				}
 			}
 		}
 
-		private bool IsValidateRange(int minValue, int maxValue) =>
+		private void ListenFolder()
+		{
+			_watcher.Path = _path;
+			_watcher.Filter = $"*{Extention}";
+
+			_watcher.Created += (sender, @event) => UpdateList();
+			_watcher.Deleted += (sender, @event) => UpdateList();
+			_watcher.Renamed += (sender, @event) => RenameFile(@event.OldName, @event.Name);
+
+			_watcher.EnableRaisingEvents = true;
+		}
+
+		private void RenameFile(string oldName, string newName)
+		{
+			_filesInFolder[_filesInFolder.IndexOf(oldName)] = newName;
+			ChangedFilesListInFolder?.Invoke(_filesInFolder);
+
+			if(_filesForRead.IndexOf(oldName) >= 0)
+			{
+				_filesForRead[_filesForRead.IndexOf(oldName)] = newName;
+				ChangedFilesForRead?.Invoke(_filesForRead);
+			}
+		}
+
+		private void UpdateList()
+		{
+			UpdateFilesListForRead();
+			UpdateFilesListInFolder();
+		}
+
+		private void UpdateFilesListForRead()
+		{
+			_filesForRead = Directory.GetFiles(_path)
+				.Where(file => _filesForRead.Contains(Path.GetFileName(file)))
+				.Select(file => Path.GetFileName(file))
+				.ToList();
+
+			ChangedFilesForRead?.Invoke(_filesForRead);
+		}
+
+		private void UpdateFilesListInFolder()
+		{
+			_filesInFolder = Directory.GetFiles(_path)
+				.Where(path => Path.GetExtension(path) == Extention)
+				.Select(file => Path.GetFileName(file))
+				.ToList();
+
+			ChangedFilesListInFolder?.Invoke(_filesInFolder);
+		}
+
+		private void ClearFilesListForRead()
+		{
+			_filesForRead.Clear();
+			ChangedFilesForRead?.Invoke(_filesForRead);
+		}
+
+		private bool IsValideRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
-		private void ReadFile(string file, int divider, int modulo)
+		private void ReadFile(string file)
 		{
 			string fileName = $"{_path}{file}";
 
@@ -177,14 +188,14 @@ namespace SortUniqNumbers
 				return;
 
 			using StreamReader reader = new StreamReader(fileName);
-			string? line = reader.ReadLine();
+			string line = reader.ReadLine();
 
 			while (line != null)
 			{
 				int numbersCount = 0;
 				int maxNumbersCount = 1000;
 
-				while (numbersCount < maxNumbersCount || line != null)
+				while (numbersCount < maxNumbersCount && line != null)
 				{
 					numbersCount++;
 					_numberManager.Add(line);

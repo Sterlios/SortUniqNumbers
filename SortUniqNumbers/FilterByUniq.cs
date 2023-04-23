@@ -3,16 +3,16 @@ using System.Linq;
 
 namespace SortUniqNumbers
 {
-    static class FilterByUniq
+    public class FilterByUniq
     {
-        private static List<int> _notUniqNumbers = new List<int>();
+        private readonly List<int> _notUniqNumbers = new List<int>();
 
-        public static void Reset()
+        public void Reset()
 		{
             _notUniqNumbers.Clear();
         }
 
-        public static List<int> GetUniqueNumbers(List<int> numbers)
+        public List<int> GetUniqueNumbers(List<int> numbers)
         {
             _notUniqNumbers.AddRange(numbers
                 .GroupBy(currentNumber => currentNumber)

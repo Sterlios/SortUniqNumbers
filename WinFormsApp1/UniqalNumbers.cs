@@ -9,7 +9,7 @@ namespace WinFormsApp1
 {
 	public partial class UniqalNumbers : Form
 	{
-		private FileManager _fileManager;
+		private readonly FileManager _fileManager;
 
 		public UniqalNumbers()
 		{
@@ -19,13 +19,19 @@ namespace WinFormsApp1
 
 			_fileManager.ChangedPath += OnChangedPath;
 			_fileManager.ChangedFilesListInFolder += OnChangedFilesListInFolder;
-			_fileManager.ChangedFilesListForRead += OnChangedFilesListForRead;
+			_fileManager.ChangedFilesForRead += OnChangedFilesListForRead;
 
 			_fileManager.Init();
 		}
 
 		private void OnChangedFilesListForRead(IReadOnlyList<string> files)
 		{
+			if (FilesForRead.InvokeRequired)
+			{
+				FilesForRead.Invoke(new Action(() => OnChangedFilesListForRead(files)));
+				return;
+			}
+
 			FilesForRead.Items.Clear();
 
 			foreach (var file in files)
@@ -45,7 +51,7 @@ namespace WinFormsApp1
 			FilesInFolder.Items.Clear();
 
 			foreach (var file in files)
-				FilesInFolder.Items.Add(Path.GetFileName(file));
+				FilesInFolder.Items.Add(file);
 
 			CreateFilesGroup.Enabled = FilesInFolder.Items.Count == 0;
 		}
@@ -66,24 +72,22 @@ namespace WinFormsApp1
 
 		private void ChooseFolder_Click(object sender, EventArgs e)
 		{
-			using (var dialog = new FolderBrowserDialog())
-			{
-				DialogResult result = dialog.ShowDialog();
+			using var dialog = new FolderBrowserDialog();
+			DialogResult result = dialog.ShowDialog();
 
-				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
-					_fileManager.ChangePath(dialog.SelectedPath);
-			}
+			if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+				_fileManager.ChangePath(dialog.SelectedPath);
 		}
 
 		private void AddFiles_Click(object sender, EventArgs e)
 		{
 			var files = FilesInFolder.SelectedItems.OfType<string>();
-			_fileManager.AddFilesListForRead(files);
+			_fileManager.AddToListForRead(files);
 		}
 
 		private void RemoveFiles_Click(object sender, EventArgs e)
 		{
-			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
+			_fileManager.RemoveFromListForRead(FilesForRead.SelectedItems.OfType<string>());
 		}
 
 		private void MinNumbersCount_TextChanged(object sender, EventArgs e)
@@ -113,18 +117,21 @@ namespace WinFormsApp1
 
 		private void Handle_Click(object sender, EventArgs e)
 		{
+
 			if (int.TryParse(Divider.Text, out int divider) &&
 				int.TryParse(Modulo.Text, out int modulo))
 			{
 				_fileManager.ReadFiles(divider, modulo);
 				_fileManager.SaveResult();
 			}
+
+
 		}
 
 		private void GenerateFiles_Click(object sender, EventArgs e)
 		{
 			if (int.TryParse(FilesCount.Text, out int filesCount))
-				_fileManager.GenerateFiles(filesCount);
+				_fileManager.GenerateSourceFiles(filesCount);
 
 			if (int.TryParse(MinNumbersCount.Text, out int minNumbersCount) &&
 				int.TryParse(MaxNumbersCount.Text, out int maxNumbersCount) &&

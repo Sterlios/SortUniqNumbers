@@ -6,27 +6,27 @@ namespace SortUniqNumbers
 {
     public class NumberManager
     {
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
 
-        private int _divider;
-        private int _modulo;
-
+        private readonly FilterByModulo _filterByModulo = new FilterByModulo();
+        private readonly FilterByUniq _filterByUniq = new FilterByUniq();
         private List<int> _numbers = new List<int>(1000);
-        private List<int> _uniqNumbers = new List<int>(1000);
+
+		public List<string> Result => 
+            _numbers.Select(number => number.ToString()).ToList();
 
 		public string GetData(int minCount, int maxCount) => 
             _random.Next(minCount, maxCount).ToString();
         
-        public void Init(int  divider, int modulo)
+        public void Init(int divider, int modulo)
 		{
-            _divider = divider;
-            _modulo = modulo;
+            _filterByModulo.Init(divider, modulo);
+            _filterByUniq.Reset();
 
             _numbers.Clear();
-            _uniqNumbers.Clear();
         }
 
-		public void Add(string? input)
+		public void Add(string input)
         {
             if (!int.TryParse(input, out int number))
                 return;
@@ -36,17 +36,12 @@ namespace SortUniqNumbers
 
         public void ProcessData()
         {
-            _uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
+            List<int> uniqNumbers = _filterByUniq.GetUniqueNumbers(_numbers);
 
             _numbers = _numbers
-                    .Where(number => FilterByModulo.Use(number, _divider, _modulo) && _uniqNumbers.Contains(number))
+                    .Where(number => _filterByModulo.Use(number) && uniqNumbers.Contains(number))
                     .OrderByDescending(number => number)
                     .ToList();
         }
-
-        public List<string> GetResult()
-        {
-            return _numbers.Select(number => number.ToString()).ToList();
-        }
-    }
+	}
 }
