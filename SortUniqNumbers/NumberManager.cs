@@ -8,8 +8,8 @@ namespace SortUniqNumbers
     {
         private static readonly Random _random = new Random();
 
-        private FilterByModulo _filterByModulo = new FilterByModulo();
-        private FilterByUniq _filterByUniq = new FilterByUniq();
+        private readonly FilterByModulo _filterByModulo = new FilterByModulo();
+        private readonly FilterByUniq _filterByUniq = new FilterByUniq();
         private List<int> _numbers = new List<int>(1000);
 
 		public List<string> Result => 
