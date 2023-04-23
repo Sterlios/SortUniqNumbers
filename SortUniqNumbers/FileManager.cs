@@ -12,8 +12,8 @@ namespace SortUniqNumbers
 		private const string Extention = ".txt";
 
 		private static readonly Random _random = new Random();
+		private static readonly NumberManager _numberManager = new NumberManager();
 		private static FileManager _fileManager;
-		private static NumberManager _numberManager = new NumberManager();
 
 		private readonly FileSystemWatcher _watcher = new FileSystemWatcher();
 		private List<string> _filesInFolder = new List<string>(100);
@@ -202,7 +202,7 @@ namespace SortUniqNumbers
 				int numbersCount = 0;
 				int maxNumbersCount = 1000;
 
-				while (numbersCount < maxNumbersCount || line != null)
+				while (numbersCount < maxNumbersCount && line != null)
 				{
 					numbersCount++;
 					_numberManager.Add(line);
