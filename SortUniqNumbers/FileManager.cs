@@ -43,6 +43,7 @@ namespace SortUniqNumbers
 		public void Init()
 		{
 			ChangePath($"{Directory.GetCurrentDirectory()}\\Source");
+			UpdateList();
 			ListenFolder();
 		}
 
@@ -51,14 +52,26 @@ namespace SortUniqNumbers
 			_watcher.Path = _path;
 			_watcher.Filter = $"*{Extention}";
 
-			_watcher.Created += (source, e) => UpdateFilesListInFolder();
-			_watcher.Renamed += (source, e) => UpdateFilesListInFolder();
-			_watcher.Changed += (source, e) => UpdateFilesListInFolder();
-			_watcher.Deleted += (source, e) => UpdateFilesListInFolder();
+			_watcher.Created += (sender, @event) => UpdateList();
+			_watcher.Deleted += (sender, @event) => UpdateList();
 
 			_watcher.EnableRaisingEvents = true;
+		}
 
+		private void UpdateList()
+		{
+			UpdateFilesListForRead();
 			UpdateFilesListInFolder();
+		}
+
+		private void UpdateFilesListForRead()
+		{
+			_filesForRead = Directory.GetFiles(_path)
+				.Where(file => _filesForRead.Contains(Path.GetFileName(file)))
+				.Select(file => Path.GetFileName(file))
+				.ToList();
+
+			ChangedFilesListForRead?.Invoke(_filesForRead);
 		}
 
 		private void UpdateFilesListInFolder()
@@ -138,7 +151,7 @@ namespace SortUniqNumbers
 				GenerateFile(fileName);
 			}
 
-			//UpdateFilesListInFolder(ChangedFilesListInFolder);
+			UpdateFilesListInFolder();
 		}
 
 		private void GenerateFile(string fileName)

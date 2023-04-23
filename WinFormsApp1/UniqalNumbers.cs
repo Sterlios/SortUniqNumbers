@@ -26,6 +26,12 @@ namespace WinFormsApp1
 
 		private void OnChangedFilesListForRead(IReadOnlyList<string> files)
 		{
+			if (FilesForRead.InvokeRequired)
+			{
+				FilesForRead.Invoke(new Action(() => OnChangedFilesListForRead(files)));
+				return;
+			}
+
 			FilesForRead.Items.Clear();
 
 			foreach (var file in files)
