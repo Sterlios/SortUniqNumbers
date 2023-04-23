@@ -12,7 +12,6 @@ namespace SortUniqNumbers
         private int _modulo;
 
         private List<int> _numbers = new List<int>(1000);
-        private List<int> _uniqNumbers = new List<int>(1000);
 
 		public List<string> Result => 
             _numbers.Select(number => number.ToString()).ToList();
@@ -26,7 +25,6 @@ namespace SortUniqNumbers
             _modulo = modulo;
 
             _numbers.Clear();
-            _uniqNumbers.Clear();
         }
 
 		public void Add(string input)
@@ -39,13 +37,12 @@ namespace SortUniqNumbers
 
         public void ProcessData()
         {
-            _uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
+            List<int> uniqNumbers = FilterByUniq.GetUniqueNumbers(_numbers);
 
             _numbers = _numbers
-                    .Where(number => FilterByModulo.Use(number, _divider, _modulo) && _uniqNumbers.Contains(number))
+                    .Where(number => FilterByModulo.Use(number, _divider, _modulo) && uniqNumbers.Contains(number))
                     .OrderByDescending(number => number)
                     .ToList();
         }
-
 	}
 }
