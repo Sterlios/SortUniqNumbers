@@ -54,8 +54,21 @@ namespace SortUniqNumbers
 
 			_watcher.Created += (sender, @event) => UpdateList();
 			_watcher.Deleted += (sender, @event) => UpdateList();
+			_watcher.Renamed += (sender, @event) => RenameFile(@event.OldName, @event.Name);
 
 			_watcher.EnableRaisingEvents = true;
+		}
+
+		private void RenameFile(string oldName, string newName)
+		{
+			_filesInFolder[_filesInFolder.IndexOf(oldName)] = newName;
+			ChangedFilesListInFolder?.Invoke(_filesInFolder);
+
+			if(_filesForRead.IndexOf(oldName) >= 0)
+			{
+				_filesForRead[_filesForRead.IndexOf(oldName)] = newName;
+				ChangedFilesListForRead?.Invoke(_filesForRead);
+			}
 		}
 
 		private void UpdateList()
@@ -78,6 +91,7 @@ namespace SortUniqNumbers
 		{
 			_filesInFolder = Directory.GetFiles(_path)
 				.Where(path => Path.GetExtension(path) == Extention)
+				.Select(file => Path.GetFileName(file))
 				.ToList();
 
 			ChangedFilesListInFolder?.Invoke(_filesInFolder);
@@ -104,7 +118,7 @@ namespace SortUniqNumbers
 		public void AddFilesListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesInFolder.Contains($"{_path}{file}") && !_filesForRead.Contains(file))
+				if (_filesInFolder.Contains(file) && !_filesForRead.Contains(file))
 					_filesForRead.Add(file);
 
 			ChangedFilesListForRead?.Invoke(_filesForRead);

@@ -51,7 +51,7 @@ namespace WinFormsApp1
 			FilesInFolder.Items.Clear();
 
 			foreach (var file in files)
-				FilesInFolder.Items.Add(Path.GetFileName(file));
+				FilesInFolder.Items.Add(file);
 
 			CreateFilesGroup.Enabled = FilesInFolder.Items.Count == 0;
 		}
