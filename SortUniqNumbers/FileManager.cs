@@ -63,8 +63,8 @@ namespace SortUniqNumbers
 		public void RemoveFilesListForRead(IEnumerable<string> files)
 		{
 			foreach (var file in files)
-				if (_filesForRead.Contains(file))
-					_filesForRead.Remove(file);
+				if (_selectedFiles.Contains(file))
+					_selectedFiles.Remove(file);
 
 			SentMessage?.Invoke("Список выбранных файлов изменен", MessageType.Info);
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
@@ -80,7 +80,6 @@ namespace SortUniqNumbers
 
 			SentMessage?.Invoke("Данные обрабатываются", MessageType.Info);
 			_numberManager.Init(divider, modulo);
-			FilterByUniq.Reset();
 
 			foreach (string file in _selectedFiles)
 				ReadFile(file);
@@ -221,10 +220,10 @@ namespace SortUniqNumbers
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
-		private bool IsValidateRange(int minValue, int maxValue) =>
+		private bool IsValideRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
-		private void ReadFile(string file, int divider, int modulo)
+		private void ReadFile(string file)
 		{
 			string fileName = $"{_path}{file}";
 
@@ -234,7 +233,7 @@ namespace SortUniqNumbers
 			SentMessage?.Invoke($"Обрабатывается файл {file}", MessageType.Info);
 
 			using StreamReader reader = new StreamReader(fileName);
-			string? line = reader.ReadLine();
+			string line = reader.ReadLine();
 
 			while (line != null)
 			{
