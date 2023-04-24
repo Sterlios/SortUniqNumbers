@@ -60,7 +60,7 @@ namespace SortUniqNumbers
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
-		public void RemoveFilesListForRead(IEnumerable<string> files)
+		public void RemoveFromSelectedFilesList(IEnumerable<string> files)
 		{
 			foreach (var file in files)
 				if (_selectedFiles.Contains(file))
@@ -104,7 +104,7 @@ namespace SortUniqNumbers
 			SentMessage?.Invoke($"Результат сохранен в файл {resultFileName}", MessageType.Ready);
 		}
 
-		public async Task GenerateSourceFiles(int filesCount)
+		public void GenerateSourceFiles(int filesCount)
 		{
 			if (filesCount <= 0)
 			{
@@ -112,22 +112,19 @@ namespace SortUniqNumbers
 				return;
 			}
 
-			await Task.Run(() =>
+			SentMessage?.Invoke("Файлы создаются", MessageType.Info);
+
+			for (int i = 0; i < filesCount; i++)
 			{
-				SentMessage?.Invoke("Файлы создаются", MessageType.Info);
+				string fileName = $"{_path}/{i}{Extention}";
+				using FileStream file = File.Create(fileName);
+			}
 
-				for (int i = 0; i < filesCount; i++)
-				{
-					string fileName = $"{_path}/{i}{Extention}";
-					using FileStream file = File.Create(fileName);
-				}
-
-				UpdateFilesListInFolder();
-				SentMessage?.Invoke("Файлы созданы", MessageType.Ready);
-			});
+			UpdateFilesListInFolder();
+			SentMessage?.Invoke("Файлы созданы", MessageType.Ready);
 		}
 
-		public async Task FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
+		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
 			if (!IsValideRange(minCount, maxCount) || minCount <= 0)
 			{
@@ -141,21 +138,19 @@ namespace SortUniqNumbers
 				return;
 			}
 
-			await Task.Run(() =>
-			{
-				SentMessage?.Invoke("Заполнение файлов", MessageType.Info);
+			SentMessage?.Invoke("Заполнение файлов", MessageType.Info);
 
-				foreach (string file in _filesInFolder)
-					FillFile(file, minCount, maxCount, minNumber, maxNumber);
+			foreach (string file in _filesInFolder)
+				FillFile(file, minCount, maxCount, minNumber, maxNumber);
 
-				SentMessage?.Invoke("Все файлы заполнены", MessageType.Ready);
-			});
+			SentMessage?.Invoke("Все файлы заполнены", MessageType.Ready);
 		}
 
 		private void FillFile(string file, int minCount, int maxCount, int minNumber, int maxNumber)
 		{
 			SentMessage?.Invoke($"Заполнение файлa {file}", MessageType.Info);
-			using StreamWriter writer = new StreamWriter(file);
+
+			using StreamWriter writer = new StreamWriter($"{_path}{file}");
 			int dataCount = _random.Next(minCount, maxCount);
 
 			for (int i = 0; i < dataCount; i++)

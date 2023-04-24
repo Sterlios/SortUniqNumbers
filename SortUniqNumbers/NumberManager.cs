@@ -15,7 +15,7 @@ namespace SortUniqNumbers
 		public List<string> Result =>
 			_numbers.Select(number => number.ToString()).ToList();
 
-		public string GetData(int minCount, int maxCount) => 
+		public string GetData(int minCount, int maxCount) =>
 			_random.Next(minCount, maxCount).ToString();
 
 		public void Init(int divider, int modulo)

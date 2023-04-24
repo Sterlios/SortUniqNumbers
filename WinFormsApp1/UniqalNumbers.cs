@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsApp1
@@ -92,10 +93,8 @@ namespace WinFormsApp1
 		private void ParseNumber(TextBox textBox)
 		{
 			if (!int.TryParse(textBox.Text, out int number))
-			{
 				textBox.Text = string.Concat(textBox.Text
 					.Where(symbol => int.TryParse(symbol.ToString(), out int number)));
-			}
 		}
 
 		private void ChooseFolder_Click(object sender, EventArgs e)
@@ -113,10 +112,6 @@ namespace WinFormsApp1
 			_fileManager.AddToSelectedFilesList(files);
 		}
 
-		private void RemoveFiles_Click(object sender, EventArgs e)
-		{
-			_fileManager.RemoveFilesListForRead(FilesForRead.SelectedItems.OfType<string>());
-		}
 		private void RemoveFiles_Click(object sender, EventArgs e) =>
 			_fileManager.RemoveFromSelectedFilesList(FilesForRead.SelectedItems.OfType<string>());
 
@@ -151,17 +146,17 @@ namespace WinFormsApp1
 			}
 		}
 
-		private async void GenerateFiles_Click(object sender, EventArgs e)
+		private void GenerateFiles_Click(object sender, EventArgs e)
 		{
 			if (int.TryParse(FilesCount.Text, out int filesCount))
-				await _fileManager.GenerateSourceFiles(filesCount);
+				_fileManager.GenerateSourceFiles(filesCount);
 
 			if (int.TryParse(MinNumbersCount.Text, out int minNumbersCount) &&
 				int.TryParse(MaxNumbersCount.Text, out int maxNumbersCount) &&
 				int.TryParse(MinNumber.Text, out int minNumber) &&
 				int.TryParse(MaxNumber.Text, out int maxNumber))
 			{
-				await _fileManager.FillFiles(minNumbersCount, maxNumbersCount, minNumber, maxNumber);
+				_fileManager.FillFiles(minNumbersCount, maxNumbersCount, minNumber, maxNumber);
 			}
 		}
 	}
