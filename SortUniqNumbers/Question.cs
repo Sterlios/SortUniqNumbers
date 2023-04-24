@@ -1,85 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SortUniqNumbers
 {
-    public static class Question
-    {
-        public static bool GetAnswerYesOrNo(string question)
-        {
-            const string yesCommand = "y";
-            const string noCommand = "n";
+	public static class Question
+	{
+		public static bool GetAnswerYesOrNo(string question)
+		{
+			const string yesCommand = "y";
+			const string noCommand = "n";
 
-            bool isCorrectAnswer = false;
-            bool answer = false;
+			bool isCorrectAnswer = false;
+			bool answer = false;
 
-            while (isCorrectAnswer == false)
-            {
-                Console.WriteLine($"{question} (Y/N)");
-                Console.Write("Ответ: ");
+			while (isCorrectAnswer == false)
+			{
+				Console.WriteLine($"{question} (Y/N)");
+				Console.Write("Ответ: ");
 
-                switch (Console.ReadLine().ToLower())
-                {
-                    case yesCommand:
-                        answer = true;
-                        isCorrectAnswer = true;
-                        break;
-                        
-                    case noCommand:
-                        answer = false;
-                        isCorrectAnswer = true;
-                        break;
+				switch (Console.ReadLine().ToLower())
+				{
+					case yesCommand:
+						answer = true;
+						isCorrectAnswer = true;
+						break;
 
-                    default:
-                        Console.WriteLine("Ответ не понятен. Попробуйте еще раз!");
-                        break;
-                }
-            }
+					case noCommand:
+						answer = false;
+						isCorrectAnswer = true;
+						break;
 
-            return answer;
-        }
+					default:
+						Console.WriteLine("Ответ не понятен. Попробуйте еще раз!");
+						break;
+				}
+			}
 
-        public static int GetNumber(string question)
-        {
-            int value = 0;
-            bool isCorrectAnswer = false;
+			return answer;
+		}
 
-            while (isCorrectAnswer == false)
-            {
-                Console.WriteLine($"{question}");
-                Console.Write("Ответ: ");
+		public static int GetNumber(string question)
+		{
+			int value = 0;
+			bool isCorrectAnswer = false;
 
-                if (int.TryParse(Console.ReadLine(), out value))
-                    isCorrectAnswer = true;
-                else
-                    Console.WriteLine("Ответ не понятен. Попробуйте еще раз!");
-            }
+			while (isCorrectAnswer == false)
+			{
+				Console.WriteLine($"{question}");
+				Console.Write("Ответ: ");
 
-            return value;
-        }
+				if (int.TryParse(Console.ReadLine(), out value))
+				{
+					isCorrectAnswer = true;
+				}
+				else
+				{
+					Console.WriteLine("Ответ не понятен. Попробуйте еще раз!");
+				}
+			}
 
-        public static void GetRange(string description, out int minValue, out int maxValue)
-        {
-            minValue = 0;
-            maxValue = 0;
-            bool isCorrectAnswer = minValue < maxValue;
+			return value;
+		}
 
-            while (isCorrectAnswer == false)
-            {
-                Console.WriteLine(description);
+		public static void GetRange(string description, out int minValue, out int maxValue)
+		{
+			minValue = 0;
+			maxValue = 0;
+			bool isCorrectAnswer = minValue < maxValue;
 
-                minValue = Question.GetNumber("Минимум");
-                maxValue = Question.GetNumber("Максимум");
+			while (isCorrectAnswer == false)
+			{
+				Console.WriteLine(description);
 
-                isCorrectAnswer = minValue < maxValue;
-                
-                if (isCorrectAnswer == false)
-                {
-                    Console.WriteLine($"Минимальное значение ({minValue}) должно быть меньше максимального ({maxValue}).\n" +
-                        $"Попробуйте еще раз!");
-                }
-            }
-        }
-    }
+				minValue = Question.GetNumber("Минимум");
+				maxValue = Question.GetNumber("Максимум");
+
+				isCorrectAnswer = minValue < maxValue;
+
+				if (isCorrectAnswer == false)
+				{
+					Console.WriteLine($"Минимальное значение ({minValue}) должно быть меньше максимального ({maxValue}).\n" +
+						$"Попробуйте еще раз!");
+				}
+			}
+		}
+	}
 }
