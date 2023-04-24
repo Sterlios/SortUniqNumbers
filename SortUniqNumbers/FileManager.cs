@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +19,7 @@ namespace SortUniqNumbers
 		private string _path;
 
 		public Action<string> ChangedPath;
+		public Action<string, MessageType> SentMessage;
 		public Action<IReadOnlyList<string>> ChangedFilesListInFolder;
 		public Action<IReadOnlyList<string>> ChangedSelectedFilesList;
 
@@ -30,12 +31,8 @@ namespace SortUniqNumbers
 			return _fileManager;
 		}
 
-		public void Init()
-		{
+		public void Init() =>
 			ChangePath($"{Directory.GetCurrentDirectory()}\\Source");
-			UpdateList();
-			ListenFolder();
-		}
 
 		public void ChangePath(string newPath)
 		{
@@ -45,7 +42,10 @@ namespace SortUniqNumbers
 				Directory.CreateDirectory(_path);
 
 			ChangedPath?.Invoke(_path);
+			SentMessage?.Invoke("Путь к папке с данными изменен", MessageType.Info);
 
+			ListenFolder();
+			UpdateList();
 			ClearFilesListForRead();
 		}
 
@@ -55,6 +55,7 @@ namespace SortUniqNumbers
 				if (_filesInFolder.Contains(file) && !_selectedFiles.Contains(file))
 					_selectedFiles.Add(file);
 
+			SentMessage?.Invoke("Список выбранных файлов изменен", MessageType.Info);
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
@@ -64,61 +65,97 @@ namespace SortUniqNumbers
 				if (_selectedFiles.Contains(file))
 					_selectedFiles.Remove(file);
 
+			SentMessage?.Invoke("Список выбранных файлов изменен", MessageType.Info);
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
 
 		public void ReadFiles(int divider, int modulo)
 		{
-			if (_filesInFolder.Count < 0)
+			if (_selectedFiles.Count <= 0)
+			{
+				SentMessage?.Invoke("Список выбранных файлов пуст", MessageType.Error);
 				return;
+			}
 
+			SentMessage?.Invoke("Данные обрабатываются", MessageType.Info);
 			_numberManager.Init(divider, modulo);
 
 			foreach (string file in _selectedFiles)
 				ReadFile(file);
+
+			SentMessage?.Invoke("Все данные обработаны", MessageType.Ready);
 		}
 
 		public void SaveResult()
 		{
 			List<string> result = _numberManager.Result;
 
-			string resultFileName = $"{_path}Result{Extention}";
+			string resultFileName = $"Result{Extention}";
+			string fullResultFileName = $"{_path}{resultFileName}";
 
-			using StreamWriter writer = new StreamWriter(resultFileName);
+			SentMessage?.Invoke($"Результат сохраняется в файл {resultFileName}", MessageType.Info);
+
+			using StreamWriter writer = new StreamWriter(fullResultFileName);
 
 			foreach (var element in result)
 				writer.WriteLine(element);
+
+			SentMessage?.Invoke($"Результат сохранен в файл {resultFileName}", MessageType.Ready);
 		}
 
 		public void GenerateSourceFiles(int filesCount)
 		{
-			if (filesCount > 0)
+			if (filesCount <= 0)
 			{
-				for (int i = 0; i < filesCount; i++)
-				{
-					string fileName = $"{_path}/{i}{Extention}";
-					using FileStream file = File.Create(fileName);
-				}
-
-				UpdateFilesListInFolder();
+				SentMessage?.Invoke($"Количество файлов должно быть больше 0", MessageType.Error);
+				return;
 			}
+
+			SentMessage?.Invoke("Файлы создаются", MessageType.Info);
+
+			for (int i = 0; i < filesCount; i++)
+			{
+				string fileName = $"{_path}/{i}{Extention}";
+				using FileStream file = File.Create(fileName);
+			}
+
+			UpdateFilesListInFolder();
+			SentMessage?.Invoke("Файлы созданы", MessageType.Ready);
 		}
 
 		public void FillFiles(int minCount, int maxCount, int minNumber, int maxNumber)
 		{
-			if (IsValideRange(minCount, maxCount) &&
-				IsValideRange(minNumber, maxNumber) &&
-				minCount > 0)
+			if (!IsValideRange(minCount, maxCount) || minCount <= 0)
 			{
-				foreach (string file in _filesInFolder)
-				{
-					using StreamWriter writer = new StreamWriter(file);
-					int dataCount = _random.Next(minCount, maxCount);
-
-					for (int i = 0; i < dataCount; i++)
-						writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
-				}
+				SentMessage?.Invoke("Диапазон количества чисел некорректен", MessageType.Error);
+				return;
 			}
+
+			if (!IsValideRange(minNumber, maxNumber))
+			{
+				SentMessage?.Invoke("Диапазон чисел некорректен", MessageType.Error);
+				return;
+			}
+
+			SentMessage?.Invoke("Заполнение файлов", MessageType.Info);
+
+			foreach (string file in _filesInFolder)
+				FillFile(file, minCount, maxCount, minNumber, maxNumber);
+
+			SentMessage?.Invoke("Все файлы заполнены", MessageType.Ready);
+		}
+
+		private void FillFile(string file, int minCount, int maxCount, int minNumber, int maxNumber)
+		{
+			SentMessage?.Invoke($"Заполнение файлa {file}", MessageType.Info);
+
+			using StreamWriter writer = new StreamWriter($"{_path}{file}");
+			int dataCount = _random.Next(minCount, maxCount);
+
+			for (int i = 0; i < dataCount; i++)
+				writer.WriteLine(_numberManager.GetData(minNumber, maxNumber));
+
+			SentMessage?.Invoke($"Файл {file} заполнен", MessageType.Ready);
 		}
 
 		private void ListenFolder()
@@ -138,7 +175,7 @@ namespace SortUniqNumbers
 			_filesInFolder[_filesInFolder.IndexOf(oldName)] = newName;
 			ChangedFilesListInFolder?.Invoke(_filesInFolder);
 
-			if(_selectedFiles.IndexOf(oldName) >= 0)
+			if (_selectedFiles.IndexOf(oldName) >= 0)
 			{
 				_selectedFiles[_selectedFiles.IndexOf(oldName)] = newName;
 				ChangedSelectedFilesList?.Invoke(_selectedFiles);
@@ -176,7 +213,7 @@ namespace SortUniqNumbers
 			_selectedFiles.Clear();
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
-
+    
 		private bool IsValideRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
@@ -186,6 +223,8 @@ namespace SortUniqNumbers
 
 			if (!File.Exists(fileName))
 				return;
+
+			SentMessage?.Invoke($"Обрабатывается файл {file}", MessageType.Info);
 
 			using StreamReader reader = new StreamReader(fileName);
 			string line = reader.ReadLine();
@@ -205,6 +244,8 @@ namespace SortUniqNumbers
 
 				_numberManager.ProcessData();
 			}
+
+			SentMessage?.Invoke($"Файл {file} обработан", MessageType.Ready);
 		}
 	}
 }

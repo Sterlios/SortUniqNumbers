@@ -1,4 +1,4 @@
-﻿namespace SortUniqNumbers
+namespace SortUniqNumbers
 {
 	public class FilterByModulo
 	{

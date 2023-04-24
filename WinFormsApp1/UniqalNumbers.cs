@@ -1,9 +1,11 @@
-﻿using SortUniqNumbers;
+using SortUniqNumbers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
@@ -15,13 +17,42 @@ namespace WinFormsApp1
 		{
 			InitializeComponent();
 
+			Information.Text = "";
+
 			_fileManager = FileManager.Instance();
 
 			_fileManager.ChangedPath += OnChangedPath;
 			_fileManager.ChangedFilesListInFolder += OnChangedFilesListInFolder;
 			_fileManager.ChangedSelectedFilesList += OnChangedFilesListForRead;
+			_fileManager.SentMessage += OnSentMessage;
 
 			_fileManager.Init();
+		}
+
+		private void OnSentMessage(string message, MessageType type)
+		{
+			if (Information.InvokeRequired)
+			{
+				Information.Invoke(new Action(() => OnSentMessage(message, type)));
+				return;
+			}
+
+			switch (type)
+			{
+				case MessageType.Error:
+					Information.ForeColor = Color.Red;
+					break;
+
+				case MessageType.Ready:
+					Information.ForeColor = Color.Green;
+					break;
+
+				case MessageType.Info:
+					Information.ForeColor = Color.Black;
+					break;
+			}
+
+			Information.Text = message;
 		}
 
 		private void OnChangedFilesListForRead(IReadOnlyList<string> files)
@@ -56,18 +87,14 @@ namespace WinFormsApp1
 			CreateFilesGroup.Enabled = FilesInFolder.Items.Count == 0;
 		}
 
-		private void OnChangedPath(string newPath)
-		{
+		private void OnChangedPath(string newPath) =>
 			PathText.Text = newPath;
-		}
 
 		private void ParseNumber(TextBox textBox)
 		{
 			if (!int.TryParse(textBox.Text, out int number))
-			{
 				textBox.Text = string.Concat(textBox.Text
 					.Where(symbol => int.TryParse(symbol.ToString(), out int number)));
-			}
 		}
 
 		private void ChooseFolder_Click(object sender, EventArgs e)
@@ -85,47 +112,38 @@ namespace WinFormsApp1
 			_fileManager.AddToSelectedFilesList(files);
 		}
 
-		private void RemoveFiles_Click(object sender, EventArgs e)
-		{
+		private void RemoveFiles_Click(object sender, EventArgs e) =>
 			_fileManager.RemoveFromSelectedFilesList(FilesForRead.SelectedItems.OfType<string>());
-		}
 
-		private void MinNumbersCount_TextChanged(object sender, EventArgs e)
-		{
+		private void MinNumbersCount_TextChanged(object sender, EventArgs e) =>
 			ParseNumber(MinNumbersCount);
-		}
 
-		private void MaxNumbersCount_TextChanged(object sender, EventArgs e)
-		{
+		private void MaxNumbersCount_TextChanged(object sender, EventArgs e) =>
 			ParseNumber(MaxNumbersCount);
-		}
 
-		private void MinNumber_TextChanged(object sender, EventArgs e)
-		{
+		private void MinNumber_TextChanged(object sender, EventArgs e) =>
 			ParseNumber(MinNumber);
-		}
 
-		private void MaxNumber_TextChanged(object sender, EventArgs e)
-		{
+		private void MaxNumber_TextChanged(object sender, EventArgs e) =>
 			ParseNumber(MaxNumber);
-		}
 
-		private void FilesCount_TextChanged(object sender, EventArgs e)
-		{
+		private void FilesCount_TextChanged(object sender, EventArgs e) =>
 			ParseNumber(FilesCount);
-		}
+
+		private void Divider_TextChanged(object sender, EventArgs e) =>
+			ParseNumber(Divider);
+
+		private void Modulo_TextChanged(object sender, EventArgs e) =>
+			ParseNumber(Modulo);
 
 		private void Handle_Click(object sender, EventArgs e)
 		{
-
 			if (int.TryParse(Divider.Text, out int divider) &&
 				int.TryParse(Modulo.Text, out int modulo))
 			{
 				_fileManager.ReadFiles(divider, modulo);
 				_fileManager.SaveResult();
 			}
-
-
 		}
 
 		private void GenerateFiles_Click(object sender, EventArgs e)
@@ -140,16 +158,6 @@ namespace WinFormsApp1
 			{
 				_fileManager.FillFiles(minNumbersCount, maxNumbersCount, minNumber, maxNumber);
 			}
-		}
-
-		private void Divider_TextChanged(object sender, EventArgs e)
-		{
-			ParseNumber(Divider);
-		}
-
-		private void Modulo_TextChanged(object sender, EventArgs e)
-		{
-			ParseNumber(Modulo);
 		}
 	}
 }

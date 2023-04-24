@@ -1,4 +1,3 @@
-﻿
 namespace WinFormsApp1
 {
 	partial class UniqalNumbers
@@ -63,6 +62,7 @@ namespace WinFormsApp1
 			this.ModuloTitle = new System.Windows.Forms.Label();
 			this.Divider = new System.Windows.Forms.TextBox();
 			this.DividerTitle = new System.Windows.Forms.Label();
+			this.Information = new System.Windows.Forms.Label();
 			this.CreateFilesGroup.SuspendLayout();
 			this.NumberRange.SuspendLayout();
 			this.NumbersCount.SuspendLayout();
@@ -375,12 +375,22 @@ namespace WinFormsApp1
 			this.DividerTitle.TabIndex = 12;
 			this.DividerTitle.Text = "Делитель";
 			// 
+			// Information
+			// 
+			this.Information.AutoSize = true;
+			this.Information.Location = new System.Drawing.Point(12, 448);
+			this.Information.Name = "Information";
+			this.Information.Size = new System.Drawing.Size(38, 15);
+			this.Information.TabIndex = 13;
+			this.Information.Text = "label2";
+			// 
 			// UniqalNumbers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(800, 487);
+			this.Controls.Add(this.Information);
 			this.Controls.Add(this.FilterParameters);
 			this.Controls.Add(this.CreateFilesGroup);
 			this.Controls.Add(this.FilesForReadTitle);
@@ -442,6 +452,7 @@ namespace WinFormsApp1
 		private System.Windows.Forms.Label DividerTitle;
 		private System.Windows.Forms.TextBox FilesCount;
 		private System.Windows.Forms.Label FilesCountTitle;
+		private System.Windows.Forms.Label Information;
 	}
 }
 
