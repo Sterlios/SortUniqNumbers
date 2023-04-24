@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SortUniqNumbers
 {
@@ -214,7 +213,7 @@ namespace SortUniqNumbers
 			_selectedFiles.Clear();
 			ChangedSelectedFilesList?.Invoke(_selectedFiles);
 		}
-
+    
 		private bool IsValideRange(int minValue, int maxValue) =>
 			minValue < maxValue;
 
@@ -235,7 +234,7 @@ namespace SortUniqNumbers
 				int numbersCount = 0;
 				int maxNumbersCount = 1000;
 
-				while (numbersCount < maxNumbersCount || line != null)
+				while (numbersCount < maxNumbersCount && line != null)
 				{
 					numbersCount++;
 					_numberManager.Add(line);

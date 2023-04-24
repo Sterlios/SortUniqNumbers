@@ -7,11 +7,9 @@ namespace SortUniqNumbers
 	{
 		private readonly List<int> _notUniqNumbers = new List<int>();
 
-		public void Reset()
-		{
+		public void Reset() =>
 			_notUniqNumbers.Clear();
-		}
-
+    
 		public List<int> GetUniqueNumbers(List<int> numbers)
 		{
 			_notUniqNumbers.AddRange(numbers

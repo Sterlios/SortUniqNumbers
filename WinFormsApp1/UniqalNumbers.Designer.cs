@@ -1,4 +1,3 @@
-﻿
 namespace WinFormsApp1
 {
 	partial class UniqalNumbers

@@ -1,4 +1,4 @@
-﻿using SortUniqNumbers;
+using SortUniqNumbers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
