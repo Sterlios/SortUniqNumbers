@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SortUniqNumbers", "SortUniqNumbers\SortUniqNumbers.csproj", "{B3F8EEC9-F412-4DAD-8295-E0E2F3F977CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsForm", "WinFormsApp1\WindowsForm.csproj", "{78A48484-9693-4D24-A4FD-938B269A0BC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsForm", "WinFormsApp1\WindowsForm.csproj", "{78A48484-9693-4D24-A4FD-938B269A0BC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompairingTexts", "CompairingTexts\CompairingTexts.csproj", "{BCCA7404-8F5D-4387-8685-A142075371F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComparingTexts", "ComparingTexts\ComparingTexts.csproj", "{BC60D618-77AF-4F3C-B5D9-A64F7FAA89C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{78A48484-9693-4D24-A4FD-938B269A0BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78A48484-9693-4D24-A4FD-938B269A0BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78A48484-9693-4D24-A4FD-938B269A0BC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCCA7404-8F5D-4387-8685-A142075371F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCCA7404-8F5D-4387-8685-A142075371F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCCA7404-8F5D-4387-8685-A142075371F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCCA7404-8F5D-4387-8685-A142075371F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC60D618-77AF-4F3C-B5D9-A64F7FAA89C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC60D618-77AF-4F3C-B5D9-A64F7FAA89C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC60D618-77AF-4F3C-B5D9-A64F7FAA89C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC60D618-77AF-4F3C-B5D9-A64F7FAA89C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
