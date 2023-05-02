@@ -6,47 +6,55 @@ namespace ComparingTexts
 {
 	class Text
 	{
-		public const int NotFounded = -1;
+		public const bool Founded = true;
+
 		private string[] _words;
 		private List<string> _delimiters;
-		private int _wordIndex = 0;
+		private int _index = 0;
 
 		public Text(string text)
 		{
 			InitializeWords(text.ToLower());
 		}
 
-		public string Word => IsEnd ? string.Empty : _words[WordIndex];
-		public bool IsEnd => _wordIndex >= _words.Length;
-		private int WordIndex => IsEnd ? _words.Length - 1 : _wordIndex;
+		public string Word => IsEnd ? string.Empty : _words[CurrentIndex];
+		public bool IsEnd => _index >= _words.Length;
 
-		public bool MoveNext()
+		private int CurrentIndex => IsEnd ? _words.Length - 1 : _index;
+
+		public void MoveNext()
 		{
 			if (IsEnd)
-				return false;
+				return;
 
-			_wordIndex++;
-			return true;
+			_index++;
 		}
 
-		public int GetClosestIndex(string word)
+		public bool TryGetDistanceToClosest(string targetWord, out int distance)
 		{
+			distance = 0;
+
 			if (_words.Length == 0)
-				return NotFounded;
+				return !Founded;
 
-			for (int i = WordIndex; i < _words.Length; i++)
-				if (_words[i] == word)
-					return i - WordIndex;
+			for (int i = CurrentIndex; i < _words.Length; i++)
+			{
+				if (_words[i] == targetWord)
+				{
+					distance = i - CurrentIndex;
+					return Founded;
+				}
+			}
 
-			return NotFounded;
+			return !Founded;
 		}
 
 		public int GetCurrentPosition()
 		{
 			int position = 0;
 
-			for (int i = 0; i < WordIndex; i++)
-				position += GetSumLengthWordAndSpace(_words[i], GetDelimeter(i));
+			for (int i = 0; i < CurrentIndex; i++)
+				position += GetShift(_words[i], GetDelimeter(i));
 
 			return position;
 		}
@@ -59,8 +67,8 @@ namespace ComparingTexts
 			return string.Empty;
 		}
 
-		private int GetSumLengthWordAndSpace(string word, string space) =>
-			word.Length + space.Length;
+		private int GetShift(string word, string delimeter) =>
+			word.Length + delimeter.Length;
 
 		private void InitializeWords(string text)
 		{

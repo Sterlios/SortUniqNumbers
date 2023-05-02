@@ -12,16 +12,16 @@ namespace ComparingTexts
 			InitializeComponent();
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void Button1_Click(object sender, EventArgs e)
 		{
 			ClearBackgroundColor(sourceText);
 			ClearBackgroundColor(resultText);
 
 			TextComparer comparer = new TextComparer(sourceText.Text, resultText.Text);
-			comparer.Compare(out List<SelectionRange> sourceWordsSelection, out List<SelectionRange> resultWordsSelection);
+			comparer.Compare(out List<SelectionRange> sourceFoundedWords, out List<SelectionRange> resultFoundedWords);
 
-			ChangeTextBackgroundColor(sourceText, sourceWordsSelection);
-			ChangeTextBackgroundColor(resultText, resultWordsSelection);
+			PaintText(sourceText, sourceFoundedWords);
+			PaintText(resultText, resultFoundedWords);
 		}
 
 		private void ClearBackgroundColor(RichTextBox richTextBox)
@@ -30,13 +30,13 @@ namespace ComparingTexts
 			richTextBox.SelectionBackColor = Color.White;
 		}
 
-		private void ChangeTextBackgroundColor(RichTextBox richTextBox, List<SelectionRange> wordsSelection)
+		private void PaintText(RichTextBox richTextBox, List<SelectionRange> words)
 		{
-			foreach (var word in wordsSelection)
-				ChangeWordBackgroundColor(richTextBox, word);
+			foreach (var word in words)
+				PaintWord(richTextBox, word);
 		}
 
-		private void ChangeWordBackgroundColor(RichTextBox richTextBox, SelectionRange selectionRange)
+		private void PaintWord(RichTextBox richTextBox, SelectionRange selectionRange)
 		{
 			richTextBox.Select(selectionRange.Start, selectionRange.Length);
 			richTextBox.SelectionBackColor = selectionRange.Color;
