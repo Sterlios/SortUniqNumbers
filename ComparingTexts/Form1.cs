@@ -12,7 +12,7 @@ namespace ComparingTexts
 			InitializeComponent();
 		}
 
-		private void Button1_Click(object sender, EventArgs e)
+		private void CompareButton_Click(object sender, EventArgs e)
 		{
 			ClearBackgroundColor(sourceText);
 			ClearBackgroundColor(resultText);
