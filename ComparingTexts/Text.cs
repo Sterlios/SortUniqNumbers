@@ -54,7 +54,7 @@ namespace ComparingTexts
 			int position = 0;
 
 			for (int i = 0; i < CurrentIndex; i++)
-				position += GetShift(_words[i], GetDelimeter(i));
+				position += GetOffset(_words[i], GetDelimeter(i));
 
 			return position;
 		}
@@ -67,7 +67,7 @@ namespace ComparingTexts
 			return string.Empty;
 		}
 
-		private int GetShift(string word, string delimeter) =>
+		private int GetOffset(string word, string delimeter) =>
 			word.Length + delimeter.Length;
 
 		private void InitializeWords(string text)
