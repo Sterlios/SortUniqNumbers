@@ -5,13 +5,13 @@ namespace ComparingTexts
 {
 	class TextComparer : IComparable
 	{
-		public void Compare(string text1, string text2, out List<SelectionRange> text1ComparedRanges, out List<SelectionRange> text2ComparedRanges)
+		public void Compare(string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2)
 		{
 			Text comparingText1 = new Text(text1);
 			Text comparingText2 = new Text(text2);
 
-			text1ComparedRanges = new List<SelectionRange>();
-			text2ComparedRanges = new List<SelectionRange>();
+			coloredText1 = new ColoredText();
+			coloredText2 = new ColoredText();
 
 			while (!comparingText1.IsEnd || !comparingText2.IsEnd)
 			{
@@ -24,46 +24,46 @@ namespace ComparingTexts
 				}
 
 				if (comparingText1.Word != string.Empty && comparingText2.Word != string.Empty)
-					AddWordsByMatch(comparingText1, comparingText2, text1ComparedRanges, text2ComparedRanges); 
+					AddWordsByMatch(comparingText1, comparingText2, coloredText1, coloredText2); 
 				else if (comparingText1.Word == string.Empty)
-					AddCurrentWord(text1ComparedRanges, comparingText2, SelectionRange.AdditionalRangeColor);
+					AddCurrentWord(coloredText1, comparingText2, ColoredRange.AdditionalRangeColor);
 				else
-					AddCurrentWord(text1ComparedRanges, comparingText1, SelectionRange.AdditionalRangeColor);
+					AddCurrentWord(coloredText2, comparingText1, ColoredRange.AdditionalRangeColor);
 			}
 		}
 
-		private void AddWordsByMatch(Text text1, Text text2, List<SelectionRange> text1ComparedRanges, List<SelectionRange> text2ComparedRanges)
+		private void AddWordsByMatch(Text text1, Text text2, ColoredText coloredText1, ColoredText coloredText2)
 		{
 			bool sourceWordFounded = text1.TryGetDistanceToClosest(text2.Word, out int sourceWordDistance);
 			bool resultWordFounded = text2.TryGetDistanceToClosest(text1.Word, out int resultWordDistance);
 
 			if (!sourceWordFounded && !resultWordFounded)
-				AddChangedWords(text1, text2, text1ComparedRanges, text2ComparedRanges);
+				AddChangedWords(text1, text2, coloredText1, coloredText2);
 			else if (sourceWordFounded && resultWordFounded)
-				AddClosestWord(text1, text2, text1ComparedRanges, text2ComparedRanges, sourceWordDistance, resultWordDistance);
+				AddClosestWord(text1, text2, coloredText1, coloredText2, sourceWordDistance, resultWordDistance);
 			else if (sourceWordFounded)
-				AddCurrentWord(text1ComparedRanges, text1, SelectionRange.AdditionalRangeColor);
+				AddCurrentWord(coloredText1, text1, ColoredRange.AdditionalRangeColor);
 			else
-				AddCurrentWord(text2ComparedRanges, text2, SelectionRange.AdditionalRangeColor);
+				AddCurrentWord(coloredText2, text2, ColoredRange.AdditionalRangeColor);
 		}
 
-		private void AddClosestWord(Text text1, Text text2, List<SelectionRange> text1ComparedRanges, List<SelectionRange> text2ComparedRanges, int sourceWordDistance, int resultWordDistance)
+		private void AddClosestWord(Text text1, Text text2, ColoredText coloredText1, ColoredText coloredText2, int sourceWordDistance, int resultWordDistance)
 		{
 			if (sourceWordDistance <= resultWordDistance)
-				AddCurrentWord(text1ComparedRanges, text1, SelectionRange.AdditionalRangeColor);
+				AddCurrentWord(coloredText1, text1, ColoredRange.AdditionalRangeColor);
 			else
-				AddCurrentWord(text2ComparedRanges, text2, SelectionRange.AdditionalRangeColor);
+				AddCurrentWord(coloredText2, text2, ColoredRange.AdditionalRangeColor);
 		}
 
-		private void AddChangedWords(Text text1, Text text2, List<SelectionRange> text1ComparedRanges, List<SelectionRange> text2ComparedRanges)
+		private void AddChangedWords(Text text1, Text text2, ColoredText coloredText1, ColoredText coloredText2)
 		{
-			AddCurrentWord(text1ComparedRanges, text1, SelectionRange.ChangedRangeColor);
-			AddCurrentWord(text2ComparedRanges, text2, SelectionRange.ChangedRangeColor);
+			AddCurrentWord(coloredText1, text1, ColoredRange.ChangedRangeColor);
+			AddCurrentWord(coloredText2, text2, ColoredRange.ChangedRangeColor);
 		}
 
-		private void AddCurrentWord(List<SelectionRange> comparedRanges, Text text, Color color)
+		private void AddCurrentWord(ColoredText coloredText, Text text, Color color)
 		{
-			comparedRanges.Add(new SelectionRange(text.GetCurrentPosition(), text.Word.Length, color));
+			coloredText.Add(new ColoredRange(text.GetCurrentPosition(), text.Word.Length, color));
 
 			text.MoveNext();
 		}

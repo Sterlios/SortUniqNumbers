@@ -20,10 +20,10 @@ namespace ComparingTexts
 			ClearBackgroundColor(sourceText);
 			ClearBackgroundColor(resultText);
 
-			_comparable.Compare(sourceText.Text, resultText.Text, out List<SelectionRange> text1ComparedRanges, out List<SelectionRange> text2ComparedRanges);
+			_comparable.Compare(sourceText.Text, resultText.Text, out ColoredText coloredText1, out ColoredText coloredText2);
 
-			PaintText(sourceText, text1ComparedRanges);
-			PaintText(resultText, text2ComparedRanges);
+			PaintText(sourceText, coloredText1);
+			PaintText(resultText, coloredText2);
 		}
 
 		private void ClearBackgroundColor(RichTextBox richTextBox)
@@ -32,16 +32,16 @@ namespace ComparingTexts
 			richTextBox.SelectionBackColor = Color.White;
 		}
 
-		private void PaintText(RichTextBox richTextBox, List<SelectionRange> words)
+		private void PaintText(RichTextBox richTextBox, ColoredText coloredText)
 		{
-			foreach (var word in words)
-				PaintRange(richTextBox, word);
+			foreach (var range in coloredText.ColoredRanges)
+				PaintRange(richTextBox, range);
 		}
 
-		private void PaintRange(RichTextBox richTextBox, SelectionRange selectionRange)
+		private void PaintRange(RichTextBox richTextBox, ColoredRange range)
 		{
-			richTextBox.Select(selectionRange.Start, selectionRange.Length);
-			richTextBox.SelectionBackColor = selectionRange.Color;
+			richTextBox.Select(range.Start, range.Length);
+			richTextBox.SelectionBackColor = range.Color;
 		}
 	}
 }

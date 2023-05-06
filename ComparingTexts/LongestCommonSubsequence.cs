@@ -6,7 +6,7 @@ namespace ComparingTexts
 {
 	class LongestCommonSubsequence : IComparable
 	{
-		public void Compare(string text1, string text2, out List<SelectionRange> ranges1, out List<SelectionRange> ranges2)
+		public void Compare(string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2)
 		{
 			int[,] matrix = new int[text1.Length + 1, text2.Length + 1];
 
@@ -14,7 +14,7 @@ namespace ComparingTexts
 				for (int j = 0; j < text2.Length; j++)
 					matrix[i + 1, j + 1] = GetLengthSubsequence(text1, text2, matrix, i, j);
 
-			GetResult(matrix, out ranges1, out ranges2);
+			GetResult(matrix, out coloredText1, out coloredText2);
 		}
 
 		private int GetLengthSubsequence(string text1, string text2, int[,] matrix, int i, int j)
@@ -25,10 +25,10 @@ namespace ComparingTexts
 				return Math.Max(matrix[i + 1, j], matrix[i, j + 1]);
 		}
 
-		private void GetResult(int[,] matrix, out List<SelectionRange> ranges1, out List<SelectionRange> ranges2)
+		private void GetResult(int[,] matrix, out ColoredText coloredText1, out ColoredText coloredText2)
 		{
-			ranges1 = new List<SelectionRange>();
-			ranges2 = new List<SelectionRange>();
+			coloredText1 = new ColoredText();
+			coloredText2 = new ColoredText();
 
 			int i = matrix.GetLength(0) - 1;
 			int j = matrix.GetLength(1) - 1;
@@ -37,29 +37,29 @@ namespace ComparingTexts
 			{
 				if (matrix[i, j] != matrix[i, j - 1] && matrix[i, j] != matrix[i - 1, j])
 				{
-					AddRange(ranges1, ref i, SelectionRange.NonChangedRangeColor);
-					AddRange(ranges2, ref j, SelectionRange.NonChangedRangeColor);
+					AddRange(coloredText1, ref i, ColoredRange.NonChangedRangeColor);
+					AddRange(coloredText2, ref j, ColoredRange.NonChangedRangeColor);
 				}
 				else
 				{
 					if (matrix[i, j] == matrix[i, j - 1])
-						AddRange(ranges2, ref j, SelectionRange.AdditionalRangeColor);
+						AddRange(coloredText2, ref j, ColoredRange.AdditionalRangeColor);
 				
 					if (matrix[i, j] == matrix[i - 1, j])
-						AddRange(ranges1, ref i, SelectionRange.AdditionalRangeColor);
+						AddRange(coloredText1, ref i, ColoredRange.AdditionalRangeColor);
 				}
 			}
 
 			if (i > 0)
-				ranges1.Add(new SelectionRange(0, i, SelectionRange.AdditionalRangeColor));
+				coloredText1.Add(new ColoredRange(0, i, ColoredRange.AdditionalRangeColor));
 
 			if (j > 0)
-				ranges2.Add(new SelectionRange(0, j, SelectionRange.AdditionalRangeColor));
+				coloredText2.Add(new ColoredRange(0, j, ColoredRange.AdditionalRangeColor));
 		}
 
-		private void AddRange(List<SelectionRange> target, ref int indexInText, Color color)
+		private void AddRange(ColoredText coloredText, ref int indexInText, Color color)
 		{
-			target.Add(new SelectionRange(indexInText - 1, 1, color));
+			coloredText.Add(new ColoredRange(indexInText - 1, 1, color));
 			indexInText--;
 		}
 	}
