@@ -33,7 +33,7 @@ namespace ComparingTexts
 
 		private void PaintText(RichTextBox richTextBox, IReadOnlyColoredText coloredText)
 		{
-			foreach (var range in coloredText.ColoredRanges)
+			foreach (var range in coloredText.Ranges)
 				PaintRange(richTextBox, range);
 		}
 

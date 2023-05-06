@@ -8,6 +8,6 @@ namespace ComparingTexts
 {
 	public interface IReadOnlyColoredText
 	{
-		IReadOnlyList<ColoredRange> ColoredRanges { get; }
+		IReadOnlyList<ColoredRange> Ranges { get; }
 	}
 }

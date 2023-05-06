@@ -4,18 +4,18 @@ namespace ComparingTexts
 {
 	public class ColoredText : IReadOnlyColoredText
 	{
-		private List<ColoredRange> _coloredRanges;
+		private List<ColoredRange> _ranges;
 
 		public ColoredText()
 		{
-			_coloredRanges = new List<ColoredRange>();
+			_ranges = new List<ColoredRange>();
 		}
 
-		public IReadOnlyList<ColoredRange> ColoredRanges => _coloredRanges;
+		public IReadOnlyList<ColoredRange> Ranges => _ranges;
 
 		public void Add(ColoredRange selectionRange)
 		{
-			_coloredRanges.Add(selectionRange);
+			_ranges.Add(selectionRange);
 		}
 	}
 }
