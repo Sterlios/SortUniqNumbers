@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IComparable.cs" />
+    <Compile Include="LongestCommonSubsequence.cs" />
     <Compile Include="TextComparer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

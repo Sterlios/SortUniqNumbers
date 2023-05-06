@@ -7,7 +7,7 @@ namespace ComparingTexts
 	{
 		public static readonly Color ChangedRangeColor = Color.Yellow;
 		public static readonly Color AdditionalRangeColor = Color.LightGreen;
-		public static readonly Color NonChangedRangeColor = Color.LightGreen;
+		public static readonly Color NonChangedRangeColor = Color.White;
 
 		public SelectionRange(int start, int length, Color color)
 		{
