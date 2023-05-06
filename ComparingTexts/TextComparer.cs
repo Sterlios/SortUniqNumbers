@@ -4,7 +4,7 @@ namespace ComparingTexts
 {
 	class TextComparer : IComparable
 	{
-		public void Compare(string text1, string text2, out IColoredText coloredText1, out IColoredText coloredText2)
+		public void Compare(string text1, string text2, out IReadOnlyColoredText coloredText1, out IReadOnlyColoredText coloredText2)
 		{
 			Text comparingText1 = new Text(text1);
 			Text comparingText2 = new Text(text2);

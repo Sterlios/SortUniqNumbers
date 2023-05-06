@@ -5,7 +5,7 @@ namespace ComparingTexts
 {
 	class LongestCommonSubsequence : IComparable
 	{
-		public void Compare(string text1, string text2, out IColoredText coloredText1, out IColoredText coloredText2)
+		public void Compare(string text1, string text2, out IReadOnlyColoredText coloredText1, out IReadOnlyColoredText coloredText2)
 		{
 			int[,] matrix = new int[text1.Length + 1, text2.Length + 1];
 
@@ -24,7 +24,7 @@ namespace ComparingTexts
 				return Math.Max(matrix[i + 1, j], matrix[i, j + 1]);
 		}
 
-		private void GetResult(int[,] matrix, out IColoredText coloredText1, out IColoredText coloredText2)
+		private void GetResult(int[,] matrix, out IReadOnlyColoredText coloredText1, out IReadOnlyColoredText coloredText2)
 		{
 			coloredText1 = new ColoredText();
 			coloredText2 = new ColoredText();

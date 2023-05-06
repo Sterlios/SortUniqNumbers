@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComparingTexts
 {
-	public interface IColoredText
+	public interface IReadOnlyColoredText
 	{
 		IReadOnlyList<ColoredRange> ColoredRanges { get; }
 	}
