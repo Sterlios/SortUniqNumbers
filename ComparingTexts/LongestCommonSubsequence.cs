@@ -5,7 +5,7 @@ namespace ComparingTexts
 {
 	class LongestCommonSubsequence : IComparable
 	{
-		public void Compare(string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2)
+		public void Compare(string text1, string text2, out IColoredText coloredText1, out IColoredText coloredText2)
 		{
 			int[,] matrix = new int[text1.Length + 1, text2.Length + 1];
 
@@ -24,7 +24,7 @@ namespace ComparingTexts
 				return Math.Max(matrix[i + 1, j], matrix[i, j + 1]);
 		}
 
-		private void GetResult(int[,] matrix, out ColoredText coloredText1, out ColoredText coloredText2)
+		private void GetResult(int[,] matrix, out IColoredText coloredText1, out IColoredText coloredText2)
 		{
 			coloredText1 = new ColoredText();
 			coloredText2 = new ColoredText();
@@ -36,24 +36,24 @@ namespace ComparingTexts
 			{
 				if (matrix[i, j] != matrix[i, j - 1] && matrix[i, j] != matrix[i - 1, j])
 				{
-					AddRange(coloredText1, ref i, ColoredRange.NonChangedRangeColor);
-					AddRange(coloredText2, ref j, ColoredRange.NonChangedRangeColor);
+					AddRange(coloredText1 as ColoredText, ref i, ColoredRange.NonChangedRangeColor);
+					AddRange(coloredText2 as ColoredText, ref j, ColoredRange.NonChangedRangeColor);
 				}
 				else
 				{
 					if (matrix[i, j] == matrix[i, j - 1])
-						AddRange(coloredText2, ref j, ColoredRange.AdditionalRangeColor);
+						AddRange(coloredText2 as ColoredText, ref j, ColoredRange.AdditionalRangeColor);
 				
 					if (matrix[i, j] == matrix[i - 1, j])
-						AddRange(coloredText1, ref i, ColoredRange.AdditionalRangeColor);
+						AddRange(coloredText1 as ColoredText, ref i, ColoredRange.AdditionalRangeColor);
 				}
 			}
 
 			if (i > 0)
-				coloredText1.Add(new ColoredRange(0, i, ColoredRange.AdditionalRangeColor));
+				(coloredText1 as ColoredText).Add(new ColoredRange(0, i, ColoredRange.AdditionalRangeColor));
 
 			if (j > 0)
-				coloredText2.Add(new ColoredRange(0, j, ColoredRange.AdditionalRangeColor));
+				(coloredText2 as ColoredText).Add(new ColoredRange(0, j, ColoredRange.AdditionalRangeColor));
 		}
 
 		private void AddRange(ColoredText coloredText, ref int indexInText, Color color)

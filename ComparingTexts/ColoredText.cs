@@ -2,7 +2,7 @@
 
 namespace ComparingTexts
 {
-	public class ColoredText
+	public class ColoredText : IColoredText
 	{
 		private List<ColoredRange> _coloredRanges;
 

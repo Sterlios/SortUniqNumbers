@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColoredText.cs" />
+    <Compile Include="IColoredText.cs" />
     <Compile Include="IComparable.cs" />
     <Compile Include="LongestCommonSubsequence.cs" />
     <Compile Include="TextComparer.cs" />

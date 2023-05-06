@@ -19,7 +19,7 @@ namespace ComparingTexts
 			ClearBackgroundColor(sourceText);
 			ClearBackgroundColor(resultText);
 
-			_comparable.Compare(sourceText.Text, resultText.Text, out ColoredText coloredText1, out ColoredText coloredText2);
+			_comparable.Compare(sourceText.Text, resultText.Text, out IColoredText coloredText1, out IColoredText coloredText2);
 
 			PaintText(sourceText, coloredText1);
 			PaintText(resultText, coloredText2);
@@ -31,7 +31,7 @@ namespace ComparingTexts
 			richTextBox.SelectionBackColor = Color.White;
 		}
 
-		private void PaintText(RichTextBox richTextBox, ColoredText coloredText)
+		private void PaintText(RichTextBox richTextBox, IColoredText coloredText)
 		{
 			foreach (var range in coloredText.ColoredRanges)
 				PaintRange(richTextBox, range);

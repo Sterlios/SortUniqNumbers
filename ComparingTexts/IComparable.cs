@@ -2,6 +2,6 @@
 {
 	public interface IComparable
 	{
-		void Compare(string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2);
+		void Compare(string text1, string text2, out IColoredText coloredText1, out IColoredText coloredText2);
 	}
 }

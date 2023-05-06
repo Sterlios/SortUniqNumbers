@@ -4,7 +4,7 @@ namespace ComparingTexts
 {
 	class TextComparer : IComparable
 	{
-		public void Compare(string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2)
+		public void Compare(string text1, string text2, out IColoredText coloredText1, out IColoredText coloredText2)
 		{
 			Text comparingText1 = new Text(text1);
 			Text comparingText2 = new Text(text2);
@@ -23,11 +23,11 @@ namespace ComparingTexts
 				}
 
 				if (comparingText1.Word != string.Empty && comparingText2.Word != string.Empty)
-					AddWordsByMatch(comparingText1, comparingText2, coloredText1, coloredText2); 
+					AddWordsByMatch(comparingText1, comparingText2, coloredText1 as ColoredText, coloredText2 as ColoredText); 
 				else if (comparingText1.Word == string.Empty)
-					AddCurrentWord(coloredText1, comparingText2, ColoredRange.AdditionalRangeColor);
+					AddCurrentWord(coloredText1 as ColoredText, comparingText2, ColoredRange.AdditionalRangeColor);
 				else
-					AddCurrentWord(coloredText2, comparingText1, ColoredRange.AdditionalRangeColor);
+					AddCurrentWord(coloredText2 as ColoredText, comparingText1, ColoredRange.AdditionalRangeColor);
 			}
 		}
 
