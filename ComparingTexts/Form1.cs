@@ -7,9 +7,12 @@ namespace ComparingTexts
 {
 	public partial class Form1 : Form
 	{
-		public Form1()
+		private IComparable _comparable;
+
+		public Form1(IComparable comparable)
 		{
 			InitializeComponent();
+			_comparable = comparable;
 		}
 
 		private void CompareButton_Click(object sender, EventArgs e)
@@ -17,11 +20,10 @@ namespace ComparingTexts
 			ClearBackgroundColor(sourceText);
 			ClearBackgroundColor(resultText);
 
-			TextComparer comparer = new TextComparer(sourceText.Text, resultText.Text);
-			comparer.Compare(out List<SelectionRange> sourceFoundedWords, out List<SelectionRange> resultFoundedWords);
+			_comparable.Compare(sourceText.Text, resultText.Text, out List<SelectionRange> text1ComparedRanges, out List<SelectionRange> text2ComparedRanges);
 
-			PaintText(sourceText, sourceFoundedWords);
-			PaintText(resultText, resultFoundedWords);
+			PaintText(sourceText, text1ComparedRanges);
+			PaintText(resultText, text2ComparedRanges);
 		}
 
 		private void ClearBackgroundColor(RichTextBox richTextBox)
@@ -33,10 +35,10 @@ namespace ComparingTexts
 		private void PaintText(RichTextBox richTextBox, List<SelectionRange> words)
 		{
 			foreach (var word in words)
-				PaintWord(richTextBox, word);
+				PaintRange(richTextBox, word);
 		}
 
-		private void PaintWord(RichTextBox richTextBox, SelectionRange selectionRange)
+		private void PaintRange(RichTextBox richTextBox, SelectionRange selectionRange)
 		{
 			richTextBox.Select(selectionRange.Start, selectionRange.Length);
 			richTextBox.SelectionBackColor = selectionRange.Color;

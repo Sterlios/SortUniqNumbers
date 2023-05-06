@@ -3,79 +3,67 @@ using System.Drawing;
 
 namespace ComparingTexts
 {
-	class TextComparer
+	class TextComparer : IComparable
 	{
-		private readonly Color _changedWordColor = Color.Yellow;
-		private readonly Color _additionalWordColor = Color.LightGreen;
-
-		private readonly List<SelectionRange> _sourceFoundedWords = new List<SelectionRange>();
-		private readonly List<SelectionRange> _resultFoundedWords = new List<SelectionRange>();
-
-		private readonly Text _source;
-		private readonly Text _result;
-
-		public TextComparer(string text1, string text2)
+		public void Compare(string text1, string text2, out List<SelectionRange> text1ComparedRanges, out List<SelectionRange> text2ComparedRanges)
 		{
-			_source = new Text(text1);
-			_result = new Text(text2);
-		}
+			Text comparingText1 = new Text(text1);
+			Text comparingText2 = new Text(text2);
 
-		public void Compare(out List<SelectionRange> sourceFoundedWords, out List<SelectionRange> resultFoundedWords)
-		{
-			while (!_source.IsEnd || !_result.IsEnd)
+			text1ComparedRanges = new List<SelectionRange>();
+			text2ComparedRanges = new List<SelectionRange>();
+
+			while (!comparingText1.IsEnd || !comparingText2.IsEnd)
 			{
-				if (_source.Word == _result.Word)
+				if (comparingText1.Word == comparingText2.Word)
 				{
-					_source.MoveNext();
-					_result.MoveNext();
+					comparingText1.MoveNext();
+					comparingText2.MoveNext();
 
 					continue;
 				}
 
-				if (_source.Word != string.Empty && _result.Word != string.Empty)
-					AddWordsByMatch(); 
-				else if (_source.Word == string.Empty)
-					AddCurrentWord(_resultFoundedWords, _result, _additionalWordColor);
+				if (comparingText1.Word != string.Empty && comparingText2.Word != string.Empty)
+					AddWordsByMatch(comparingText1, comparingText2, text1ComparedRanges, text2ComparedRanges); 
+				else if (comparingText1.Word == string.Empty)
+					AddCurrentWord(text1ComparedRanges, comparingText2, SelectionRange.AdditionalRangeColor);
 				else
-					AddCurrentWord(_sourceFoundedWords, _source, _additionalWordColor);
+					AddCurrentWord(text1ComparedRanges, comparingText1, SelectionRange.AdditionalRangeColor);
 			}
-
-			sourceFoundedWords = _sourceFoundedWords;
-			resultFoundedWords = _resultFoundedWords;
 		}
 
-		private void AddWordsByMatch()
+		private void AddWordsByMatch(Text text1, Text text2, List<SelectionRange> text1ComparedRanges, List<SelectionRange> text2ComparedRanges)
 		{
-			bool sourceWordFounded = _source.TryGetDistanceToClosest(_result.Word, out int sourceWordDistance);
-			bool resultWordFounded = _result.TryGetDistanceToClosest(_source.Word, out int resultWordDistance);
+			bool sourceWordFounded = text1.TryGetDistanceToClosest(text2.Word, out int sourceWordDistance);
+			bool resultWordFounded = text2.TryGetDistanceToClosest(text1.Word, out int resultWordDistance);
 
 			if (!sourceWordFounded && !resultWordFounded)
-				AddChangedWords();
+				AddChangedWords(text1, text2, text1ComparedRanges, text2ComparedRanges);
 			else if (sourceWordFounded && resultWordFounded)
-				AddClosestWord(sourceWordDistance, resultWordDistance);
+				AddClosestWord(text1, text2, text1ComparedRanges, text2ComparedRanges, sourceWordDistance, resultWordDistance);
 			else if (sourceWordFounded)
-				AddCurrentWord(_sourceFoundedWords, _source, _additionalWordColor);
+				AddCurrentWord(text1ComparedRanges, text1, SelectionRange.AdditionalRangeColor);
 			else
-				AddCurrentWord(_resultFoundedWords, _result, _additionalWordColor);
+				AddCurrentWord(text2ComparedRanges, text2, SelectionRange.AdditionalRangeColor);
 		}
 
-		private void AddClosestWord(int sourceWordDistance, int resultWordDistance)
+		private void AddClosestWord(Text text1, Text text2, List<SelectionRange> text1ComparedRanges, List<SelectionRange> text2ComparedRanges, int sourceWordDistance, int resultWordDistance)
 		{
 			if (sourceWordDistance <= resultWordDistance)
-				AddCurrentWord(_sourceFoundedWords, _source, _additionalWordColor);
+				AddCurrentWord(text1ComparedRanges, text1, SelectionRange.AdditionalRangeColor);
 			else
-				AddCurrentWord(_resultFoundedWords, _result, _additionalWordColor);
+				AddCurrentWord(text2ComparedRanges, text2, SelectionRange.AdditionalRangeColor);
 		}
 
-		private void AddChangedWords()
+		private void AddChangedWords(Text text1, Text text2, List<SelectionRange> text1ComparedRanges, List<SelectionRange> text2ComparedRanges)
 		{
-			AddCurrentWord(_sourceFoundedWords, _source, _changedWordColor);
-			AddCurrentWord(_resultFoundedWords, _result, _changedWordColor);
+			AddCurrentWord(text1ComparedRanges, text1, SelectionRange.ChangedRangeColor);
+			AddCurrentWord(text2ComparedRanges, text2, SelectionRange.ChangedRangeColor);
 		}
 
-		private void AddCurrentWord(List<SelectionRange> words, Text text, Color color)
+		private void AddCurrentWord(List<SelectionRange> comparedRanges, Text text, Color color)
 		{
-			words.Add(new SelectionRange(text.GetCurrentPosition(), text.Word.Length, color));
+			comparedRanges.Add(new SelectionRange(text.GetCurrentPosition(), text.Word.Length, color));
 
 			text.MoveNext();
 		}

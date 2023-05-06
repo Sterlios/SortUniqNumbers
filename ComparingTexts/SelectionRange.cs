@@ -3,8 +3,12 @@ using System.Drawing;
 
 namespace ComparingTexts
 {
-	struct SelectionRange
+	public struct SelectionRange
 	{
+		public static readonly Color ChangedRangeColor = Color.Yellow;
+		public static readonly Color AdditionalRangeColor = Color.LightGreen;
+		public static readonly Color NonChangedRangeColor = Color.LightGreen;
+
 		public SelectionRange(int start, int length, Color color)
 		{
 			Start = Math.Max(start, 0);
