@@ -9,15 +9,31 @@ namespace ComparingTexts
 		public static readonly Color AdditionalRangeColor = Color.LightGreen;
 		public static readonly Color NonChangedRangeColor = Color.White;
 
-		public ColoredRange(int start, int length, Color color)
+		private int _start;
+		private string _part;
+
+		public ColoredRange(int start, string part, Color color)
 		{
-			Start = Math.Max(start, 0);
-			Length = Math.Max(length, 1);
+			_start = start;
+			_part = part;
 			Color = color;
 		}
 
-		public int Start { get; private set; }
-		public int Length { get; private set; }
+
+		public int Start {
+			get
+			{
+				if (IsVisiblePart)
+					return Math.Max(_start, 0);
+
+				return Math.Max(_start + 1, 0);
+			}
+		}
+
+		public int Length => _part.Length;
+
 		public Color Color { get; private set; }
+
+		private bool IsVisiblePart => _part != "\n";
 	}
 }

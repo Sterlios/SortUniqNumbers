@@ -62,7 +62,7 @@ namespace ComparingTexts
 
 		private void AddCurrentWord(ColoredText coloredText, Text text, Color color)
 		{
-			coloredText.Add(new ColoredRange(text.GetCurrentPosition(), text.Word.Length, color));
+			coloredText.Add(new ColoredRange(text.GetCurrentPosition(), text.Word, color));
 
 			text.MoveNext();
 		}

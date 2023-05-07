@@ -13,7 +13,7 @@ namespace ComparingTexts
 				for (int j = 0; j < text2.Length; j++)
 					matrix[i + 1, j + 1] = GetLengthSubsequence(text1, text2, matrix, i, j);
 
-			GetResult(matrix, out coloredText1, out coloredText2);
+			GetResult(matrix, text1, text2, out coloredText1, out coloredText2);
 		}
 
 		private int GetLengthSubsequence(string text1, string text2, int[,] matrix, int i, int j)
@@ -24,7 +24,7 @@ namespace ComparingTexts
 				return Math.Max(matrix[i + 1, j], matrix[i, j + 1]);
 		}
 
-		private void GetResult(int[,] matrix, out IReadOnlyColoredText coloredText1, out IReadOnlyColoredText coloredText2)
+		private void GetResult(int[,] matrix, string text1, string text2, out IReadOnlyColoredText coloredText1, out IReadOnlyColoredText coloredText2)
 		{
 			coloredText1 = new ColoredText();
 			coloredText2 = new ColoredText();
@@ -36,30 +36,30 @@ namespace ComparingTexts
 			{
 				if (matrix[i, j] != matrix[i, j - 1] && matrix[i, j] != matrix[i - 1, j])
 				{
-					AddRange(coloredText1 as ColoredText, ref i, ColoredRange.NonChangedRangeColor);
-					AddRange(coloredText2 as ColoredText, ref j, ColoredRange.NonChangedRangeColor);
+					AddRange(coloredText1 as ColoredText, ref i, text1.Substring(i - 1, 1), ColoredRange.NonChangedRangeColor);
+					AddRange(coloredText2 as ColoredText, ref j, text2.Substring(j - 1, 1), ColoredRange.NonChangedRangeColor);
 				}
 				else
 				{
 					if (matrix[i, j] == matrix[i, j - 1])
-						AddRange(coloredText2 as ColoredText, ref j, ColoredRange.AdditionalRangeColor);
-				
+						AddRange(coloredText2 as ColoredText, ref j, text2.Substring(j - 1, 1), ColoredRange.AdditionalRangeColor);
+
 					if (matrix[i, j] == matrix[i - 1, j])
-						AddRange(coloredText1 as ColoredText, ref i, ColoredRange.AdditionalRangeColor);
+						AddRange(coloredText1 as ColoredText, ref i, text1.Substring(i - 1, 1), ColoredRange.AdditionalRangeColor);
 				}
 			}
 
 			if (i > 0)
-				(coloredText1 as ColoredText).Add(new ColoredRange(0, i, ColoredRange.AdditionalRangeColor));
+				(coloredText1 as ColoredText).Add(new ColoredRange(0, text1.Substring(0, i), ColoredRange.AdditionalRangeColor));
 
 			if (j > 0)
-				(coloredText2 as ColoredText).Add(new ColoredRange(0, j, ColoredRange.AdditionalRangeColor));
+				(coloredText2 as ColoredText).Add(new ColoredRange(0, text2.Substring(0, j), ColoredRange.AdditionalRangeColor));
 		}
 
-		private void AddRange(ColoredText coloredText, ref int indexInText, Color color)
+		private void AddRange(ColoredText coloredText, ref int index, string part, Color color)
 		{
-			coloredText.Add(new ColoredRange(indexInText - 1, 1, color));
-			indexInText--;
+			index--;
+			coloredText.Add(new ColoredRange(index, part, color));
 		}
 	}
 }
