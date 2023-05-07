@@ -53,27 +53,38 @@ namespace ComparingTexts
 
 		private bool TryAddRange(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
 		{
-			if (currentElement != previousElementInCurrentText && currentElement != previousElementInOtherText)
-			{
-				AddRange(coloredText, text.Substring(index - 1, 1), ColoredRange.NonChangedRangeColor, index);
-				return true;
-			}
-
-			if (previousElementInCurrentText == previousElementInOtherText)
-			{
-				AddRange(coloredText, text.Substring(index - 1, 1), ColoredRange.ChangedRangeColor, index);
-				return true;
-			}
-			
-			return TryAddChangedElement(currentElement, previousElementInCurrentText, text, coloredText, index);
+			return TryAddEqualsElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index) ||
+				TryAddChangedElement(previousElementInCurrentText, previousElementInOtherText, text, coloredText, index) ||
+				TryAddNewElement(currentElement, previousElementInCurrentText, text, coloredText, index);
 		}
 
-		private bool TryAddChangedElement(int currentElement, int previousElement, string text, ColoredText coloredText, int index)
+		private bool TryAddEqualsElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
 		{
-			if (currentElement != previousElement)
+			bool expression = currentElement != previousElementInCurrentText && currentElement != previousElementInOtherText;
+
+			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.NonChangedRangeColor);
+		}
+
+		private bool TryAddChangedElement(int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
+		{
+			bool expression = previousElementInCurrentText == previousElementInOtherText;
+
+			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.ChangedRangeColor);
+		}
+
+		private bool TryAddNewElement(int currentElement, int previousElement, string text, ColoredText coloredText, int index)
+		{
+			bool expression = currentElement == previousElement;
+
+			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.AdditionalRangeColor);
+		}
+
+		private bool TryAddRangeByExpression(bool expression, string text, ColoredText coloredText, int index, Color color)
+		{
+			if (!expression)
 				return false;
 
-			AddRange(coloredText, text.Substring(index - 1, 1), ColoredRange.AdditionalRangeColor, index);
+			AddRange(coloredText, text.Substring(index - 1, 1), color, index);
 			return true;
 		}
 
