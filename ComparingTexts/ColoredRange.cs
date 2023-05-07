@@ -19,7 +19,6 @@ namespace ComparingTexts
 			Color = color;
 		}
 
-
 		public int Start {
 			get
 			{
