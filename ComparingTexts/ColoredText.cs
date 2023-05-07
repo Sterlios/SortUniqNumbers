@@ -4,7 +4,7 @@ namespace ComparingTexts
 {
 	public class ColoredText : IReadOnlyColoredText
 	{
-		private List<ColoredRange> _ranges;
+		private readonly List<ColoredRange> _ranges;
 
 		public ColoredText()
 		{
