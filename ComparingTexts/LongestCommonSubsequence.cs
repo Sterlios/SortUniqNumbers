@@ -29,33 +29,36 @@ namespace ComparingTexts
 
 		private void GetResult(int[,] matrix, string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2)
 		{
-			coloredText1 = new ColoredText();
-			coloredText2 = new ColoredText();
-
+			int startPositionInText = 0;
 			int i = matrix.GetLength(0) - 1;
 			int j = matrix.GetLength(1) - 1;
 
+			coloredText1 = new ColoredText();
+			coloredText2 = new ColoredText();
+
 			while (matrix[i, j] > 0)
 			{
-				bool canAddRange1 = TryAddRange(matrix[i, j], matrix[i - 1, j], matrix[i, j - 1], text1, coloredText1, i);
-				bool canAddRange2 = TryAddRange(matrix[i, j], matrix[i, j - 1], matrix[i - 1, j], text2, coloredText2, j);
+				bool isAddedRange1 = TryAddRange(matrix[i, j], matrix[i - 1, j], matrix[i, j - 1], text1, coloredText1, i);
+				bool isAddedRange2 = TryAddRange(matrix[i, j], matrix[i, j - 1], matrix[i - 1, j], text2, coloredText2, j);
 
-				if (canAddRange1)
+				if (isAddedRange1)
 					i--;
 
-				if (canAddRange2)
+				if (isAddedRange2)
 					j--;
 			}
 
-			coloredText1.Add(new ColoredRange(0, text1.Substring(0, i), ColoredRange.AdditionalRangeColor));
-			coloredText2.Add(new ColoredRange(0, text2.Substring(0, j), ColoredRange.AdditionalRangeColor));
+			AddRange(coloredText1, text1.Substring(startPositionInText, i), ColoredRange.AdditionalRangeColor, startPositionInText);
+			AddRange(coloredText2, text2.Substring(startPositionInText, j), ColoredRange.AdditionalRangeColor, startPositionInText);
 		}
 
 		private bool TryAddRange(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
 		{
-			return TryAddEqualsElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index) ||
-				TryAddChangedElement(previousElementInCurrentText, previousElementInOtherText, text, coloredText, index) ||
-				TryAddNewElement(currentElement, previousElementInCurrentText, text, coloredText, index);
+			bool isEqual = TryAddEqualsElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index);
+			bool isChanged = TryAddChangedElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index);
+			bool isNewElement = TryAddNewElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index);
+
+			return isEqual || isChanged || isNewElement;
 		}
 
 		private bool TryAddEqualsElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
@@ -65,16 +68,16 @@ namespace ComparingTexts
 			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.NonChangedRangeColor);
 		}
 
-		private bool TryAddChangedElement(int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
+		private bool TryAddChangedElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
 		{
-			bool expression = previousElementInCurrentText == previousElementInOtherText;
+			bool expression = currentElement == previousElementInCurrentText && currentElement == previousElementInOtherText;
 
 			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.ChangedRangeColor);
 		}
 
-		private bool TryAddNewElement(int currentElement, int previousElement, string text, ColoredText coloredText, int index)
+		private bool TryAddNewElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
 		{
-			bool expression = currentElement == previousElement;
+			bool expression = currentElement == previousElementInCurrentText && currentElement != previousElementInOtherText;
 
 			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.AdditionalRangeColor);
 		}
