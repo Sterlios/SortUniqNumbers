@@ -58,6 +58,12 @@ namespace ComparingTexts
 				AddRange(coloredText, text.Substring(index - 1, 1), ColoredRange.NonChangedRangeColor, index);
 				return true;
 			}
+
+			if (previousElementInCurrentText == previousElementInOtherText)
+			{
+				AddRange(coloredText, text.Substring(index - 1, 1), ColoredRange.ChangedRangeColor, index);
+				return true;
+			}
 			
 			return TryAddChangedElement(currentElement, previousElementInCurrentText, text, coloredText, index);
 		}
