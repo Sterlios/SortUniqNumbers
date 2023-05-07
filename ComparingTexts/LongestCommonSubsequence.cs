@@ -11,7 +11,7 @@ namespace ComparingTexts
 
 			for (int i = 0; i < text1.Length; i++)
 				for (int j = 0; j < text2.Length; j++)
-					matrix[i + 1, j + 1] = GetLengthSubsequence(text1, text2, matrix, i, j);
+					matrix[i + 1, j + 1] = GetLengthSubsequence(text1[i], text2[j], matrix[i, j], matrix[i + 1, j], matrix[i, j + 1]);
 
 			GetResult(matrix, text1, text2, out ColoredText coloredText1, out ColoredText coloredText2);
 
@@ -19,12 +19,12 @@ namespace ComparingTexts
 			iColoredText2 = coloredText2;
 		}
 
-		private int GetLengthSubsequence(string text1, string text2, int[,] matrix, int i, int j)
+		private int GetLengthSubsequence(char letter1, char letter2, int diagonalElement, int horizontalElement, int verticalElement)
 		{
-			if (text1[i] == text2[j])
-				return 1 + matrix[i, j];
+			if (letter1 == letter2)
+				return 1 + diagonalElement;
 			else
-				return Math.Max(matrix[i + 1, j], matrix[i, j + 1]);
+				return Math.Max(horizontalElement, verticalElement);
 		}
 
 		private void GetResult(int[,] matrix, string text1, string text2, out ColoredText coloredText1, out ColoredText coloredText2)
