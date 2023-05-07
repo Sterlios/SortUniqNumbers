@@ -9,8 +9,8 @@ namespace ComparingTexts
 			Text comparingText1 = new Text(text1);
 			Text comparingText2 = new Text(text2);
 
-			coloredText1 = new ColoredText();
-			coloredText2 = new ColoredText();
+			coloredText1 = new ColoredText(text1, 0);
+			coloredText2 = new ColoredText(text2, 0);
 
 			while (!comparingText1.IsEnd || !comparingText2.IsEnd)
 			{

@@ -5,58 +5,53 @@ namespace ComparingTexts
 {
 	class LongestCommonSubsequence : IComparable
 	{
-		private string _text1;
-		private string _text2;
+		private ColoredText _coloredText1;
+		private ColoredText _coloredText2;
 		private int[,] _matrix;
 
 		public void Compare(string text1, string text2, out IReadOnlyColoredText iColoredText1, out IReadOnlyColoredText iColoredText2)
 		{
-			_text1 = text1;
-			_text2 = text2;
-			_matrix = FillMatrix();
+			_coloredText1 = new ColoredText(text1, text1.Length - 1);
+			_coloredText2 = new ColoredText(text2, text2.Length - 1);
 
-			GetResult(out ColoredText coloredText1, out ColoredText coloredText2);
+			FillMatrix();
 
-			iColoredText1 = coloredText1;
-			iColoredText2 = coloredText2;
+			FillRanges();
 
-			_text1 = null;
-			_text2 = null;
+			iColoredText1 = _coloredText1;
+			iColoredText2 = _coloredText2;
+
 			_matrix = null;
 		}
 
-		private int[,] FillMatrix()
+		private void FillMatrix()
 		{
-			int[,] matrix = new int[_text1.Length + 1, _text2.Length + 1];
+			_matrix = new int[_coloredText1.Text.Length + 1, _coloredText2.Text.Length + 1];
 
-			for (int row = 0; row < _text1.Length; row++)
-				for (int column = 0; column < _text2.Length; column++)
-					matrix[row + 1, column + 1] = GetLengthSubsequence(row, column);
-
-			return matrix;
+			for (int row = 0; row < _coloredText1.Text.Length; row++)
+				for (int column = 0; column < _coloredText2.Text.Length; column++)
+					_matrix[row + 1, column + 1] = GetLengthSubsequence(row, column);
 		}
 
 		private int GetLengthSubsequence(int row, int column)
 		{
-			if (_text1[row] == _text2[column])
+			if (_coloredText1.Text[row] == _coloredText2.Text[column])
 				return 1 + _matrix[row, column];
 			else
 				return Math.Max(_matrix[row + 1, column], _matrix[row, column + 1]);
 		}
 
-		private void GetResult(out ColoredText coloredText1, out ColoredText coloredText2)
+		private void FillRanges()
 		{
 			int startPositionInText = 0;
+
 			int row = _matrix.GetLength(0) - 1;
 			int column = _matrix.GetLength(1) - 1;
 
-			coloredText1 = new ColoredText();
-			coloredText2 = new ColoredText();
-
 			while (_matrix[row, column] > 0)
 			{
-				bool isAddedRange1 = TryAddRange(_matrix[row, column], _matrix[row - 1, column], _matrix[row, column - 1], _text1, coloredText1, row);
-				bool isAddedRange2 = TryAddRange(_matrix[row, column], _matrix[row, column - 1], _matrix[row - 1, column], _text2, coloredText2, column);
+				bool isAddedRange1 = TryAddRange(_coloredText1, _matrix[row, column], _matrix[row - 1, column], _matrix[row, column - 1]);
+				bool isAddedRange2 = TryAddRange(_coloredText2, _matrix[row, column], _matrix[row, column - 1], _matrix[row - 1, column]);
 
 				if (isAddedRange1)
 					row--;
@@ -65,52 +60,53 @@ namespace ComparingTexts
 					column--;
 			}
 
-			AddRange(coloredText1, _text1.Substring(startPositionInText, row), ColoredRange.AdditionalRangeColor, startPositionInText);
-			AddRange(coloredText2, _text2.Substring(startPositionInText, column), ColoredRange.AdditionalRangeColor, startPositionInText);
+			_coloredText1.Add(new ColoredRange(startPositionInText, _coloredText1.Text.Substring(startPositionInText, _coloredText1.CurrentIndex), ColoredRange.AdditionalRangeColor));
+			_coloredText2.Add(new ColoredRange(startPositionInText, _coloredText2.Text.Substring(startPositionInText, _coloredText2.CurrentIndex), ColoredRange.AdditionalRangeColor));
 		}
 
-		private bool TryAddRange(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
+		private bool TryAddRange(ColoredText coloredText, int currentElement, int previousElementInCurrentText, int previousElementInOtherText)
 		{
-			bool isEqual = TryAddEqualsElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index);
-			bool isChanged = TryAddChangedElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index);
-			bool isNewElement = TryAddNewElement(currentElement, previousElementInCurrentText, previousElementInOtherText, text, coloredText, index);
+			bool isEqual = TryAddEqualsElement(currentElement, previousElementInCurrentText, previousElementInOtherText, coloredText);
+			bool isChanged = TryAddChangedElement(currentElement, previousElementInCurrentText, previousElementInOtherText, coloredText);
+			bool isNewElement = TryAddNewElement(currentElement, previousElementInCurrentText, previousElementInOtherText, coloredText);
 
 			return isEqual || isChanged || isNewElement;
 		}
 
-		private bool TryAddEqualsElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
+		private bool TryAddEqualsElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, ColoredText coloredText)
 		{
 			bool expression = currentElement != previousElementInCurrentText && currentElement != previousElementInOtherText;
 
-			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.NonChangedRangeColor);
+			return TryAddRangeByExpression(expression, coloredText, ColoredRange.NonChangedRangeColor);
 		}
 
-		private bool TryAddChangedElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
+		private bool TryAddChangedElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, ColoredText coloredText)
 		{
 			bool expression = currentElement == previousElementInCurrentText && currentElement == previousElementInOtherText;
 
-			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.ChangedRangeColor);
+			return TryAddRangeByExpression(expression, coloredText, ColoredRange.ChangedRangeColor);
 		}
 
-		private bool TryAddNewElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, string text, ColoredText coloredText, int index)
+		private bool TryAddNewElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, ColoredText coloredText)
 		{
 			bool expression = currentElement == previousElementInCurrentText && currentElement != previousElementInOtherText;
 
-			return TryAddRangeByExpression(expression, text, coloredText, index, ColoredRange.AdditionalRangeColor);
+			return TryAddRangeByExpression(expression, coloredText, ColoredRange.AdditionalRangeColor);
 		}
 
-		private bool TryAddRangeByExpression(bool expression, string text, ColoredText coloredText, int index, Color color)
+		private bool TryAddRangeByExpression(bool expression, ColoredText coloredText, Color color)
 		{
 			if (!expression)
 				return false;
 
-			AddRange(coloredText, text.Substring(index - 1, 1), color, index);
+			AddRange(coloredText, coloredText.Text.Substring(coloredText.CurrentIndex, 1), color);
 			return true;
 		}
 
-		private void AddRange(ColoredText coloredText, string part, Color color, int index)
+		private void AddRange(ColoredText coloredText, string part, Color color)
 		{
-			coloredText.Add(new ColoredRange(index - 1, part, color));
+			coloredText.Add(new ColoredRange(coloredText.CurrentIndex, part, color));
+			coloredText.MovePrevious();
 		}
 	}
 }
