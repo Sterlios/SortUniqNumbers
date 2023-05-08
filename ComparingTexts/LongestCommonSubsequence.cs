@@ -66,28 +66,28 @@ namespace ComparingTexts
 
 		private bool TryAddRange(ColoredText coloredText, int currentElement, int previousElementInCurrentText, int previousElementInOtherText)
 		{
-			bool isEqual = TryAddEqualsElement(currentElement, previousElementInCurrentText, previousElementInOtherText, coloredText);
-			bool isChanged = TryAddChangedElement(currentElement, previousElementInCurrentText, previousElementInOtherText, coloredText);
-			bool isNewElement = TryAddNewElement(currentElement, previousElementInCurrentText, previousElementInOtherText, coloredText);
+			bool isEqual = TryAddEqualsElement(coloredText, currentElement, previousElementInCurrentText, previousElementInOtherText);
+			bool isChanged = TryAddChangedElement(coloredText, currentElement, previousElementInCurrentText, previousElementInOtherText);
+			bool isNewElement = TryAddNewElement(coloredText, currentElement, previousElementInCurrentText, previousElementInOtherText);
 
 			return isEqual || isChanged || isNewElement;
 		}
 
-		private bool TryAddEqualsElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, ColoredText coloredText)
+		private bool TryAddEqualsElement(ColoredText coloredText, int currentElement, int previousElementInCurrentText, int previousElementInOtherText)
 		{
 			bool expression = currentElement != previousElementInCurrentText && currentElement != previousElementInOtherText;
 
 			return TryAddRangeByExpression(expression, coloredText, ColoredRange.NonChangedRangeColor);
 		}
 
-		private bool TryAddChangedElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, ColoredText coloredText)
+		private bool TryAddChangedElement(ColoredText coloredText, int currentElement, int previousElementInCurrentText, int previousElementInOtherText)
 		{
 			bool expression = currentElement == previousElementInCurrentText && currentElement == previousElementInOtherText;
 
 			return TryAddRangeByExpression(expression, coloredText, ColoredRange.ChangedRangeColor);
 		}
 
-		private bool TryAddNewElement(int currentElement, int previousElementInCurrentText, int previousElementInOtherText, ColoredText coloredText)
+		private bool TryAddNewElement(ColoredText coloredText, int currentElement, int previousElementInCurrentText, int previousElementInOtherText)
 		{
 			bool expression = currentElement == previousElementInCurrentText && currentElement != previousElementInOtherText;
 
