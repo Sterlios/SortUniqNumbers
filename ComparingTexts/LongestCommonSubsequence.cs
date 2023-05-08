@@ -20,7 +20,9 @@ namespace ComparingTexts
 
 			iColoredText1 = _coloredText1;
 			iColoredText2 = _coloredText2;
-
+			
+			_coloredText1 = null;
+			_coloredText2 = null;
 			_matrix = null;
 		}
 
